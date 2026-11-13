@@ -489,6 +489,22 @@
             #addDocumentBtn {
                 white-space: nowrap;
             }
+            .vehicle-option {
+                cursor: pointer;
+                transition: all 0.2s ease;
+                border: 1px solid #dee2e6 !important;
+            }
+
+            .vehicle-option:hover {
+                border-color: #0d6efd !important;
+                background-color: #f5f8ff;
+            }
+
+            .vehicle-option.selected {
+                border: 2px solid #0d6efd !important;
+                background-color: #eaf2ff;
+                box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.12);
+            }
             @media (max-width: 576px) {
                 .accordion-heading-content {
                     align-items: flex-start;
@@ -1190,7 +1206,7 @@
                                                                 <hr class="my-1 border border-2 mx-0">
                                                                 <div class="d-flex justify-content-between">
                                                                     <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
-                                                                    <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; <?= number_format($requestData['subtotal'], 2) ?></p>
+                                                                    <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="">&#8377; <?= number_format($requestData['subtotal'], 2) ?></p>
                                                                 </div>
                                                             </div>
                                                             
@@ -1199,7 +1215,7 @@
                                                                 <p class="fw-bold">Transport</p>
                                                                 <div class="d-flex justify-content-between">
                                                                     <div>
-                                                                        <p class="fontSize10" id="selectedVehicleText"><?= $requestData['transport_type'] ?></p>
+                                                                        <p class="fontSize10" id=""><?= $requestData['transport_type'] ?></p>
                                                                         <!-- <a href="#" class="fontSize10 text-primary" id="changeVehicle">Change Vehicle</a> -->
                                                                     </div>
                                                                     <div>
@@ -1624,27 +1640,27 @@
                                                                         </div>
                                                                         <div class="inputFieldAlignment">
                                                                             <div class="input-group inputWidth">
-                                                                                <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= $cancel_policy['policy_1']??0 ?>">
+                                                                                <input type="number" class="form-control" id="" name="cancellationPercentage1" placeholder="0" value="<?= $cancel_policy['policy_1']??0 ?>" readonly>
                                                                                 <span class="input-group-text">%</span>
                                                                                 <small class="error-message" id="cancellationPercentage1_error"></small>
                                                                             </div>
                                                                             <div class="input-group inputWidth">
-                                                                                <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= $cancel_policy['policy_2']??0 ?>">
+                                                                                <input type="number" class="form-control" id="" name="cancellationPercentage2" placeholder="0" value="<?= $cancel_policy['policy_2']??0 ?>" readlink>
                                                                                 <span class="input-group-text">%</span>
                                                                                 <small class="error-message" id="cancellationPercentage2_error"></small>
                                                                             </div>
                                                                             <div class="input-group inputWidth">
-                                                                                <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= $cancel_policy['policy_3']??0 ?>">
+                                                                                <input type="number" class="form-control" id="" name="cancellationPercentage3" placeholder="0" value="<?= $cancel_policy['policy_3']??0 ?>" readonly>
                                                                                 <span class="input-group-text">%</span>
                                                                                 <small class="error-message" id="cancellationPercentage3_error"></small>
                                                                             </div>
                                                                             <div class="input-group inputWidth">
-                                                                                <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= $cancel_policy['policy_4']??0 ?>">
+                                                                                <input type="number" class="form-control" id="" name="cancellationPercentage4" placeholder="0" value="<?= $cancel_policy['policy_4']??0 ?>" readonly>
                                                                                 <span class="input-group-text">%</span>
                                                                                 <small class="error-message" id="cancellationPercentage4_error"></small>
                                                                             </div>
                                                                             <div class="input-group inputWidth">
-                                                                                <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= $cancel_policy['policy_5']??0 ?>">
+                                                                                <input type="number" class="form-control" id="" name="cancellationPercentage5" placeholder="0" value="<?= $cancel_policy['policy_5']??0 ?>" readonly>
                                                                                 <span class="input-group-text">%</span>
                                                                                 <small class="error-message" id="cancellationPercentage5_error"></small>
                                                                             </div>
@@ -1952,6 +1968,7 @@
                 JSON_HEX_QUOT |
                 JSON_HEX_AMP
             ) ?>;
+            let cancellationCharges = {};
             // Prevent mouse wheel from changing number inputs
             $(document).on("wheel", 'input[type="number"]', function (e) {
                 if ($(this).is(":focus")) {
@@ -3301,6 +3318,33 @@
 
                 renderPricingChanges();
                 updateCustomerDiscountedSubtotal();
+                // ==========================================
+                // 11. CANCELLATION CHARGES
+                // ==========================================
+
+
+                function updateCancellationCharges() {
+                    cancellationCharges = {
+                        percentage_1: parseFloat($('#cancellationPercentage1').val()) || 0,
+                        percentage_2: parseFloat($('#cancellationPercentage2').val()) || 0,
+                        percentage_3: parseFloat($('#cancellationPercentage3').val()) || 0,
+                        percentage_4: parseFloat($('#cancellationPercentage4').val()) || 0,
+                        percentage_5: parseFloat($('#cancellationPercentage5').val()) || 0
+                    };
+
+                    // console.log('Updated cancellation charges:', cancellationCharges);
+                }
+
+                // Listen for changes
+                $(document).on(
+                    'input change',
+                    '#cancellationPercentage1, #cancellationPercentage2, #cancellationPercentage3, #cancellationPercentage4, #cancellationPercentage5',
+                    updateCancellationCharges
+                );
+                
+
+                // Get initial PHP values
+                updateCancellationCharges();
             });
 
             $('#submitQuoteBtn').on('click', function (e) {
@@ -3348,7 +3392,8 @@
                             child_count: $('#childcount1').val(),
                             infant_count: $('#infantCount1').val(),
                             total_count: $('#exampleFormControlInput91').val(),
-                            rooms: <?= json_encode($rooms, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>
+                            // Latest modified room configuration
+                            rooms: getModifiedRooms()
                         };
 
                         // ==========================================
@@ -3558,17 +3603,7 @@
                             type: item.file.type
                         }));
 
-                        // ==========================================
-                        // 11. CANCELLATION CHARGES
-                        // ==========================================
-
-                        const cancellationCharges = {
-                            percentage_1: $('#cancellationPercentage1').val(),
-                            percentage_2: $('#cancellationPercentage2').val(),
-                            percentage_3: $('#cancellationPercentage3').val(),
-                            percentage_4: $('#cancellationPercentage4').val(),
-                            percentage_5: $('#cancellationPercentage5').val()
-                        };
+                        
 
                         // ==========================================
                         // 12. COMMISSION AND INCENTIVE DETAILS

@@ -179,9 +179,170 @@
                 )
             )
             : null;
-
         // ==========================================
-        // 8. POLICY DOCUMENT UPLOAD
+        // 8. INSERT INTO request_details_reply
+        // ==========================================
+
+        $request_details_reply_sql = "
+            INSERT INTO request_details_reply
+            (
+                request_id,
+                package_id,
+                adult_count,
+                child_count,
+                infant_count,
+                adult_price,
+                child_price,
+                adult_total,
+                children_total,
+                subtotal,
+                transport_type,
+                transport_amt,
+                travel_start_date,
+                travel_end_date,
+                no_of_nights_days,
+                pickup_point,
+                customer_pickup,
+                drop_point,
+                customer_drop,
+                room_count,
+                mattress_count,
+                hotel_category,
+                meal_preference,
+                transport_preference,
+                special_requirement,
+                coupons_applied_count,
+                coupon_discount,
+                coupons,
+                rooms,
+                gst,
+                gst_percentage,
+                convenience_fee,
+                final_price,
+                userId,
+                guestFullname,
+                gusetPhone,
+                guestEmail,
+                created,
+                updated_on,
+                status,
+                discount_wallet_amount,
+                referral_wallet_amount
+            )
+            VALUES
+            (
+                :request_id,
+                :package_id,
+                :adult_count,
+                :child_count,
+                :infant_count,
+                :adult_price,
+                :child_price,
+                :adult_total,
+                :children_total,
+                :subtotal,
+                :transport_type,
+                :transport_amt,
+                :travel_start_date,
+                :travel_end_date,
+                :no_of_nights_days,
+                :pickup_point,
+                :customer_pickup,
+                :drop_point,
+                :customer_drop,
+                :room_count,
+                :mattress_count,
+                :hotel_category,
+                :meal_preference,
+                :transport_preference,
+                :special_requirement,
+                :coupons_applied_count,
+                :coupon_discount,
+                :coupons,
+                :rooms,
+                :gst,
+                :gst_percentage,
+                :convenience_fee,
+                :final_price,
+                :userId,
+                :guestFullname,
+                :gusetPhone,
+                :guestEmail,
+                CURRENT_TIMESTAMP(),
+                NULL,
+                :status,
+                :discount_wallet_amount,
+                :referral_wallet_amount
+            )
+        ";
+
+        $stmt = $conn->prepare($request_details_reply_sql);
+
+        $stmt->execute([
+
+            ':request_id' => $requestId,
+            ':package_id' => $packageId,
+
+            ':adult_count' => $adultCount,
+            ':child_count' => $childCount,
+            ':infant_count' => $infantCount,
+
+            ':adult_price' => $markupCalculation['net_price_adult'] ?? 0,
+            ':child_price' => $markupCalculation['net_price_child'] ?? 0,
+
+            ':adult_total' => ($quickAction['total_adult_count'] * $markupCalculation['net_price_adult']) ?? 0,
+            ':children_total' => ($quickAction['total_children_count'] * $markupCalculation['net_price_child']) ?? 0,
+            ':subtotal' => $finalQuotationDetails['final_quoted_price'] ?? 0,
+
+            ':transport_type' => $quickAction['selected_vehicle'] ?? '',
+            ':transport_amt' => 0,
+
+            ':travel_start_date' => $travelStartDate,
+            ':travel_end_date' => $travelEndDate,
+            ':no_of_nights_days' => $tripRequest['duration'] ?? '',
+
+            ':pickup_point' => $tripRequest['pickup'] ?? '',
+            ':customer_pickup' => $tripRequest['old_pickup'] ?? '',
+
+            ':drop_point' => $tripRequest['drop'] ?? '',
+            ':customer_drop' => $tripRequest['old_drop'] ?? '',
+
+            ':room_count' => $roomCount,
+            ':mattress_count' => $mattressCount,
+
+            ':hotel_category' => $customerPreferences['hotel'] ?? '',
+            ':meal_preference' => $customerPreferences['meal'] ?? '',
+            ':transport_preference' => $customerPreferences['transport'] ?? '',
+            ':special_requirement' => $customerPreferences['special_requirement'] ?? '',
+
+            ':coupons_applied_count' => count($coupons),
+            ':coupon_discount' => $couponWalletDetails['total_coupon_discount'] ?? 0,
+
+            ':coupons' => json_encode($coupons, JSON_UNESCAPED_UNICODE),
+            ':rooms' => json_encode($rooms, JSON_UNESCAPED_UNICODE),
+
+            ':gst' => $gst,
+            ':gst_percentage' => $gstPercentage,
+            ':convenience_fee' => $convenienceFee,
+            ':final_price' => $finalPrice,
+
+            ':userId' => $guestDetails['user_id'] ?? null,
+            ':guestFullname' => $guestDetails['full_name'] ?? '',
+            ':gusetPhone' => $guestDetails['mobile'] ?? '',
+            ':guestEmail' => $guestDetails['email'] ?? '',
+
+            ':status' => 1,
+
+            ':discount_wallet_amount' =>
+                $couponWalletDetails['applied_discount_wallet'] ?? 0,
+
+            ':referral_wallet_amount' =>
+                $couponWalletDetails['applied_referral_wallet'] ?? 0
+
+        ]);
+        $replyId = (int) $conn->lastInsertId();
+        // ==========================================
+        // 9. POLICY DOCUMENT UPLOAD
         // AND DATABASE INSERT
         // ==========================================
 
@@ -252,6 +413,7 @@
                     (
                         request_id,
                         package_id,
+                        reply_id,
                         title,
                         file_name,
                         type,
@@ -262,6 +424,7 @@
                     (
                         :request_id,
                         :package_id,
+                        :reply_id,
                         :title,
                         :file_name,
                         :type,
@@ -390,6 +553,7 @@
                     $stmt->execute([
                         ':request_id' => $requestId,
                         ':package_id' => $packageId,
+                        ':reply_id' => $replyId,
                         ':title' => $title,
                         ':file_name' => $newFileName,
                         ':type' => strtoupper($extension),
@@ -400,173 +564,12 @@
             }
         }
 
-        // ==========================================
-        // 9. INSERT INTO request_details_reply
-        // ==========================================
-
-        $request_details_reply_sql = "
-            INSERT INTO request_details_reply
-            (
-                request_id,
-                package_id,
-                adult_count,
-                child_count,
-                infant_count,
-                adult_price,
-                child_price,
-                adult_total,
-                children_total,
-                subtotal,
-                transport_type,
-                transport_amt,
-                travel_start_date,
-                travel_end_date,
-                no_of_nights_days,
-                pickup_point,
-                customer_pickup,
-                drop_point,
-                customer_drop,
-                room_count,
-                mattress_count,
-                hotel_category,
-                meal_preference,
-                transport_preference,
-                special_requirement,
-                coupons_applied_count,
-                coupon_discount,
-                coupons,
-                rooms,
-                gst,
-                gst_percentage,
-                convenience_fee,
-                final_price,
-                userId,
-                guestFullname,
-                gusetPhone,
-                guestEmail,
-                created,
-                updated_on,
-                status,
-                discount_wallet_amount,
-                referral_wallet_amount
-            )
-            VALUES
-            (
-                :request_id,
-                :package_id,
-                :adult_count,
-                :child_count,
-                :infant_count,
-                :adult_price,
-                :child_price,
-                :adult_total,
-                :children_total,
-                :subtotal,
-                :transport_type,
-                :transport_amt,
-                :travel_start_date,
-                :travel_end_date,
-                :no_of_nights_days,
-                :pickup_point,
-                :customer_pickup,
-                :drop_point,
-                :customer_drop,
-                :room_count,
-                :mattress_count,
-                :hotel_category,
-                :meal_preference,
-                :transport_preference,
-                :special_requirement,
-                :coupons_applied_count,
-                :coupon_discount,
-                :coupons,
-                :rooms,
-                :gst,
-                :gst_percentage,
-                :convenience_fee,
-                :final_price,
-                :userId,
-                :guestFullname,
-                :gusetPhone,
-                :guestEmail,
-                CURRENT_TIMESTAMP(),
-                NULL,
-                :status,
-                :discount_wallet_amount,
-                :referral_wallet_amount
-            )
-        ";
-
-        $stmt = $conn->prepare($request_details_reply_sql);
-
-        $stmt->execute([
-
-            ':request_id' => $requestId,
-            ':package_id' => $packageId,
-
-            ':adult_count' => $adultCount,
-            ':child_count' => $childCount,
-            ':infant_count' => $infantCount,
-
-            ':adult_price' => $markupCalculation['net_price_adult'] ?? 0,
-            ':child_price' => $markupCalculation['net_price_child'] ?? 0,
-
-            ':adult_total' => $tripRequest['adult_total'] ?? 0,
-            ':children_total' => $tripRequest['children_total'] ?? 0,
-            ':subtotal' => $finalQuotationDetails['final_quoted_price'] ?? 0,
-
-            ':transport_type' => $quickAction['selected_vehicle'] ?? '',
-            ':transport_amt' => 0,
-
-            ':travel_start_date' => $travelStartDate,
-            ':travel_end_date' => $travelEndDate,
-            ':no_of_nights_days' => $tripRequest['duration'] ?? '',
-
-            ':pickup_point' => $tripRequest['pickup'] ?? '',
-            ':customer_pickup' => $tripRequest['old_pickup'] ?? '',
-
-            ':drop_point' => $tripRequest['drop'] ?? '',
-            ':customer_drop' => $tripRequest['old_drop'] ?? '',
-
-            ':room_count' => $roomCount,
-            ':mattress_count' => $mattressCount,
-
-            ':hotel_category' => $customerPreferences['hotel'] ?? '',
-            ':meal_preference' => $customerPreferences['meal'] ?? '',
-            ':transport_preference' => $customerPreferences['transport'] ?? '',
-            ':special_requirement' => $customerPreferences['special_requirement'] ?? '',
-
-            ':coupons_applied_count' => count($coupons),
-            ':coupon_discount' => $couponWalletDetails['total_coupon_discount'] ?? 0,
-
-            ':coupons' => json_encode($coupons, JSON_UNESCAPED_UNICODE),
-            ':rooms' => json_encode($rooms, JSON_UNESCAPED_UNICODE),
-
-            ':gst' => $gst,
-            ':gst_percentage' => $gstPercentage,
-            ':convenience_fee' => $convenienceFee,
-            ':final_price' => $finalPrice,
-
-            ':userId' => $guestDetails['user_id'] ?? null,
-            ':guestFullname' => $guestDetails['full_name'] ?? '',
-            ':gusetPhone' => $guestDetails['mobile'] ?? '',
-            ':guestEmail' => $guestDetails['email'] ?? '',
-
-            ':status' => 1,
-
-            ':discount_wallet_amount' =>
-                $couponWalletDetails['applied_discount_wallet'] ?? 0,
-
-            ':referral_wallet_amount' =>
-                $couponWalletDetails['applied_referral_wallet'] ?? 0
-
-        ]);
-        $replyId = (int) $conn->lastInsertId();
+        
         // ==========================================
         // 10. INSERT INTO request_details_cancellation_policy
         // ==========================================
 
-        $cancellationPolicies = $cancellationCharges['policies'] ?? [];
+        $cancellationPolicies = $cancellationCharges ?? [];
 
         $sql = "
             INSERT INTO request_details_cancellation_policy
@@ -599,11 +602,11 @@
             ':request_id' => $requestId,
             ':package_id' => $packageId,
             ':reply_id' => $replyId,
-            ':policy_1' => $cancellationPolicies[0] ?? null,
-            ':policy_2' => $cancellationPolicies[1] ?? null,
-            ':policy_3' => $cancellationPolicies[2] ?? null,
-            ':policy_4' => $cancellationPolicies[3] ?? null,
-            ':policy_5' => $cancellationPolicies[4] ?? null
+            ':policy_1' => $cancellationPolicies['percentage_1'] ?? null,
+            ':policy_2' => $cancellationPolicies['percentage_2'] ?? null,
+            ':policy_3' => $cancellationPolicies['percentage_3'] ?? null,
+            ':policy_4' => $cancellationPolicies['percentage_4'] ?? null,
+            ':policy_5' => $cancellationPolicies['percentage_5'] ?? null
         ]);
 
         // ==========================================
@@ -770,10 +773,14 @@
 
                 case 'TC':
                     $commission['tc_ibr'] = $commissionAmount;
+                    $commission['tc_ibr_id'] = $id;
+                    $commission['tc_ibr_name'] = $name;
                     break;
 
                 case 'IBR':
                     $commission['tc_ibr'] = $commissionAmount;
+                    $commission['tc_ibr_id'] = $id;
+                    $commission['tc_ibr_name'] = $name;
                     break;
             }
         }
@@ -811,7 +818,9 @@
                 te_f_i_incen,
                 te_f_i_id,
                 te_f_i_name,
-                tc_ibr
+                tc_ibr,
+                tc_ibr_id,
+                tc_ibr_name
             )
             VALUES
             (
@@ -844,7 +853,9 @@
                 :te_f_i_incen,
                 :te_f_i_id,
                 :te_f_i_name,
-                :tc_ibr
+                :tc_ibr,
+                :tc_ibr_id,
+                :tc_ibr_name
             )
         ";
 
@@ -859,14 +870,14 @@
                 $markup['net_price_adult_original'] ?? null,
 
             ':original_child_price' =>
-                $markup['net_price_child_difference'] ?? null,
+                $markup['net_price_child_original'] ?? null,
 
-            ':alt_adult_price' => $markup['netPriceAdult_difference'] ?? null,
-            ':alt_child_price' => $markup['netPriceChild_difference'] ?? null,
+            ':alt_adult_price' => $markup['net_price_adult_difference'] ?? null,
+            ':alt_child_price' => $markup['net_price_child_difference'] ?? null,
 
-            ':coupon_adjustment' => $adjustments['coupon_adjustment'] ?? null,
+            ':coupon_adjustment' => $markup['coupon_adjustment'] ?? null,
             ':company_commission' => $markup['company_amount'] ?? null,
-            ':suspense' => $markup['suspense'] ?? null,
+            ':suspense' => $markup['suspense_amount'] ?? null,
 
             ':l1_customer' => $markup['customer_1_amount'] ?? null,
             ':l2_customer' => $markup['customer_2_amount'] ?? null,
@@ -892,7 +903,9 @@
             ':te_f_i_id' => $commission['te_f_i_id'],
             ':te_f_i_name' => $commission['te_f_i_name'],
 
-            ':tc_ibr' => $commission['tc_ibr']
+            ':tc_ibr' => $commission['tc_ibr'],
+            ':tc_ibr_id' => $commission['tc_ibr_id'],
+            ':tc_ibr_name' => $commission['tc_ibr_name']
 
         ]);
 
@@ -910,6 +923,7 @@
             (
                 request_id,
                 package_id,
+                reply_id,
                 cust_dis_details,
                 cust_dis_details_total,
                 dis_details,
@@ -927,6 +941,7 @@
             (
                 :request_id,
                 :package_id,
+                :reply_id,
                 :cust_dis_details,
                 :cust_dis_details_total,
                 :dis_details,
@@ -948,6 +963,7 @@
 
             ':request_id' => $requestId,
             ':package_id' => $packageId,
+            ':reply_id' => $replyId,
 
             ':cust_dis_details' => json_encode(
                 $customerDiscountDetails,
@@ -1006,6 +1022,7 @@
             (
                 request_id,
                 package_id,
+                reply_id,
                 day_id,
                 title,
                 day_details,
@@ -1017,6 +1034,7 @@
             (
                 :request_id,
                 :package_id,
+                :reply_id,
                 :day_id,
                 :title,
                 :day_details,
@@ -1034,6 +1052,7 @@
 
                 ':request_id' => $requestId,
                 ':package_id' => $packageId,
+                ':reply_id' => $replyId,
 
                 ':day_id' => $day['day_id'] ?? null,
                 ':title' => $day['title'] ?? null,

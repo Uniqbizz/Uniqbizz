@@ -416,7 +416,6 @@ function loadModifyRooms(adults, children, infants) {
 // =====================================================
 // RENUMBER ROOMS
 // =====================================================
-
 function renumberModifyRooms() {
     $('#modifyRoomsContainer .modify-room-card').each(function (index) {
         const roomNumber = index + 1;
@@ -458,6 +457,37 @@ function renumberModifyRooms() {
     });
 
 }
+//get room modifications
+function getModifiedRooms() {
+    const modifiedRooms = [];
+
+    $('#modifyRoomsContainer .modify-room-card').each(function (index) {
+
+        const roomCard = $(this);
+
+        const occupancy = parseInt(
+            roomCard.find('.room-occupancy').val()
+        ) || 0;
+
+        const extraMattress = roomCard.find('.extra-mattress').is(':checked');
+
+        let description = '1 Double Bed';
+
+        if (extraMattress) {
+            description += ' + 1 Extra Mattress';
+        }
+
+        modifiedRooms.push({
+            room_number: 'Room ' + (index + 1),
+            description: description,
+            recommendation: 'User Preference',
+            occupancy: occupancy
+        });
+    });
+
+    return modifiedRooms;
+}
+
 // =====================================================
 // GET TOTAL TRAVELLERS
 // =====================================================
@@ -1820,14 +1850,19 @@ let selectedVehicle = null;
 
 $(document).on('click', '.vehicle-option', function () {
 
-    $('.vehicle-option').removeClass('active');
+    // Remove previous selection
+    $('.vehicle-option').removeClass('selected');
 
-    $(this).addClass('active');
+    // Highlight clicked vehicle
+    $(this).addClass('selected');
 
+    // Store selected vehicle details
     selectedVehicle = {
         value: $(this).data('value'),
         name: $(this).data('name')
     };
+
+    console.log('Selected Vehicle:', selectedVehicle);
 
 });
 
