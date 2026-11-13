@@ -6,25 +6,10 @@ header('Content-Type: application/json');
 
 try {
 
-    $startDate = $_POST['start_date'] ?? '';
-    $endDate   = $_POST['end_date'] ?? '';
-
-    $whereDateTE = '';
 
     $params = [
         ':user_id' => $userId
     ];
-
-    if (!empty($startDate) && !empty($endDate)) {
-
-        $whereDateTE = "
-            AND ta.register_date >= :start_date
-            AND ta.register_date < DATE_ADD(:end_date, INTERVAL 1 DAY)
-        ";
-
-        $params[':start_date'] = $startDate;
-        $params[':end_date']   = $endDate;
-    }
 
     $sql = "
         SELECT
