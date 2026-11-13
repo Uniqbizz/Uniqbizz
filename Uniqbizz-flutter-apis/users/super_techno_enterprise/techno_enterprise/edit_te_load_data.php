@@ -192,6 +192,7 @@ try {
         'nominee_relation' => $row['nominee_relation'],
         'email' => $row['email'],
         'contact_no' => $row['contact_no'],
+        'contact_code' => $row['country_code'],
         'amount' => $row['amount'],
         'reference_no' => $row['reference_no'],
         'registrant' => $row['registrant'],
