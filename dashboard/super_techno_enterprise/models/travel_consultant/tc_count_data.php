@@ -34,8 +34,6 @@ try {
             ON ta.reference_no = ca.corporate_agency_id
 
         WHERE ca.reference_no = :user_id
-
-        $whereDateTE
     ";
 
     $stmt = $conn->prepare($sql);
