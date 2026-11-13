@@ -125,9 +125,9 @@
                                             <i class="fa-solid fa-hourglass-half fa-2xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-5 fw-bolder">Pending Travel Consultants | IBR</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="teCount">0</h4>
-                                            <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View Pending <i class="fa-solid fa-arrow-right"></i></a>
+                                            <p class="mb-1 fs-5 fw-bolder">Pending TC | IBR</p>
+                                            <h4 class="fw-bolder text-dark mb-1 fs-1" id="pendingTC">0</h4>
+                                            <!-- <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View Pending <i class="fa-solid fa-arrow-right"></i></a> -->
                                         </div>
                                     </div>
                                 </div>
@@ -139,9 +139,9 @@
                                             <i class="fa-solid fa-users fa-2xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-5 fw-bolder">Registered Travel Consultants | IBR</p>
-                                            <h4 class="fw-bolder text-dark mb-1" id="cuCount">0</h4>
-                                            <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View Registered <i class="fa-solid fa-arrow-right"></i></a>
+                                            <p class="mb-1 fs-5 fw-bolder">Registered TC | IBR</p>
+                                            <h4 class="fw-bolder text-dark mb-1 fs-1" id="registeredTC">0</h4>
+                                            <!-- <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View Registered <i class="fa-solid fa-arrow-right"></i></a> -->
                                         </div>
                                     </div>
                                 </div>
@@ -297,6 +297,42 @@
          <!-- add on 10-06-2026 by SV END-->
 
         <script>
+            function loadTravelConsultantCounts() {
+
+                $.ajax({
+                    url: 'models/travel_consultant/tc_count_data.php',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    success: function (response) {
+
+                        if (response.status) {
+
+                            $('#pendingTC').text(
+                                response.data.pending_count || 0
+                            );
+
+                            $('#registeredTC').text(
+                                response.data.registered_count || 0
+                            );
+
+                        } else {
+
+                            console.error('Travel Consultant Count Error:', response.message);
+
+                            $('#pendingTC, #registeredTC').text(0);
+                        }
+                    },
+
+                    error: function (xhr, status, error) {
+
+                        console.error('AJAX Error:', error);
+                        console.error(xhr.responseText);
+
+                        $('#pendingTC, #registeredTC').text(0);
+                    }
+                });
+            }
             const tcTable = $('#example-dataTable').DataTable({
                 destroy: true,
                 responsive: true,
@@ -795,6 +831,7 @@
 
                 loadPendingTEList();
                 loadRegisteredTEList();
+                loadTravelConsultantCounts();
 
             });
             $('#exporttc').on('click', function(){

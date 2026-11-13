@@ -125,7 +125,7 @@
                                             <i class="fa-solid fa-hourglass-half fa-2xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-5 fw-bolder">Pending Travel Consultants</p>
+                                            <p class="mb-1 fs-5 fw-bolder">Pending TC | IBR</p>
                                             <h4 class="fw-bolder text-dark mb-1 fs-1" id="pendingTC">0</h4>
                                             <!-- <a href="techno_enterprise_list.php" class="mb-1 fs-6 fw-bold">View Pending <i class="fa-solid fa-arrow-right"></i></a> -->
                                         </div>
@@ -139,7 +139,7 @@
                                             <i class="fa-solid fa-users fa-2xl"></i>
                                         </div>
                                         <div class="">
-                                            <p class="mb-1 fs-5 fw-bolder">Registered Travel Consultants</p>
+                                            <p class="mb-1 fs-5 fw-bolder">Registered TC | IBR</p>
                                             <h4 class="fw-bolder text-dark mb-1 fs-1" id="registeredTC">0</h4>
                                             <!-- <a href="customers_list.php" class="mb-1 fs-6 fw-bold">View Registered <i class="fa-solid fa-arrow-right"></i></a> -->
                                         </div>
