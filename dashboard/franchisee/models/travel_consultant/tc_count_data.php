@@ -44,10 +44,7 @@ try {
 
             FROM ca_travelagency ta
 
-            INNER JOIN sub_franchisee sf
-                ON ta.reference_no = sf.sub_franchisee_id
-
-            WHERE sf.reference_no = :user_id
+            WHERE ta.reference_no = :user_id
               AND ta.status IN (0, 1, 2, 3, 4)
 
         ) AS combined
