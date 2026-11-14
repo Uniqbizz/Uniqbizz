@@ -148,19 +148,20 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 margin-left: 12px;
             }
             .badge-color {
-                background-color: #0d81ceff;
-                padding: 25px 0px 10px 0px;
+                /* background-color: #0d81ceff; */
+                padding: 15px 0px 10px 0px;
                 text-align: center;
-                width: 130px;
-                transform: rotate(312deg);
+                width: 100px;
+                /* transform: rotate(312deg); */
                 position: absolute;
-                top: -6px;
-                left: -44px;
+                top: 0px;
+                left: 12px;
             }
             .trending{
                 color: #fff;
                 font-size: 13px;
                 font-weight: bolder;
+                border-radius: 10px;
             }
 
             /* Package Type 1 */
@@ -169,6 +170,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 color: #fff;
                 font-size: 13px;
                 font-weight: bolder;
+                border-radius: 10px;
             }
 
             /* Package Type 2 */
@@ -177,6 +179,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 color: #fff;
                 font-size: 13px;
                 font-weight: bolder;
+                border-radius: 10px;
             }
 
             /* Package Type 3 */
@@ -185,6 +188,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 color: #fff;
                 font-size: 13px;
                 font-weight: bolder;
+                border-radius: 10px;
             }
 
             /* Default */
@@ -193,6 +197,13 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 color: #fff;
                 font-size: 13px;
                 font-weight: bolder;
+                border-radius: 10px;
+            }
+            .badge-popular p::before {
+                content: "\f005";
+                font-family: "Font Awesome 5 Free";
+                margin-right: 8px;
+                font-size: 10px;
             }
             .btn-background-color {
                 background-color: #e03d42 !important;
@@ -576,6 +587,24 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
             .theme-section .theme-checkbox input[type=checkbox]:checked + div span {
                 color: var(--white);
             }
+            /* Sort by Popular Section Start */
+            .showing-result .sorting-dropdown .select2-container--default .select2-selection--single {
+                background-color: #fff !important;
+                border: 1px solid #e1e4e8;
+                border-radius: 10px;
+                height: 52px; 
+            }
+            .listGridColumnRed {
+                background-color: #fff !important;
+                border: 1px solid #e1e4e8;
+                border-radius: 10px;
+                height: 52px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 4px;
+            }
+            /* Sort by Popular Section End */
             /* ==========================================
             MOBILE
             ========================================== */
@@ -632,14 +661,12 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                     margin: 0px 12px;
                 }
                 .badge-color {
-                    background-color: #0d81ceff;
-                    padding: 25px 0px 10px 0px;
+                    padding: 15px 0px 10px 0px;
                     text-align: center;
-                    width: 130px;
-                    transform: rotate(312deg);
+                    width: 100px;
                     position: absolute;
-                    top: -6px;
-                    left: -44px;
+                    top: 0px;
+                    left: 12px;
                 }
                 .borderRemove {
                     border: none !important;
@@ -692,14 +719,12 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                     margin: 0px 12px;
                 }
                 .badge-color {
-                    background-color: #0d81ceff;
-                    padding: 25px 0px 10px 0px;
+                    padding: 15px 0px 10px 0px;
                     text-align: center;
-                    width: 130px;
-                    transform: rotate(312deg);
+                    width: 100px;
                     position: absolute;
-                    top: -6px;
-                    left: -44px;
+                    top: 0px;
+                    left: 12px;
                 }
                 .borderRemove {
                     border: none !important;
@@ -1031,85 +1056,65 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                             <div class="cover"></div>
                         </div>
                         <div class="col-xl-9">
-                            <div class="select-dropdown-section destination-search-wrapper mb-3">
-
-                                <div class="destination-search">
-
-                                    <i class="ri-map-pin-line destination-icon"></i>
-
-                                    <input
-                                        type="text"
-                                        id="destinationSearch"
-                                        class="destination-input"
-                                        placeholder="Search destination..."
-                                        autocomplete="off"
-                                    >
-
-                                    <i class="ri-close-line destination-clear" id="destinationClear"></i>
-
-                                    <i class="ri-arrow-down-s-line destination-dropdown-icon"
-                                    id="destinationArrow"></i>
-
-                                </div>
-
-                                <div class="destination-suggestions mb-2" id="destinationSuggestions">
-
-                                    <?php foreach ($destinations as $destination): ?>
-
-                                    <div
-                                        class="destination-option"
-                                        data-value="<?= htmlspecialchars($destination['destination']) ?>"
-                                    >
-                                        <i class="ri-map-pin-line"></i>
-
-                                        <span class="destination-option-text">
-
-                                            <strong>
-                                                <?= htmlspecialchars($destination['name']) ?>
-                                            </strong>
-                                            </br>
-                                            <small>
-                                                <?= htmlspecialchars($destination['destination']) ?>
-                                            </small>
-
-                                        </span>
-                                    </div>
-
-                                <?php endforeach; ?>
-
-                                </div>
-
-                            </div>
-                            <div class="showing-result d-flex justify-content-end">
-                                <div class="d-flex">
-                                    <div class="pe-2" id="list_column">
-                                    <i class="fa-solid fa-table-cells fa-2xl" style="color: #e03d42;"></i>
-                                    </div>
-                                    <div class="pe-2" id="grid_column">
-                                        <i class="fa-solid fa-table-list fa-2xl" style="color: #e03d42;"></i>
+                            <div class="row">
+                                <div class="col-xl-7 col-lg-6 col-md-5 col-sm-12 col-12 mb-3">
+                                    <div class="select-dropdown-section destination-search-wrapper mb-0">
+                                        <div class="destination-search">
+                                            <i class="ri-map-pin-line destination-icon"></i>
+                                            <input type="text" id="destinationSearch" class="destination-input" placeholder="Search destination..." autocomplete="off">
+                                            <i class="ri-close-line destination-clear" id="destinationClear"></i>
+                                            <i class="ri-arrow-down-s-line destination-dropdown-icon" id="destinationArrow"></i>
+                                        </div>
+                                        <div class="destination-suggestions mb-2" id="destinationSuggestions">
+                                            <?php foreach ($destinations as $destination): ?>
+                                                <div class="destination-option" data-value="<?= htmlspecialchars($destination['destination']) ?>">
+                                                    <i class="ri-map-pin-line"></i>
+                                                    <span class="destination-option-text">
+                                                        <strong>
+                                                            <?= htmlspecialchars($destination['name']) ?>
+                                                        </strong>
+                                                        </br>
+                                                        <small>
+                                                            <?= htmlspecialchars($destination['destination']) ?>
+                                                        </small>
+                                                    </span>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- <h4 class="title">Showing 6 of 10 Results</h4> -->
-                                <div class="d-flex gap-10 align-items-center">
-                                    <div class="expand-icon hamburger block d-xl-none" id="hamburger">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                            fill="none">
-                                            <path
-                                                d="M3 7H10M10 7C10 8.65685 11.3431 10 13 10H14C15.6569 10 17 8.65685 17 7C17 5.34315 15.6569 4 14 4H13C11.3431 4 10 5.34315 10 7ZM16 17H21M20 7H21M3 17H6M6 17C6 18.6569 7.34315 20 9 20H10C11.6569 20 13 18.6569 13 17C13 15.3431 11.6569 14 10 14H9C7.34315 14 6 15.3431 6 17Z"
-                                                stroke="#071516" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </div>
-                                    <div class="sorting-dropdown ">
-                                        <select class="select2 sort-options">
-                                            <option value="Popular"> Sort by Popular</option>
-                                            <option value="Trending"> Sort by Trending</option>
-                                            <option value="Most Selling"> Sort by Most Selling</option>
-                                            <option value="New Arrival"> Sort by New Arrival</option>
-                                            <option value="low">Price low to high</option>
-                                            <option value="high">Price high to low</option>
-                                            <option value="new">Sort by Newset</option>
-                                        </select>
+                                <div class="col-xl-5 col-lg-6 col-md-7 col-sm-12 col-12 mb-3">
+                                    <div class="showing-result d-flex justify-content-end border-bottom-0 pb-0">
+                                        <div class="d-flex gap-2">
+                                            <div class="listGridColumnRed" id="list_column">
+                                                <i class="fa-solid fa-grip fa-2xl" style="color: #e03d42;"></i>
+                                            </div>
+                                            <div class="listGridColumnRed" id="grid_column">
+                                                <i class="fa-solid fa-list fa-2xl" style="color: #e03d42;"></i>
+                                            </div>
+                                        </div>
+                                        <!-- <h4 class="title">Showing 6 of 10 Results</h4> -->
+                                        <div class="d-flex gap-10 align-items-center">
+                                            <div class="expand-icon hamburger block d-xl-none" id="hamburger">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                    <path
+                                                        d="M3 7H10M10 7C10 8.65685 11.3431 10 13 10H14C15.6569 10 17 8.65685 17 7C17 5.34315 15.6569 4 14 4H13C11.3431 4 10 5.34315 10 7ZM16 17H21M20 7H21M3 17H6M6 17C6 18.6569 7.34315 20 9 20H10C11.6569 20 13 18.6569 13 17C13 15.3431 11.6569 14 10 14H9C7.34315 14 6 15.3431 6 17Z"
+                                                        stroke="#071516" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </svg>
+                                            </div>
+                                            <div class="sorting-dropdown">
+                                                <select class="select2 sort-options">
+                                                    <option value="Popular"> Sort by Popular</option>
+                                                    <option value="Trending"> Sort by Trending</option>
+                                                    <option value="Most Selling"> Sort by Most Selling</option>
+                                                    <option value="New Arrival"> Sort by New Arrival</option>
+                                                    <option value="low">Price low to high</option>
+                                                    <option value="high">Price high to low</option>
+                                                    <option value="new">Sort by Newset</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
