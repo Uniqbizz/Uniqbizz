@@ -884,7 +884,7 @@
                             <div class="p-3 pb-0">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
+                                        <p class="fs-5 textDarkBlue fw-bold">Total Estimated </br> Price</p>
                                     </div>
                                     <div>
                                         <p class="fs-5 text-danger fw-bolder text-end" id="">&#8377; <?= number_format($replyData['final_price'], 2) ?></p>
@@ -1141,76 +1141,69 @@
                             </div>
                         </div>
                         <div id="inclusion1" class="section-block">
+                            <?php
+
+                                // Fetch inclusion and exclusion from request_details_itinerary
+                                $itineraryStmt = $conn->prepare("
+                                    SELECT inclusion, exclusion
+                                    FROM request_details_itinerary
+                                    WHERE request_id = :request_id
+                                    AND reply_id=:reply_id
+                                    LIMIT 1
+                                ");
+
+                                $itineraryStmt->execute([
+                                    ':request_id' => $request_id,
+                                    ':reply_id' => $replyData['id']
+                                ]);
+
+                                $itinery1 = $itineraryStmt->fetch(PDO::FETCH_ASSOC) ?: [];
+
+                                // Decode JSON data
+                                $inclusions1 = safeJsonDecode($itinery1['inclusion'] ?? '');
+                                $exclusions1 = safeJsonDecode($itinery1['exclusion'] ?? '');
+
+                            ?>
+
                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
                                 <h5 class="fw-bolder textDarkBlue">Inclusion & Exclusion</h5>
-                                
+
                                 <div class="row">
-                                    <?php
 
-                                        // Fetch inclusion and exclusion from request_details_itinerary
-                                        $itineraryStmt = $conn->prepare("
-                                            SELECT inclusion, exclusion
-                                            FROM request_details_itinerary
-                                            WHERE request_id = :request_id
-                                            AND reply_id=:reply_id
-                                            LIMIT 1
-                                        ");
+                                    <!-- Inclusions -->
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                        <?php if (!empty($inclusions1)): ?>
+                                            <?php foreach ($inclusions1 as $inclusion): ?>
+                                                <div class="d-flex gap-3 mt-2">
+                                                    <div class="checkIcon">
+                                                        <i class="ri-checkbox-circle-fill text-success"></i>
+                                                    </div>
+                                                    <p class="text-muted fontSize3 align-content-center mb-0">
+                                                        <?= htmlspecialchars($inclusion) ?>
+                                                    </p>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <p class="text-muted mt-2 mb-0">No inclusions available.</p>
+                                        <?php endif; ?>
+                                    </div>
 
-                                        $itineraryStmt->execute([
-                                            ':request_id' => $request_id,
-                                            ':reply_id' => $replyData['id']
-                                        ]);
-
-                                        $itinery = $itineraryStmt->fetch(PDO::FETCH_ASSOC) ?: [];
-
-                                        // Decode JSON data
-                                        $inclusions = safeJsonDecode($itinery['inclusion'] ?? '');
-                                        $exclusions = safeJsonDecode($itinery['exclusion'] ?? '');
-
-                                    ?>
-
-                                    <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
-                                        <h5 class="fw-bolder">Inclusion & Exclusion</h5>
-
-                                        <div class="row">
-
-                                            <!-- Inclusions -->
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                                <?php if (!empty($inclusions)): ?>
-                                                    <?php foreach ($inclusions as $inclusion): ?>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="checkIcon">
-                                                                <i class="ri-checkbox-circle-fill text-success"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0">
-                                                                <?= htmlspecialchars($inclusion) ?>
-                                                            </p>
-                                                        </div>
-                                                    <?php endforeach; ?>
-                                                <?php else: ?>
-                                                    <p class="text-muted mt-2 mb-0">No inclusions available.</p>
-                                                <?php endif; ?>
-                                            </div>
-
-                                            <!-- Exclusions -->
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                                <?php if (!empty($exclusions)): ?>
-                                                    <?php foreach ($exclusions as $exclusion): ?>
-                                                        <div class="d-flex gap-3 mt-2">
-                                                            <div class="closeIcon">
-                                                                <i class="ri-close-circle-fill text-danger"></i>
-                                                            </div>
-                                                            <p class="text-muted fontSize3 align-content-center mb-0">
-                                                                <?= htmlspecialchars($exclusion) ?>
-                                                            </p>
-                                                        </div>
-                                                    <?php endforeach; ?>
-                                                <?php else: ?>
-                                                    <p class="text-muted mt-2 mb-0">No exclusions available.</p>
-                                                <?php endif; ?>
-                                            </div>
-
-                                        </div>
+                                    <!-- Exclusions -->
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                        <?php if (!empty($exclusions1)): ?>
+                                            <?php foreach ($exclusions1 as $exclusion): ?>
+                                                <div class="d-flex gap-3 mt-2">
+                                                    <div class="closeIcon">
+                                                        <i class="ri-close-circle-fill text-danger"></i>
+                                                    </div>
+                                                    <p class="text-muted fontSize3 align-content-center mb-0">
+                                                        <?= htmlspecialchars($exclusion) ?>
+                                                    </p>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <p class="text-muted mt-2 mb-0">No exclusions available.</p>
+                                        <?php endif; ?>
                                     </div>
 
                                 </div>
@@ -1290,13 +1283,13 @@
                                                     <i class="ri-download-line"></i>
                                                 </a>
 
-                                                <button
+                                                <!-- <button
                                                     type="button"
                                                     class="btn btn-link text-danger p-1 remove-file"
                                                     data-id="<?= (int)$doc['id'] ?>"
                                                     title="Remove document">
                                                     <i class="fa-regular fa-trash-can"></i>
-                                                </button>
+                                                </button> -->
 
                                             </div>
                                         </div>
@@ -2640,7 +2633,7 @@
                                     <div class="p-3 pb-0">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
+                                                <p class="fs-5 textDarkBlue fw-bold">Total Estimated</br> Price</p>
                                             </div>
 
                                             <div>
@@ -3460,7 +3453,7 @@
                             <div class="p-3 pb-0">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
+                                        <p class="fs-5 textDarkBlue fw-bold">Total Estimated</br> Price</p>
                                     </div>
                                     <div>
                                         <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
@@ -4924,7 +4917,7 @@
                                     <div class="p-3 pb-0">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
+                                                <p class="fs-5 textDarkBlue fw-bold">Total Estimated</br> Price</p>
                                             </div>
 
                                             <div>
