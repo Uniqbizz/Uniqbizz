@@ -1119,9 +1119,10 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                 </div>
                             </div>
                             <div class="" id="all-tour-container">
-                                <div class="all-tour-list" id="all-tour-list">
+                                <div class="all-tour-list pt-0" id="all-tour-list">
                                     <input type="hidden" id="userId" value="<?= $user_id ?>" />
                                     <input type="hidden" id="userType" value="<?= $user_type ?>" />
+                                    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount">7</span> Packages </p>
                                     <div class="row g-4">
                                         <?php
 
