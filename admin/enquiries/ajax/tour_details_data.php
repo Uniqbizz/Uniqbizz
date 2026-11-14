@@ -1342,9 +1342,13 @@ $showGuestPrice = !empty($userType)
 
 $adultPrice = (float)$pricing['total_package_price_per_adult'];
 $childPrice = (float)$pricing['total_package_price_per_child'];
+$adultPriceRD = (float)$pricing['net_price_adult_with_GST'];
+$childPriceRD = (float)$pricing['net_price_child_with_GST'];
 
 $adultDisplayPrice = $adultPrice;
 $childDisplayPrice = $childPrice;
+$adultDisplayPriceRD = $adultPriceRD;
+$childDisplayPriceRD = $childPriceRD;
 
 if ($showGuestPrice) {
 
@@ -1355,6 +1359,8 @@ if ($showGuestPrice) {
         // Remove guest fixed amount
         $adultDisplayPrice = $adultPrice - $guestAmount;
         $childDisplayPrice = $childPrice - $guestAmount;
+        $adultDisplayPriceRD = $adultPriceRD - $guestAmount;
+        $childDisplayPriceRD = $childPriceRD - $guestAmount;
 
     } elseif (!empty($pricing['guest_percentage'])) {
 
@@ -1366,6 +1372,11 @@ if ($showGuestPrice) {
 
         $childDisplayPrice =
             $childPrice / (1 + ($percentage / 100));
+        $adultDisplayPriceRD =
+            $adultPriceRD / (1 + ($percentage / 100));
+
+        $childDisplayPriceRD =
+            $childPriceRD / (1 + ($percentage / 100));
     }
 }
 $stmt = $conn->prepare("

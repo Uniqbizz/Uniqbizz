@@ -1183,8 +1183,8 @@
                                                                         <p class="mb-1">Infant (0-1 yrs)</p>
                                                                     </div>
                                                                     <div>
-                                                                        <p class="mb-1 text-end">&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
-                                                                        <p class="mb-1 text-end">&#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                                                        <p class="mb-1 text-end">&#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
+                                                                        <p class="mb-1 text-end">&#8377; <?= number_format($childDisplayPriceRD, 2) ?></p>
                                                                         <p class="mb-1 text-end">FREE</p>
                                                                     </div>
                                                                 </div>
@@ -1193,8 +1193,8 @@
                                                                 <p class="mb-2 fw-bold blueDiv">Price Based on Travelers</p>
                                                                 <div class="d-flex justify-content-between">
                                                                     <div>
-                                                                        <p class="mb-1">Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
-                                                                        <p class="mb-1">Children: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                                                        <p class="mb-1">Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
+                                                                        <p class="mb-1">Children: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPriceRD, 2) ?></p>
                                                                         <p class="mb-1">Infant: <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
                                                                     </div>
                                                                     <div>
@@ -1942,8 +1942,8 @@
         <script>
 
             // Price values from PHP
-            const perAdultPrice = <?= json_encode((float)($adultDisplayPrice ?? 0)) ?>;
-            const perChildPrice = <?= json_encode((float)($childDisplayPrice ?? 0)) ?>;
+            const perAdultPrice = <?= json_encode((float)($adultDisplayPriceRD ?? 0)) ?>;
+            const perChildPrice = <?= json_encode((float)($childDisplayPriceRD ?? 0)) ?>;
 
             // Tour information
             const tourDays = <?= json_encode((int)($tour_days_total ?? 0)) ?>;
