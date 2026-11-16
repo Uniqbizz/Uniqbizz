@@ -328,7 +328,8 @@ $userType = $_SESSION['user_type_id_value'] ?? null;
 $showGuestPrice = !empty($userType);
 ?>
 
-<div class="all-tour-list <?=$viewType == 1?'':'d-none'?> " id="all-tour-list">
+<div class="all-tour-list pt-0 <?=$viewType == 1?'':'d-none'?> " id="all-tour-list">
+    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount">7</span> Packages </p>
     <div class="row g-4">
         <?php
             require '../../connect.php';
