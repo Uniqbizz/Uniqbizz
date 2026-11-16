@@ -1095,7 +1095,9 @@
 
         $sql = "
             UPDATE request_details
-            SET status = 3
+            SET 
+                status = 3,
+                updated_on = CURRENT_TIMESTAMP
             WHERE request_id = :request_id
         ";
 
