@@ -270,12 +270,49 @@ switch ($sort) {
 
         $orderBy = "
             ORDER BY
-                p.highlight_type ASC
+                CASE
+                    WHEN p.highlight_type = 'Popular' THEN 0
+                    ELSE 1
+                END ASC
         ";
 
-        break;
+    break;
+    //Most Selling
+    case 'Most Selling':
 
+        $orderBy = "
+            ORDER BY
+                CASE
+                    WHEN p.highlight_type = 'Most Selling' THEN 0
+                    ELSE 1
+                END ASC
+        ";
 
+    break;
+    //Trending
+    case 'Trending':
+
+        $orderBy = "
+            ORDER BY
+                CASE
+                    WHEN p.highlight_type = 'Trending' THEN 0
+                    ELSE 1
+                END ASC
+        ";
+
+    break;
+    //New Arrival
+    case 'New Arrival':
+
+        $orderBy = "
+            ORDER BY
+                CASE
+                    WHEN p.highlight_type = 'New Arrival' THEN 0
+                    ELSE 1
+                END ASC
+        ";
+
+    break;
     // Default
     default:
 
@@ -326,10 +363,11 @@ $totalPages = $totalRecords > 0
 $userType = $_SESSION['user_type_id_value'] ?? null;
 
 $showGuestPrice = !empty($userType);
+$total_package_count=$totalRecords;
 ?>
 
 <div class="all-tour-list pt-0 <?=$viewType == 1?'':'d-none'?> " id="all-tour-list">
-    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount">7</span> Packages </p>
+    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount"><?= $total_package_count ?></span> Packages </p>
     <div class="row g-4">
         <?php
             require '../../connect.php';
@@ -353,6 +391,7 @@ $showGuestPrice = !empty($userType);
             // print_r($stmt);
             // exit;
             $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+            $total_package_count=$stmt->rowCount();
             if ($stmt->rowCount() > 0) {
                 foreach (($stmt->fetchAll()) as $key => $row) {
                     // $name = $row['name'].''.$row['unique_code'];
@@ -437,7 +476,7 @@ $showGuestPrice = !empty($userType);
                                             $badgeClass = 'badge-trending';
                                             break;
 
-                                        case 'Best Seller':
+                                        case 'Most Selling':
                                             $badgeText = 'Best Seller';
                                             $badgeClass = 'badge-bestseller';
                                             break;
@@ -546,6 +585,7 @@ $showGuestPrice = !empty($userType);
 
 </div>
 <div class="all-tour-grid <?=$viewType == 2?'':'d-none'?>" id="all-tour-grid">
+    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount"><?= $total_package_count ?></span> Packages </p>
     <?php
             require '../../connect.php';
 
@@ -566,6 +606,7 @@ $showGuestPrice = !empty($userType);
             $stmt = $conn->prepare($orderByQuery);
             $stmt->execute();
             $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+            $total_package_count=$stmt->rowCount();
             if ($stmt->rowCount() > 0) {
                 foreach (($stmt->fetchAll()) as $key => $row) {
                     // $name = $row['name'].''.$row['unique_code'];
@@ -665,7 +706,7 @@ $showGuestPrice = !empty($userType);
                                             $badgeClass = 'badge-trending';
                                             break;
 
-                                        case 'Best Seller':
+                                        case 'Most Selling':
                                             $badgeText = 'Best Seller';
                                             $badgeClass = 'badge-bestseller';
                                             break;

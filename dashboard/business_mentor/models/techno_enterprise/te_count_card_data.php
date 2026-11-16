@@ -18,7 +18,7 @@ try {
         SELECT
             COUNT(*) AS total_count,
 
-            COALESCE(SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END), 0) AS pending_count,
+            COALESCE(SUM(CASE WHEN status IN (2, 4) THEN 1 ELSE 0 END), 0) AS pending_count,
 
             COALESCE(SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END), 0) AS active_count,
 

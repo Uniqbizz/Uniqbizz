@@ -47,7 +47,7 @@ $showGuestPrice = !empty($userType)
 $title = "Bizzmirth Holidays Pvt Ltd";
 $description = "Get latest and best deal on holiday packages";
 $siteName = "Holiday Packages";
-
+$total_package_count=0;
 /*
 |--------------------------------------------------------------------------
 | Replace this with your thumbnail image URL
@@ -201,6 +201,27 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
             }
             .badge-popular p::before {
                 content: "\f005";
+                font-family: "Font Awesome 5 Free";
+                margin-right: 8px;
+                font-size: 10px;
+            }
+            /* new arrival */
+            .badge-new-arrival p::before {
+                content: "\f5af";
+                font-family: "Font Awesome 5 Free";
+                margin-right: 4px;
+                font-size: 10px;
+            }
+            /* best seller */
+            .badge-bestseller p::before {
+                content: "\e561";
+                font-family: "Font Awesome 5 Free";
+                margin-right: 8px;
+                font-size: 10px;
+            }
+            /* trending */
+            .badge-trending p::before {
+                content: "\e098";
                 font-family: "Font Awesome 5 Free";
                 margin-right: 8px;
                 font-size: 10px;
@@ -593,6 +614,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 border: 1px solid #e1e4e8;
                 border-radius: 10px;
                 height: 52px; 
+                width: 190px !important;
             }
             .listGridColumnRed {
                 background-color: #fff !important;
@@ -1122,7 +1144,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                 <div class="all-tour-list pt-0" id="all-tour-list">
                                     <input type="hidden" id="userId" value="<?= $user_id ?>" />
                                     <input type="hidden" id="userType" value="<?= $user_type ?>" />
-                                    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount">7</span> Packages </p>
+                                    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount"><?= $total_package_count ?></span> Packages </p>
                                     <div class="row g-4">
                                         <?php
 
@@ -1152,6 +1174,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                                 ORDER BY booking_count DESC, p.id  ");
                                         $stmt->execute();
                                         $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+                                        $total_package_count=$stmt->rowCount();
                                         if ($stmt->rowCount() > 0) {
                                             foreach (($stmt->fetchAll()) as $key => $row) {
                                                 // $name = $row['name'].''.$row['unique_code'];
@@ -1219,7 +1242,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                         $badgeClass = 'badge-trending';
                                                         break;
 
-                                                    case 'Best Seller':
+                                                    case 'Most Selling':
                                                         $badgeText = 'Best Seller';
                                                         $badgeClass = 'badge-bestseller';
                                                         break;
@@ -1341,6 +1364,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                 <div class="all-tour-grid d-none" id="all-tour-grid">
                                     <input type="hidden" id="userId" value="<?= $user_id ?>" />
                                     <input type="hidden" id="userType" value="<?= $user_type ?>" />
+                                    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount1"><?= $total_package_count ?></span> Packages </p>
                                     <?php
 
                                         require 'connect.php';
@@ -1369,6 +1393,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                                 ORDER BY booking_count DESC, p.id  ");
                                         $stmt->execute();
                                         $stmt->SetFetchMode(PDO::FETCH_ASSOC);
+                                        $total_package_count=$stmt->rowCount();
                                         if ($stmt->rowCount() > 0) {
                                             foreach (($stmt->fetchAll()) as $key => $row) {
                                                 // $name = $row['name'].''.$row['unique_code'];
@@ -1447,7 +1472,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                     $badgeClass = 'badge-trending';
                                                     break;
 
-                                                case 'Best Seller':
+                                                case 'Most Selling':
                                                     $badgeText = 'Best Seller';
                                                     $badgeClass = 'badge-bestseller';
                                                     break;
