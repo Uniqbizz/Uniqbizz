@@ -1333,7 +1333,7 @@
                                                                         <p class="fs-5 textDarkBlue fw-bold">Total Estimated Price</p>
                                                                     </div>
                                                                     <div>
-                                                                        <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice1">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
+                                                                        <p class="fs-5 text-danger fw-bolder text-end" id="">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
                                                                     </div>
                                                                 </div>
                                                             </div>

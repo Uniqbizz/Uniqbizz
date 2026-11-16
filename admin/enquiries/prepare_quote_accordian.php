@@ -320,7 +320,7 @@
                                 <div class="col-xl-3 paxCol">
                                     <div class="mb-3">
                                         <label for="" class="form-label">Total Pax</label>
-                                        <input type="text" class="form-control fw-bold textDarkBlue" id="" value="<?= $replyData['adult_count'] + $replyData['child_count'] + $requestData['infant_count'] ?>" readonly>
+                                        <input type="text" class="form-control fw-bold textDarkBlue" id="" value="<?= $replyData['adult_count'] + $replyData['child_count'] + $replyData['infant_count'] ?>" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -2225,8 +2225,8 @@
                                                 $originalChildPrice = (float) ($requestDetailsMarkup['original_child_price'] ?? 0);
                                                 $altChildPrice = (float) ($requestDetailsMarkup['alt_child_price'] ?? 0);
 
-                                                $adultDifference = $altAdultPrice - $originalAdultPrice;
-                                                $childDifference = $altChildPrice - $originalChildPrice;
+                                                $adultDifference = $replyData['adult_price'] - $originalAdultPrice;
+                                                $childDifference = $replyData['child_price'] - $originalChildPrice;
                                             ?>
                                             <!-- NET PRICE -->
                                             <div class="row g-3">
@@ -2583,7 +2583,7 @@
                                         <div class="d-flex justify-content-between">
 
                                             <div>
-                                                <p class="mb-1" id="netPriceAdjustmentLabel">
+                                                <p class="mb-1" id="">
                                                     <?= htmlspecialchars($adjustmentLabel, ENT_QUOTES, 'UTF-8') ?>
                                                 </p>
 
@@ -2591,11 +2591,11 @@
                                             </div>
 
                                             <div>
-                                                <p class="mb-1 text-end fw-bold" id="netPriceAdjustment">
+                                                <p class="mb-1 text-end fw-bold" id="">
                                                     ₹ <?= number_format($adjustmentAmount, 2) ?>
                                                 </p>
 
-                                                <p class="mb-1 text-end fw-bold" id="finalQuotedPrice">
+                                                <p class="mb-1 text-end fw-bold" id="">
                                                     ₹ <?= number_format(
                                                         (float) ($requestDetailsRevisedQuote['final_quot_price'] ?? 0),
                                                         2
@@ -2612,17 +2612,17 @@
 
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="mb-1">GST (<?= $requestData['gst_percentage'] ?>%)</p>
+                                                <p class="mb-1">GST (<?= $$requestDetailsRevisedQuote['gst_percentage'] ?>%)</p>
                                                 <p class="mb-1">Convenience Fee</p>
                                             </div>
 
                                             <div>
                                                 
                                                 <p class="mb-1 text-end" id="">
-                                                    &#8377; <?= number_format((float)$requestData['gst'], 2) ?>
+                                                    &#8377; <?= number_format((float)$$requestDetailsRevisedQuote['gst'], 2) ?>
                                                 </p>
                                                 <p class="mb-1 text-end" id="">
-                                                    &#8377; <?= number_format((float)$requestData['convenience_fee'], 2) ?>
+                                                    &#8377; <?= number_format((float)$$requestDetailsRevisedQuote['convenience_fee'], 2) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -2638,7 +2638,7 @@
 
                                             <div>
                                                 <p class="fs-5 text-danger fw-bolder text-end" id="">
-                                                    &#8377; <?= number_format((float)$requestData['final_price'], 2) ?>
+                                                    &#8377; <?= number_format((float)$requestDetailsRevisedQuote['total_estimated_price'], 2) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -3279,8 +3279,8 @@
                                         <p class="mb-1">Infant (0-1 yrs)</p>
                                     </div>
                                     <div>
-                                        <p class="mb-1 text-end" id='perAdultAmt'>&#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
-                                        <p class="mb-1 text-end" id='perChildAmt'>&#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                        <p class="mb-1 text-end" id='perAdultAmt'>&#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
+                                        <p class="mb-1 text-end" id='perChildAmt'>&#8377; <?= number_format($childDisplayPriceRD, 2) ?></p>
                                         <p class="mb-1 text-end">FREE</p>
                                     </div>
                                 </div>
@@ -3289,8 +3289,8 @@
                                 <p class="mb-2 fw-bold blueDiv">Price Based on Travelers</p>
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <p class="mb-1">Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
-                                        <p class="mb-1">Children: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                        <p class="mb-1">Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
+                                        <p class="mb-1">Children: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPriceRD, 2) ?></p>
                                         <p class="mb-1">Infant: <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
                                         <p class="mb-1" id='extraMatress'>Extra Mattress (1 x &#8377; <?= $pricing['extra_mattress'] ?>)</p>
                                     </div>
@@ -3438,13 +3438,13 @@
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         
-                                        <p class="mb-1" id='gstPercentage'>GST (<?= $requestData['gst_percentage'] ?>%) </p>
+                                        <p class="mb-1" id=''>GST (<?= $requestData['gst_percentage'] ?>%) </p>
                                         <p class="mb-1">Convenience Fee </p>
                                     </div>
                                     <div>
                                         
-                                        <p class="mb-1 text-end" id="gstAmount">&#8377; <?= $requestData['gst'] ?></p>
-                                        <p class="mb-1 text-end" id="convenienceFee">&#8377; <?= $requestData['convenience_fee'] ?></p>
+                                        <p class="mb-1 text-end" id="">&#8377; <?= $requestData['gst'] ?></p>
+                                        <p class="mb-1 text-end" id="">&#8377; <?= $requestData['convenience_fee'] ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -3456,7 +3456,7 @@
                                         <p class="fs-5 textDarkBlue fw-bold">Total Estimated</br> Price</p>
                                     </div>
                                     <div>
-                                        <p class="fs-5 text-danger fw-bolder text-end" id="finalPackagePrice">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
+                                        <p class="fs-5 text-danger fw-bolder text-end" id="">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
                                     </div>
                                 </div>
                             </div>

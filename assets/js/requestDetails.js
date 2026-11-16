@@ -494,80 +494,95 @@ function updateRoomExtraMattress(roomCard) {
 // UPDATE RECOMMENDATION FROM USER MODIFICATION
 // =====================================================
 
+
 function updateRecommendedRoomsFromModification(roomOccupancies, adults, children, infants) {
+
     let roomsHTML = '';
+
     roomOccupancies.forEach(function (room, index) {
+
         const roomNumber = index + 1;
-        const occupancy = room.occupancy;
-        const extraMattress = room.extraMattress;
+        const occupancy = parseInt(room.occupancy) || 1;
+        const extraMattress = room.extraMattress === true;
 
-        // =================================================
         // BED TEXT
-        // =================================================
-
         let bedText = '1 Double Bed';
+
         if (extraMattress) {
-            bedText +=
-                ' + 1 Extra Mattress';
+            bedText += ' + 1 Extra Mattress';
         }
 
-        // =================================================
         // ACCOMMODATION TEXT
-        // =================================================
-
-        let accommodationText = occupancy + ' Pax will be accommodated in 1 room';
+        let accommodationText =
+            occupancy + ' Pax will be accommodated in 1 room';
 
         if (extraMattress) {
-            accommodationText +=
-                ' with extra mattress.';
+            accommodationText += ' with extra mattress.';
         } else {
             accommodationText += '.';
         }
 
-        // =================================================
-        // RECOMMENDATION HTML
-        // =================================================
+        // ROOM HTML
         roomsHTML += `
-            <p class="fontSize10 fw-bold">Room ${roomNumber}</p>
-            <div class="row">
-                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
-                    <div class="d-flex justify-content-between mobileDisplayBlock">
-                        <div>
-                            <p class="fontSize10 fw-bold">
-                                <i class="ri-hotel-bed-fill destination-title fs-6"></i>
-                                ${bedText}
-                            </p>
-                            <p class="fontSize10">${accommodationText}</p>
-                        </div>
-                        <div class="py-1 px-2 text-center text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 userpreferenceBtn fw-bold fontSize10">
-                            <span>User Preference</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
-                    <button class="btn modifyBtn" type="button" data-room="${roomNumber}">Modify Rooms</button>
-                </div>
-            </div>
+            <div class="roomRecommendationItem">
 
+                <p class="fontSize10 fw-bold">
+                    Room ${roomNumber}
+                </p>
+
+                <div class="row">
+
+                    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-7 col-12 mb-3">
+
+                        <div class="d-flex justify-content-between mobileDisplayBlock">
+
+                            <div>
+
+                                <p class="fontSize10 fw-bold">
+                                    <i class="ri-hotel-bed-fill destination-title fs-6"></i>
+                                    ${bedText}
+                                </p>
+
+                                <p class="fontSize10">
+                                    ${accommodationText}
+                                </p>
+
+                            </div>
+
+                            <div class="py-1 px-2 text-center text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 userpreferenceBtn fw-bold fontSize10">
+                                <span>User Preference</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-12 mb-3">
+
+                        <button class="btn modifyBtn" type="button" data-room="${roomNumber}">
+                            Modify Rooms
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
         `;
     });
 
-    // =====================================================
     // ADD ROOM BUTTON
-    // =====================================================
-
     roomsHTML += `
         <div class="d-flex justify-content-center">
-            <button class="btn addRoomBtn" type="button">Add Room (If more travellers)</button>
+            <button class="btn addRoomBtn" type="button">
+                Add Room (If more travellers)
+            </button>
         </div>
     `;
 
-    // =====================================================
-    // UPDATE ONLY CONTENT
-    // =====================================================
-
     $('#roomRecommendation').html(roomsHTML);
 }
+
 //coupon drop down
 function updateCouponDropdowns() {
     const selectedCoupons = [];
@@ -2161,23 +2176,42 @@ $("#submitRequst").on("click", function (e) {
     // =====================================================
     // ROOM DETAILS
     // =====================================================
-    let rooms = [];
+    
+    const rooms = [];
 
     $("#roomRecommendation .roomRecommendationItem").each(function () {
+
         const $room = $(this);
 
+        // Room number
         const roomNumber = $room
             .children("p.fontSize10.fw-bold")
             .first()
             .text()
             .trim();
 
+        // Bed description
         const description = $room
             .find(".ri-hotel-bed-fill")
-            .closest("p")
+            .parent()
+            .clone()
+            .children()
+            .remove()
+            .end()
             .text()
             .trim();
 
+        // Accommodation details
+        const accommodation = $room
+            .find(".ri-hotel-bed-fill")
+            .closest("div")
+            .find("p.fontSize10")
+            .not(".fw-bold")
+            .first()
+            .text()
+            .trim();
+
+        // Recommendation
         const recommendation = $room
             .find(".recommendedBtn")
             .text()
@@ -2186,9 +2220,13 @@ $("#submitRequst").on("click", function (e) {
         rooms.push({
             room_number: roomNumber,
             description: description,
+            accommodation: accommodation,
             recommendation: recommendation
         });
     });
+
+    console.log("Rooms JSON:", JSON.stringify(rooms, null, 4));
+
 
     console.log(referralWallet);
     

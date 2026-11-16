@@ -148,10 +148,6 @@
             ?? $priceAdjustments['gst_percentage']
             ?? 0;
 
-        $grossPrice = $finalQuotationDetails['final_quoted_price'] ?? 0;
-
-        $basePrice = $finalPackageDetails['final_package_price'] ?? 0;
-
         $convenienceFee = $finalQuotationDetails['convenience_fee']
             ?? $priceAdjustments['convenience_fee']
             ?? 0;
@@ -1006,8 +1002,7 @@
             ':convenience_fee' =>
                 $finalQuote['convenience_fee'] ?? 0,
 
-            ':total_estimated_price' =>
-                $finalQuote['estimated_final_package_price'] ?? 0
+            ':total_estimated_price' =>$finalPrice ?? 0
 
         ]);
 
