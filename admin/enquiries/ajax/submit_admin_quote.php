@@ -1059,14 +1059,63 @@
             ]);
         }
 
+        
         // ==========================================
         // 15. COMMIT TRANSACTION
         // ==========================================
 
         if ($transactionStarted && $conn->inTransaction()) {
+
             $conn->commit();
             $transactionStarted = false;
+
+            // ==========================================
+            // 16. UPDATE request_details STATUS TO 3
+            // RUN ONLY AFTER SUCCESSFUL COMMIT
+            // ==========================================
+
+            $sql = "
+                UPDATE request_details
+                SET
+                    status = 3,
+                    updated_on = CURRENT_TIMESTAMP
+                WHERE request_id = :request_id
+            ";
+
+            $stmt = $conn->prepare($sql);
+
+            $stmt->execute([
+                ':request_id' => $requestId
+            ]);
+
+            if ($stmt->rowCount() === 0) {
+
+                // Check whether the request exists but already has status 3
+                $checkSql = "
+                    SELECT status
+                    FROM request_details
+                    WHERE request_id = :request_id
+                    LIMIT 1
+                ";
+
+                $checkStmt = $conn->prepare($checkSql);
+
+                $checkStmt->execute([
+                    ':request_id' => $requestId
+                ]);
+
+                $existingRequest = $checkStmt->fetch(PDO::FETCH_ASSOC);
+
+                if (!$existingRequest) {
+                    throw new Exception('Request details record not found.');
+                }
+
+                if ((int) $existingRequest['status'] !== 3) {
+                    throw new Exception('Unable to update request status.');
+                }
+            }
         }
+
 
         // ==========================================
         // 16. SUCCESS RESPONSE
@@ -1085,52 +1134,7 @@
     } catch (Throwable $e) {
 
         // ==========================================
-        // 15. UPDATE request_details STATUS TO 3
-        // ==========================================
-
-        $sql = "
-            UPDATE request_details
-            SET 
-                status = 3,
-                updated_on = CURRENT_TIMESTAMP
-            WHERE request_id = :request_id
-        ";
-
-        $stmt = $conn->prepare($sql);
-
-        $stmt->execute([
-            ':request_id' => $requestId
-        ]);
-
-        if ($stmt->rowCount() === 0) {
-
-            // Check whether the request exists but already has status 3
-            $checkSql = "
-                SELECT status
-                FROM request_details
-                WHERE request_id = :request_id
-                LIMIT 1
-            ";
-
-            $checkStmt = $conn->prepare($checkSql);
-
-            $checkStmt->execute([
-                ':request_id' => $requestId
-            ]);
-
-            $existingRequest = $checkStmt->fetch(PDO::FETCH_ASSOC);
-
-            if (!$existingRequest) {
-                throw new Exception('Request details record not found.');
-            }
-
-            if ((int)$existingRequest['status'] !== 3) {
-                throw new Exception('Unable to update request status.');
-            }
-        }
-
-        // ==========================================
-        // 16. COMMIT TRANSACTION
+        // 17. COMMIT TRANSACTION
         // ==========================================
 
         if ($transactionStarted && $conn->inTransaction()) {

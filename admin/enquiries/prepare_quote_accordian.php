@@ -2655,8 +2655,17 @@
         </div>
     </div>
 
-<?php endforeach; ?>
-<?php if ($showOriginalEditable): ?>
+<?php endforeach; 
+/*get the latest record from request_details_reply(all fileds) and based on its id
+  match the id with reply_id field in following tables and get all records:
+  request_details_cancellation_policy
+  request_details_itinerary
+  request_details_markup
+  request_details_policy_document
+  request_details_revised_quote
+  request_details_trip_days                                       
+*/
+if ($showOriginalEditable): ?>
     <div class="accordion-item">
         <h2 class="accordion-header" id="headingCustomer">
             <button
