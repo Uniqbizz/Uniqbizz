@@ -10,7 +10,7 @@
 
     $uploadedFiles = [];
     $transactionStarted = false;
-    $$databaseCommitted = false;
+    $databaseCommitted = false;
 
     try {
 
