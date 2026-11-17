@@ -180,7 +180,9 @@
         <!-- Date Range Picker CSS Start -->
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- Date Range Picker CSS End -->
+        
+         <!-- Date Range Picker CSS End -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
         <style>
             .custom-history-accordion .accordion-item {
                 border: 1px solid #E5E7EB;
@@ -1235,6 +1237,7 @@
                                                                     </span>
                                                                 </p>
                                                                 <div id="couponPassengerContainer0" class="coupon-passenger-container"></div>
+                                                                
                                                             </div>
                                                             <hr class="my-1 border border-2 mx-3">
                                                             <div class="d-flex justify-content-between px-3">
@@ -1968,6 +1971,10 @@
                 JSON_HEX_QUOT |
                 JSON_HEX_AMP
             ) ?>;
+            const savedDiscountDetails = <?= json_encode($savedDiscountDetails) ?>;
+            const savedAdditionalDetails = <?= json_encode($savedAdditionalDetails) ?>;
+            
+            // const changes = collectPricingChanges();
             let cancellationCharges = {};
             // Prevent mouse wheel from changing number inputs
             $(document).on("wheel", 'input[type="number"]', function (e) {
@@ -2023,7 +2030,16 @@
                 json_decode($requestData['coupons'] ?? '[]', true) ?: [],
                 JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
             ) ?>;
-            
+
+            const availableCuCoupons = <?= json_encode(
+                $cuCoupons,
+                JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+            ) ?>;
+
+            const availableLoyaltyCoupons = <?= json_encode(
+                $loyaltyCoupons,
+                JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+            ) ?>;
             //coupon row
             function createCouponRow(type, number) {
 
@@ -2104,7 +2120,30 @@
             }
             $(document).ready(function () {
 
+                // ==========================================
+                // LOAD SAVED AND AVAILABLE COUPONS
+                // ==========================================
+
+                console.log('Loading saved coupons...');
+
+                console.log('Saved Coupons:', savedCoupons);
+
+                console.log(
+                    'Coupon Container Found:',
+                    $('#couponPassengerContainer1').length
+                );
+
                 loadSavedCoupons();
+
+                console.log(
+                    'Rendered Coupon Rows:',
+                    $('#couponPassengerContainer1 .saved-coupon-display .coupon-passenger-row').length
+                );
+
+
+                // ==========================================
+                // STICKY NAVIGATION
+                // ==========================================
 
                 $(".sticky-nav-wrapper").each(function () {
 
@@ -2122,6 +2161,7 @@
                     function updateStickyNav() {
 
                         if ($(window).width() < 992) {
+
                             $nav.removeClass("nav-fixed").css({
                                 width: ""
                             });
@@ -2160,6 +2200,7 @@
                     }
 
                     function refreshNavPosition() {
+
                         if (!$nav.hasClass("nav-fixed")) {
                             navTop = $wrapper.offset().top;
                         }
@@ -2168,6 +2209,7 @@
                     }
 
                     $(window).on("scroll resize", function () {
+
                         refreshNavPosition();
 
                         if (typeof updateActiveNav === "function") {
@@ -2218,184 +2260,44 @@
 
                 }, 500);
             });
-
             
-            // function loadSavedCoupons() {
-            //     const container = $('#couponPassengerContainer');
-            //     container.empty();
+            // ==========================================
+            // LOAD SAVED AND AVAILABLE COUPONS
+            // ==========================================
 
-            //     savedCoupons.forEach(function (coupon) {
-            //         const passenger = coupon.passenger || '';
-            //         const couponCode = coupon.code || '';
-            //         const couponType = coupon.type || '';
-            //         const amount = Number(coupon.amount) || 0;
-
-            //         const row = $(`
-            //             <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
-            //                 <div class="d-flex gap-3 largeDisplay">
-            //                     <p class="fontSize10 align-content-end mb-0 coupon-passenger"></p>
-            //                     <p class="mb-0">
-            //                         <select class="form-select fontSize10 selectPadding coupon-select" disabled>
-            //                             <option value="">Select Coupon</option>
-            //                         </select>
-            //                     </p>
-            //                 </div>
-            //                 <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
-            //                     - ₹ 0
-            //                 </p>
-            //             </div>
-            //         `);
-
-            //         row.find('.coupon-passenger').text(passenger);
-
-            //         const select = row.find('.coupon-select');
-                    
-            //         // Add available primary coupons.
-            //         <?php if (!empty($cuCoupons)): ?>
-            //             const primaryGroup = $('<optgroup label="Primary Coupons"></optgroup>');
-
-            //             <?php foreach ($cuCoupons as $coupon): ?>
-            //                 primaryGroup.append(
-            //                     $('<option></option>')
-            //                         .val(<?= json_encode($coupon['code']) ?>)
-            //                         .attr('data-type', 'primary')
-            //                         .attr('data-amount', <?= json_encode($coupon['coupon_amt']) ?>)
-            //                         .text(<?= json_encode($coupon['code']) ?>)
-            //                 );
-            //             <?php endforeach; ?>
-
-            //             select.append(primaryGroup);
-            //         <?php endif; ?>
-
-            //         // Add available loyalty coupons.
-            //         <?php if (!empty($loyaltyCoupons)): ?>
-            //             const loyaltyGroup = $('<optgroup label="Loyalty Coupons"></optgroup>');
-
-            //             <?php foreach ($loyaltyCoupons as $coupon): ?>
-            //                 loyaltyGroup.append(
-            //                     $('<option></option>')
-            //                         .val(<?= json_encode($coupon['code']) ?>)
-            //                         .attr('data-type', 'loyalty')
-            //                         .attr('data-amount', <?= json_encode($coupon['coupon_amt']) ?>)
-            //                         .text(<?= json_encode($coupon['code']) ?>)
-            //                 );
-            //             <?php endforeach; ?>
-
-            //             select.append(loyaltyGroup);
-            //         <?php endif; ?>
-
-            //         // Restore the saved coupon selection.
-            //         select.val(couponCode);
-
-            //         // Show the saved discount amount.
-            //         row.find('.coupon-discount').text(
-            //             '- ₹ ' + amount.toLocaleString('en-IN')
-            //         );
-
-            //         container.append(row);
-            //     });
-            //     updateTotalCouponDiscountApplied();
-            // }
             function loadSavedCoupons() {
-                if (!Array.isArray(savedCoupons)) {
-                    return;
-                }
+
+                const couponsToLoad = Array.isArray(savedCoupons) ? savedCoupons : [];
 
                 // ==========================================
-                // CONTAINER 0: DISPLAY ALL SAVED COUPONS
-                // IN NON-EDITABLE MODE
+                // CONTAINER 1: DISPLAY SAVED COUPONS
                 // ==========================================
-                const container0 = $('#couponPassengerContainer0');
 
-                if (container0.length) {
-                    let display = container0.find('.saved-coupon-display').first();
+                const $savedContainer = $('#couponPassengerContainer1');
 
-                    if (!display.length) {
-                        display = $('<div class="saved-coupon-display"></div>');
-                        container0.prepend(display);
+                if ($savedContainer.length) {
+
+                    let $display = $savedContainer.find('.saved-coupon-display').first();
+
+                    if (!$display.length) {
+                        $display = $('<div class="saved-coupon-display"></div>');
+                        $savedContainer.prepend($display);
                     }
 
-                    // Clear only the saved-coupon display area.
-                    display.empty();
+                    $display.empty();
 
-                    savedCoupons.forEach(function (coupon) {
+                    couponsToLoad.forEach(function (coupon) {
+
                         const couponCode = String(coupon.code || '').trim();
 
                         if (!couponCode) {
                             return;
                         }
 
-                        const passenger = coupon.passenger || '';
+                        const passenger = String(coupon.passenger || '');
                         const amount = Number(coupon.amount) || 0;
 
-                        const row = $(`
-                            <div class="d-flex justify-content-between mb-2 saved-coupon-row">
-                                <div class="d-flex gap-3 largeDisplay">
-                                    <p class="fontSize10 align-content-end mb-0 saved-coupon-passenger"></p>
-                                    <p class="mb-0">
-                                        <select class="form-select fontSize10 selectPadding" disabled>
-                                            <option></option>
-                                        </select>
-                                    </p>
-                                </div>
-                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 saved-coupon-discount"></p>
-                            </div>
-                        `);
-
-                        row.attr('data-coupon-code', couponCode);
-
-                        row.find('.saved-coupon-passenger').text(passenger);
-
-                        const select = row.find('select');
-                        select.find('option')
-                            .first()
-                            .val(couponCode)
-                            .text(couponCode);
-
-                        select.val(couponCode);
-
-                        row.find('.saved-coupon-discount').text(
-                            '- ₹ ' + amount.toLocaleString('en-IN')
-                        );
-
-                        display.append(row);
-                    });
-                }
-
-                // ==========================================
-                // CONTAINERS 1, 2, 3, ETC.:
-                // POPULATE EXISTING EDITABLE ROWS
-                // ==========================================
-                savedCoupons.forEach(function (coupon, index) {
-                    const couponCode = String(coupon.code || '').trim();
-
-                    if (!couponCode) {
-                        return;
-                    }
-
-                    const passenger = coupon.passenger || '';
-                    const amount = Number(coupon.amount) || 0;
-
-                    // Use the existing editable container.
-                    const container = $('#couponPassengerContainer' + (index + 1));
-
-                    // If a passenger-specific container does not exist,
-                    // use container 1 so the coupon is not skipped.
-                    const targetContainer = container.length
-                        ? container
-                        : $('#couponPassengerContainer1');
-
-                    if (!targetContainer.length) {
-                        return;
-                    }
-
-                    let row = targetContainer.find('.coupon-passenger-row').filter(function () {
-                        return $(this).attr('data-coupon-code') === couponCode;
-                    }).first();
-
-                    // Create the row only if it does not already exist.
-                    if (!row.length) {
-                        row = $(`
+                        const $row = $(`
                             <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
                                 <div class="d-flex gap-3 largeDisplay">
                                     <p class="fontSize10 align-content-end mb-0 coupon-passenger"></p>
@@ -2405,96 +2307,320 @@
                                         </select>
                                     </p>
                                 </div>
-                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 coupon-discount">
-                                    - ₹ 0
-                                </p>
+
+                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 coupon-discount"></p>
                             </div>
                         `);
 
-                        row.attr('data-coupon-code', couponCode);
-                        targetContainer.append(row);
-                    }
-
-                    row.find('.coupon-passenger').text(passenger);
-
-                    const select = row.find('.coupon-select');
-
-                    let option = select.find('option').filter(function () {
-                        return String($(this).val()).trim() === couponCode;
-                    }).first();
-
-                    if (!option.length) {
-                        option = $('<option>', {
-                            value: couponCode,
-                            text: couponCode
+                        $row.attr({
+                            'data-coupon-code': couponCode,
+                            'data-passenger': passenger
                         });
 
-                        select.append(option);
+                        $row.find('.coupon-passenger').text(passenger);
+
+                        const $select = $row.find('.coupon-select');
+
+                        $select.append(
+                            $('<option>', {
+                                value: couponCode,
+                                text: couponCode
+                            }).attr('data-amount', amount)
+                        );
+
+                        $select.val(couponCode);
+
+                        $row.find('.coupon-discount').text(
+                            '- ₹ ' + amount.toLocaleString('en-IN')
+                        );
+
+                        $display.append($row);
+                    });
+                }
+
+
+                // ==========================================
+                // CONTAINER 0: AVAILABLE COUPONS
+                // ==========================================
+
+                const $availableSelect = $('#availableCouponsSelect');
+
+                if ($availableSelect.length) {
+
+                    const previouslySelected = $availableSelect.val() || [];
+
+                    $availableSelect.empty();
+
+                    // Already applied coupon codes.
+                    const appliedCouponCodes = new Set();
+
+                    couponsToLoad.forEach(function (coupon) {
+
+                        const code = String(coupon.code || '').trim().toUpperCase();
+
+                        if (code) {
+                            appliedCouponCodes.add(code);
+                        }
+                    });
+
+                    // Prevent duplicates between customer and loyalty coupons.
+                    const addedAvailableCodes = new Set();
+
+
+                    // ==========================================
+                    // CUSTOMER COUPONS
+                    // ==========================================
+
+                    const $customerGroup = $('<optgroup>', {
+                        label: 'Customer Coupons'
+                    });
+
+                    if (Array.isArray(availableCuCoupons)) {
+
+                        availableCuCoupons.forEach(function (coupon) {
+
+                            // Actual PHP fields.
+                            const couponId = coupon.id;
+                            const couponCode = String(coupon.code || '').trim();
+                            const amount = Number(coupon.coupon_amt) || 0;
+
+                            if (!couponId || !couponCode) {
+                                return;
+                            }
+
+                            const normalizedCode = couponCode.toUpperCase();
+
+                            if (
+                                appliedCouponCodes.has(normalizedCode) ||
+                                addedAvailableCodes.has(normalizedCode)
+                            ) {
+                                return;
+                            }
+
+                            addedAvailableCodes.add(normalizedCode);
+
+                            $customerGroup.append(
+                                $('<option>', {
+                                    value: 'CU_' + couponId,
+                                    text: couponCode + ' - Save ₹ ' +
+                                        amount.toLocaleString('en-IN')
+                                }).attr({
+                                    'data-code': couponCode,
+                                    'data-amount': amount,
+                                    'data-type': 'CU',
+                                    'data-id': couponId
+                                })
+                            );
+                        });
                     }
 
-                    option.attr('data-amount', amount);
+                    if ($customerGroup.children().length) {
+                        $availableSelect.append($customerGroup);
+                    }
 
-                    select.prop('disabled', true);
-                    select.val(couponCode);
 
-                    row.find('.coupon-discount').text(
-                        '- ₹ ' + amount.toLocaleString('en-IN')
-                    );
-                });
+                    // ==========================================
+                    // LOYALTY COUPONS
+                    // ==========================================
 
-                // Update totals for all existing coupon containers.
-                $('[id^="couponPassengerContainer"]').each(function () {
-                    const containerId = this.id;
-                    const index = containerId.replace('couponPassengerContainer', '');
+                    const $loyaltyGroup = $('<optgroup>', {
+                        label: 'Loyalty Coupons'
+                    });
 
-                    updateTotalCouponDiscountApplied(index);
-                });
+                    if (Array.isArray(availableLoyaltyCoupons)) {
+
+                        availableLoyaltyCoupons.forEach(function (coupon) {
+
+                            // Actual PHP fields.
+                            const couponId = coupon.id;
+                            const couponCode = String(coupon.code || '').trim();
+                            const amount = Number(coupon.coupon_amt) || 0;
+
+                            if (!couponId || !couponCode) {
+                                return;
+                            }
+
+                            const normalizedCode = couponCode.toUpperCase();
+
+                            if (
+                                appliedCouponCodes.has(normalizedCode) ||
+                                addedAvailableCodes.has(normalizedCode)
+                            ) {
+                                return;
+                            }
+
+                            addedAvailableCodes.add(normalizedCode);
+
+                            $loyaltyGroup.append(
+                                $('<option>', {
+                                    value: 'LOYALTY_' + couponId,
+                                    text: couponCode + ' - Save ₹ ' +
+                                        amount.toLocaleString('en-IN')
+                                }).attr({
+                                    'data-code': couponCode,
+                                    'data-amount': amount,
+                                    'data-type': 'LOYALTY',
+                                    'data-id': couponId
+                                })
+                            );
+                        });
+                    }
+
+                    if ($loyaltyGroup.children().length) {
+                        $availableSelect.append($loyaltyGroup);
+                    }
+
+
+                    // ==========================================
+                    // RESTORE PREVIOUS SELECTIONS
+                    // ==========================================
+
+                    const validSelections = previouslySelected.filter(function (value) {
+
+                        return $availableSelect.find('option').filter(function () {
+                            return this.value === value;
+                        }).length > 0;
+
+                    });
+
+                    $availableSelect.val([...new Set(validSelections)]);
+
+
+                    // ==========================================
+                    // INITIALIZE SELECT2
+                    // ==========================================
+
+                    if (typeof $.fn.select2 === 'function') {
+
+                        if (!$availableSelect.hasClass('select2-hidden-accessible')) {
+
+                            $availableSelect.select2({
+                                width: '100%',
+                                placeholder: 'Search and select coupons',
+                                closeOnSelect: false,
+                                allowClear: true
+                            });
+
+                        } else {
+
+                            $availableSelect.trigger('change.select2');
+                        }
+                    }
+
+                    updateAvailableCouponDiscount();
+                }
+
+
+                // ==========================================
+                // UPDATE COMBINED TOTAL
+                // ==========================================
+
+                updateTotalCouponDiscountApplied(1);
             }
 
-            function updateTotalCouponDiscountApplied(index) {
-                const container = $('#couponPassengerContainer' + index);
 
-                if (!container.length) {
+            // ==========================================
+            // CALCULATE AVAILABLE COUPON DISCOUNT
+            // ==========================================
+
+            function updateAvailableCouponDiscount() {
+
+                let total = 0;
+
+                $('#availableCouponsSelect option:selected').each(function () {
+
+                    total += Number($(this).attr('data-amount')) || 0;
+
+                });
+
+                $('#availableCouponDiscount').text(
+                    '- ₹ ' + total.toLocaleString('en-IN')
+                );
+
+                return total;
+            }
+
+
+
+            
+            // ==========================================
+            // AVAILABLE COUPON SELECTION EVENT
+            // ==========================================
+
+            $(document).on('change', '#availableCouponsSelect', function () {
+
+                updateAvailableCouponDiscount();
+
+                updateTotalCouponDiscountApplied(1);
+
+                updateCustomerDiscountedSubtotal();
+
+                renderPricingChanges();
+            });
+
+            // ==========================================
+            // UPDATE TOTAL COUPON DISCOUNT APPLIED
+            // ==========================================
+
+            function updateTotalCouponDiscountApplied(index) {
+
+                if (String(index) !== '1') {
+                    return;
+                }
+
+                const $container = $('#couponPassengerContainer1');
+
+                if (!$container.length) {
                     return;
                 }
 
                 let totalCouponDiscount = 0;
                 let totalCoupons = 0;
 
-                // Count saved coupons only for container 0.
-                if (String(index) === '0') {
-                    container.find('.saved-coupon-row').each(function () {
-                        const discountText = $(this).find('.saved-coupon-discount').text();
+                // ==========================================
+                // 1. SAVED COUPONS
+                // ==========================================
 
-                        const amount = parseFloat(
-                            discountText.replace(/[^0-9.-]/g, '')
-                        ) || 0;
+                $container.find('.saved-coupon-display .coupon-passenger-row').each(function () {
 
-                        totalCouponDiscount += Math.abs(amount);
-                        totalCoupons++;
-                    });
-                }
+                    const amount = Number(
+                        $(this).find('.coupon-select option:selected').attr('data-amount')
+                    ) || 0;
 
-                // Count selected editable coupons in this container only.
-                container.find('.coupon-passenger-row').each(function () {
-                    const select = $(this).find('.coupon-select');
-                    const couponCode = select.val();
-
-                    if (couponCode) {
-                        const amount = parseFloat(
-                            select.find('option:selected').attr('data-amount')
-                        ) || 0;
-
+                    if (amount > 0) {
                         totalCouponDiscount += amount;
                         totalCoupons++;
                     }
                 });
 
-                // Update the total corresponding to this container's index.
-                $('#totalCouponDiscount' + index).text(
-                    '- ₹ ' + totalCouponDiscount.toLocaleString('en-IN') 
+
+                // ==========================================
+                // 2. NEWLY SELECTED AVAILABLE COUPONS
+                // ==========================================
+
+                $('#availableCouponsSelect option:selected').each(function () {
+
+                    const amount = Number($(this).attr('data-amount')) || 0;
+
+                    totalCouponDiscount += amount;
+                    totalCoupons++;
+                });
+
+
+                // ==========================================
+                // 3. UPDATE TOTAL
+                // ==========================================
+
+                $('#totalCouponDiscount1').text(
+                    '- ₹ ' + totalCouponDiscount.toLocaleString('en-IN')
                 );
+
+                return {
+                    totalCouponDiscount: totalCouponDiscount,
+                    totalCoupons: totalCoupons
+                };
             }
+
         </script>
         <script>
             
@@ -2725,12 +2851,22 @@
                 updateEmptyPolicyMessage();
             });
             $(document).ready(function () {
+                const hasReply = <?= json_encode($hasReply) ?>;
 
+                const originalAdultPrice = <?= json_encode(
+                    $hasReply ? (float) ($requestDetailsMarkup['original_adult_price'] ?? 0) : (float) ($packagePricing['net_price_adult'] ?? 0)
+                ) ?>;
+
+                const originalChildPrice = <?= json_encode(
+                    $hasReply ? (float) ($requestDetailsMarkup['original_child_price'] ?? 0) : (float) ($packagePricing['net_price_child'] ?? 0)
+                ) ?>;
                 // =====================================================
                 // ORIGINAL PHP VALUES
                 // =====================================================
                 const originalSubtotal = <?= json_encode(
-                    (float) ($requestData['subtotal'] ?? 0)
+                    $hasReply
+                        ? (float) ($requestDetailsRevisedQuote['final_quot_price'] ?? 0)
+                        : (float) ($requestData['subtotal'] ?? 0)
                 ) ?>;
 
                 const adultCount = <?= json_encode(
@@ -2991,70 +3127,148 @@
 
 
                     // -------------------------------------------------
-                    // A. DISPLAY DISCOUNTS
+                    // A. COMBINE SAVED AND NEW ADJUSTMENTS
                     // -------------------------------------------------
 
-                    changes.discounts.forEach(function (item) {
+                    const adjustmentMap = {};
+
+                    function addAdjustment(items, type) {
+
+                        // Saved database structure: { details: [], subtotal: 0 }
+                        // New calculated structure: []
+
+                        if (items && !Array.isArray(items) && Array.isArray(items.details)) {
+                            items = items.details;
+                        }
+
+                        if (!Array.isArray(items)) {
+                            return;
+                        }
+
+                        items.forEach(function (item) {
+
+                            // Saved items use title; newly calculated items use label.
+                            const rawLabel = item.label || item.title || '';
+
+                            // Remove existing category suffix before matching.
+                            const label = String(rawLabel)
+                                .replace(/\s*\((Discount|Additional)\)\s*$/i, '')
+                                .trim();
+
+                            if (!label) {
+                                return;
+                            }
+
+                            const key = label.toLowerCase();
+
+                            if (!adjustmentMap[key]) {
+                                adjustmentMap[key] = {
+                                    label: label,
+                                    amount: 0
+                                };
+                            }
+
+                            const amount = parseFloat(item.amount) || 0;
+
+                            adjustmentMap[key].amount +=
+                                type === 'discount' ? -amount : amount;
+                        });
+                    }
+
+
+                    // First add saved database adjustments.
+                    if (hasReply) {
+                        addAdjustment(savedDiscountDetails, 'discount');
+                        addAdjustment(savedAdditionalDetails, 'additional');
+                    }
+
+                    // Then add newly calculated changes.
+                    addAdjustment(changes.discounts, 'discount');
+                    addAdjustment(changes.increases, 'additional');
+
+
+                    // -------------------------------------------------
+                    // B. DISPLAY UPDATED ADJUSTMENTS
+                    // -------------------------------------------------
+
+                    Object.values(adjustmentMap).forEach(function (item) {
+
+                        // Ignore zero-value adjustments.
+                        if (Math.abs(item.amount) < 0.005) {
+                            return;
+                        }
+
+                        const isDiscount = item.amount < 0;
 
                         const $row = $('<div>', {
-                            class: 'd-flex justify-content-between align-items-center w-100 mb-1'
+                            class: 'd-flex justify-content-between align-items-center w-100 mb-1 js-calculated-adjustment'
                         });
 
                         const $label = $('<p>', {
-                            class: 'mb-0 text-success'
-                        }).text(item.label + ' (Discount)');
+                            class: isDiscount
+                                ? 'mb-0 text-success'
+                                : 'mb-0 text-danger'
+                        }).text(
+                            item.label + (isDiscount ? ' (Discount)' : ' (Additional)')
+                        );
 
                         const $amount = $('<p>', {
-                            class: 'mb-0 text-end text-success'
-                        }).text('- ' + formatAmount(item.amount));
+                            class: isDiscount
+                                ? 'mb-0 text-end text-success'
+                                : 'mb-0 text-end text-danger'
+                        }).text(
+                            (isDiscount ? '- ' : '+ ') +
+                            formatAmount(Math.abs(item.amount))
+                        );
 
                         $row.append($label, $amount);
-                        $discountContainer.append($row);
 
+                        if (isDiscount) {
+                            $discountContainer.append($row);
+                        } else {
+                            $additionalContainer.append($row);
+                        }
                     });
 
 
-                    // -------------------------------------------------
-                    // B. DISPLAY ADDITIONAL PRICES
-                    // -------------------------------------------------
-
-                    changes.increases.forEach(function (item) {
-
-                        const $row = $('<div>', {
-                            class: 'd-flex justify-content-between align-items-center w-100 mb-1'
-                        });
-
-                        const $label = $('<p>', {
-                            class: 'mb-0 text-danger'
-                        }).text(item.label + ' (Additional)');
-
-                        const $amount = $('<p>', {
-                            class: 'mb-0 text-end text-danger'
-                        }).text('+ ' + formatAmount(item.amount));
-
-                        $row.append($label, $amount);
-                        $additionalContainer.append($row);
-
-                    });
-
-
+                   
                     // -------------------------------------------------
                     // C. UPDATE SUBTOTALS
                     // -------------------------------------------------
+
                     // ==========================================
                     // CUSTOMER APPLIED DISCOUNTS
                     // ==========================================
+
                     const totalCustomerDiscount = updateCustomerDiscountedSubtotal();
 
                     // ==========================================
                     // MARKUP DISCOUNTS AND ADDITIONS
+                    // Calculate from the combined saved + new adjustments
                     // ==========================================
-                    const discountedSubtotal = changes.totalDiscount;
-                    const additionalSubtotal = changes.totalIncrease;
 
+                    let discountedSubtotal = 0;
+                    let additionalSubtotal = 0;
+
+                    Object.values(adjustmentMap).forEach(function (item) {
+
+                        if (item.amount < -0.005) {
+
+                            discountedSubtotal += Math.abs(item.amount);
+
+                        } else if (item.amount > 0.005) {
+
+                            additionalSubtotal += item.amount;
+
+                        }
+
+                    });
+
+                    // Update Discount Subtotal
                     $('#discountedPriceDetails #discountedSubTotal')
                         .text(formatAmount(discountedSubtotal));
 
+                    // Update Additional Subtotal
                     $('#additionalPriceDetails #additionalSubTotal')
                         .text(formatAmount(additionalSubtotal));
 
@@ -3084,28 +3298,28 @@
 
                     // Start with the sum of the currently entered pricing values.
                     // Subtract all discounts and add all increases.
-                    const finalPrice =
-                            originalSubtotal
-                            - totalCustomerDiscount
-                            - changes.totalDiscount
-                            + changes.totalIncrease;
+                    const finalPrice = hasReply
+                        ? originalSubtotal - changes.totalDiscount + changes.totalIncrease
+                        : originalSubtotal - totalCustomerDiscount
+                            - changes.totalDiscount + changes.totalIncrease;
 
                     // If you have a separate base package price calculated from
                     // the pricing input fields, add it here.
 
-                    const netAdjustment = changes.totalIncrease - changes.totalDiscount;
+                    // Calculate total adjustment including saved reply adjustments
+                    const netAdjustment = additionalSubtotal - discountedSubtotal;
 
                     let adjustmentLabel = '';
                     let adjustmentClass = '';
 
                     const isSameAdjustment =
-                        Math.abs(changes.totalDiscount - changes.totalIncrease) < 0.005;
+                        Math.abs(discountedSubtotal - additionalSubtotal) < 0.005;
 
                     if (isSameAdjustment) {
 
                         if (
-                            changes.totalDiscount < 0.005 &&
-                            changes.totalIncrease < 0.005
+                            discountedSubtotal < 0.005 &&
+                            additionalSubtotal < 0.005
                         ) {
                             adjustmentLabel = 'No Adjustments';
                         } else {
@@ -3178,6 +3392,55 @@
                 // ORIGINAL PRICE AND PRICE DIFFERENCE
                 // =====================================================
 
+                // function updateReferencePriceDifference(inputId) {
+
+                //     const $input = $('#' + inputId);
+
+                //     if (!$input.length) {
+                //         console.warn('Input not found:', inputId);
+                //         return;
+                //     }
+
+                //     const originalPrice = getOriginalValue($input[0]);
+                //     const currentPrice = parseFloat($input.val()) || 0;
+
+                //     // Show per-person price difference, irrespective of traveller count
+                //     const difference = currentPrice - originalPrice;
+
+                //     const $originalText = $('#' + inputId + '_original');
+                //     const $differenceText = $('#' + inputId + '_difference');
+
+                //     $originalText.text(
+                //         'Original Price: ' + formatAmount(originalPrice)
+                //     );
+
+                //     if (!$differenceText.length) {
+                //         console.warn('Difference display element not found:', inputId + '_difference');
+                //         return;
+                //     }
+
+                //     if (Math.abs(difference) < 0.005) {
+
+                //         $differenceText
+                //             .removeClass('text-success text-danger')
+                //             .addClass('text-muted')
+                //             .text('No Price Change');
+
+                //     } else if (difference < 0) {
+
+                //         $differenceText
+                //             .removeClass('text-danger text-muted')
+                //             .addClass('text-success')
+                //             .text('Decreased by ' + formatAmount(Math.abs(difference)));
+
+                //     } else {
+
+                //         $differenceText
+                //             .removeClass('text-success text-muted')
+                //             .addClass('text-danger')
+                //             .text('Increased by ' + formatAmount(difference));
+                //     }
+                // }
                 function updateReferencePriceDifference(inputId) {
 
                     const $input = $('#' + inputId);
@@ -3187,10 +3450,25 @@
                         return;
                     }
 
-                    const originalPrice = getOriginalValue($input[0]);
+                    // Get original price from PHP markup data when reply exists.
+                    // Otherwise, retain the original input defaultValue behavior.
+                    let originalPrice;
+
+                    if (hasReply) {
+
+                        originalPrice = inputId === 'netPriceAdult'
+                            ? originalAdultPrice
+                            : originalChildPrice;
+
+                    } else {
+
+                        originalPrice = getOriginalValue($input[0]);
+
+                    }
+
                     const currentPrice = parseFloat($input.val()) || 0;
 
-                    // Show per-person price difference, irrespective of traveller count
+                    // Per-person price difference
                     const difference = currentPrice - originalPrice;
 
                     const $originalText = $('#' + inputId + '_original');
@@ -3316,8 +3594,10 @@
                 // INITIAL RENDER
                 // =====================================================
 
-                renderPricingChanges();
-                updateCustomerDiscountedSubtotal();
+                if (!hasReply) {
+                    renderPricingChanges();
+                    updateCustomerDiscountedSubtotal();
+                }
                 // ==========================================
                 // 11. CANCELLATION CHARGES
                 // ==========================================
@@ -3345,6 +3625,18 @@
 
                 // Get initial PHP values
                 updateCancellationCharges();
+
+                
+
+                console.log(
+                    'Discount container:',
+                    $('#discountedAdjustmentRows').html()
+                );
+
+                console.log(
+                    'Additional container:',
+                    $('#additionalAdjustmentRows').html()
+                );
             });
 
             $('#submitQuoteBtn').on('click', function (e) {

@@ -622,10 +622,7 @@
                 package_id,
                 reply_id,
                 inclusion,
-                exclusion,
-                remark,
-                travel_info,
-                highlights
+                exclusion
             )
             VALUES
             (
@@ -633,10 +630,7 @@
                 :package_id,
                 :reply_id,
                 :inclusion,
-                :exclusion,
-                :remark,
-                :travel_info,
-                :highlights
+                :exclusion
             )
         ";
 
@@ -655,16 +649,7 @@
             ':exclusion' => json_encode(
                 $exclusion,
                 JSON_UNESCAPED_UNICODE
-            ),
-
-            ':remark' => null,
-
-            ':travel_info' => json_encode(
-                $travelInfo,
-                JSON_UNESCAPED_UNICODE
-            ),
-
-            ':highlights' => null
+            )
         ]);
 
         // ==========================================

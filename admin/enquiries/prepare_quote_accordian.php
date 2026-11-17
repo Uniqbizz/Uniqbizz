@@ -43,7 +43,7 @@
 
     $showOriginalEditable = in_array(
         (int) $mainRequestStatus,
-        [1, 4],
+        [1, 3],
         true
     );
 
@@ -2612,17 +2612,17 @@
 
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="mb-1">GST (<?= $$requestDetailsRevisedQuote['gst_percentage'] ?>%)</p>
+                                                <p class="mb-1">GST (<?= $requestDetailsRevisedQuote['gst_percentage'] ?>%)</p>
                                                 <p class="mb-1">Convenience Fee</p>
                                             </div>
 
                                             <div>
                                                 
                                                 <p class="mb-1 text-end" id="">
-                                                    &#8377; <?= number_format((float)$$requestDetailsRevisedQuote['gst'], 2) ?>
+                                                    &#8377; <?= number_format((float)$replyData['gst'], 2) ?>
                                                 </p>
                                                 <p class="mb-1 text-end" id="">
-                                                    &#8377; <?= number_format((float)$$requestDetailsRevisedQuote['convenience_fee'], 2) ?>
+                                                    &#8377; <?= number_format((float)$requestDetailsRevisedQuote['convenience_fee'], 2) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -2656,16 +2656,96 @@
     </div>
 
 <?php endforeach; 
-/*get the latest record from request_details_reply(all fileds) and based on its id
-  match the id with reply_id field in following tables and get all records:
-  request_details_cancellation_policy
-  request_details_itinerary
-  request_details_markup
-  request_details_policy_document
-  request_details_revised_quote
-  request_details_trip_days                                       
-*/
-if ($showOriginalEditable): ?>
+
+    
+    
+    $latestReplyStmt = $conn->prepare("
+        SELECT *
+        FROM request_details_reply
+        WHERE request_id = :request_id
+        ORDER BY id DESC
+        LIMIT 1
+    ");
+
+    $latestReplyStmt->execute([
+        ':request_id' => $request_id
+    ]);
+
+    $latestReply = $latestReplyStmt->fetch(PDO::FETCH_ASSOC);
+
+    $hasReply = ($latestReply !== false);
+
+    $replyId = $hasReply ? (int) $latestReply['id'] : null;
+
+
+    // ==========================================
+    // REPLY DATA
+    // ==========================================
+
+    $replyCancellationPolicy = [];
+    $replyItinerary = [];
+    $replyMarkup = [];
+    $replyPolicyDocuments = [];
+    $replyRevisedQuote = [];
+    $replyTripDays = [];
+    $requestDetailsRevisedQuote = [];
+    $savedDiscountDetails = [];
+    $savedAdditionalDetails = [];
+
+    if ($hasReply) {
+
+        $tables = [
+            'replyCancellationPolicy' => 'request_details_cancellation_policy',
+            'replyItinerary'          => 'request_details_itinerary',
+            'replyMarkup'             => 'request_details_markup',
+            'replyPolicyDocuments'    => 'request_details_policy_document',
+            'replyRevisedQuote'       => 'request_details_revised_quote',
+            'replyTripDays'           => 'request_details_trip_days'
+        ];
+
+        foreach ($tables as $variable => $table) {
+
+            $stmt = $conn->prepare("
+                SELECT *
+                FROM {$table}
+                WHERE reply_id = :reply_id
+                ORDER BY id ASC
+            ");
+
+            $stmt->execute([
+                ':reply_id' => $replyId
+            ]);
+
+            $$variable = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        // Get the latest revised quotation for this reply
+        $requestDetailsRevisedQuote = !empty($replyRevisedQuote)
+            ? $replyRevisedQuote[0]
+            : [];
+
+        // Decode saved discount details
+        $savedDiscountDetails = json_decode(
+            $requestDetailsRevisedQuote['dis_details'] ?? '[]',
+            true
+        );
+
+        // Decode saved additional details
+        $savedAdditionalDetails = json_decode(
+            $requestDetailsRevisedQuote['additional_details'] ?? '[]',
+            true
+        );
+
+        if (!is_array($savedDiscountDetails)) {
+            $savedDiscountDetails = [];
+        }
+
+        if (!is_array($savedAdditionalDetails)) {
+            $savedAdditionalDetails = [];
+        }
+    }
+
+
+    if ($showOriginalEditable): ?>
     <div class="accordion-item">
         <h2 class="accordion-header" id="headingCustomer">
             <button
@@ -2935,7 +3015,10 @@ if ($showOriginalEditable): ?>
                             </div>
                             
                             <?php
-                                $rooms = json_decode($requestData['rooms'] ?? '[]', true);
+                                $rooms = json_decode(
+                                    ($hasReply ? ($latestReply['rooms'] ?? '[]') : ($requestData['rooms'] ?? '[]')),
+                                    true
+                                );
 
                                 if (!is_array($rooms)) {
                                     $rooms = [];
@@ -2943,9 +3026,23 @@ if ($showOriginalEditable): ?>
 
                                 $totalRooms = count($rooms);
 
-                                $adultCount  = (int)($requestData['adult_count'] ?? 0);
-                                $childCount  = (int)($requestData['child_count'] ?? 0);
-                                $infantCount = (int)($requestData['infant_count'] ?? 0);
+                                $adultCount = (int) (
+                                    $hasReply
+                                        ? ($latestReply['adult_count'] ?? 0)
+                                        : ($requestData['adult_count'] ?? 0)
+                                );
+
+                                $childCount = (int) (
+                                    $hasReply
+                                        ? ($latestReply['child_count'] ?? 0)
+                                        : ($requestData['child_count'] ?? 0)
+                                );
+
+                                $infantCount = (int) (
+                                    $hasReply
+                                        ? ($latestReply['infant_count'] ?? 0)
+                                        : ($requestData['infant_count'] ?? 0)
+                                );
 
                                 $totalTravellers = $adultCount + $childCount + $infantCount;
 
@@ -3288,8 +3385,24 @@ if ($showOriginalEditable): ?>
                                         <p class="mb-1">Infant (0-1 yrs)</p>
                                     </div>
                                     <div>
-                                        <p class="mb-1 text-end" id='perAdultAmt'>&#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
-                                        <p class="mb-1 text-end" id='perChildAmt'>&#8377; <?= number_format($childDisplayPriceRD, 2) ?></p>
+                                        <p class="mb-1 text-end" id="perAdultAmt">
+                                            &#8377; <?= number_format(
+                                                (float) ($hasReply
+                                                    ? ($latestReply['adult_price'] ?? 0)
+                                                    : $adultDisplayPriceRD),
+                                                2
+                                            ) ?>
+                                        </p>
+
+                                        <p class="mb-1 text-end" id="perChildAmt">
+                                            &#8377; <?= number_format(
+                                                (float) ($hasReply
+                                                    ? ($latestReply['child_price'] ?? 0)
+                                                    : $childDisplayPriceRD),
+                                                2
+                                            ) ?>
+                                        </p>
+
                                         <p class="mb-1 text-end">FREE</p>
                                     </div>
                                 </div>
@@ -3298,14 +3411,57 @@ if ($showOriginalEditable): ?>
                                 <p class="mb-2 fw-bold blueDiv">Price Based on Travelers</p>
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <p class="mb-1">Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
-                                        <p class="mb-1">Children: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPriceRD, 2) ?></p>
-                                        <p class="mb-1">Infant: <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
+                                        <p class="mb-1">
+                                            Adult:
+                                            <span id="totalAdultCount">
+                                                <?= $adultCount ?>
+                                            </span>
+                                            x &#8377;
+                                            <?= number_format(
+                                                (float) ($hasReply ? ($latestReply['adult_price'] ?? 0) : $adultDisplayPriceRD),
+                                                2
+                                            ) ?>
+                                        </p>
+
+                                        <p class="mb-1">
+                                            Children:
+                                            <span id="totalChildrenCount">
+                                                <?= $childCount ?>
+                                            </span>
+                                            x &#8377;
+                                            <?= number_format(
+                                                (float) ($hasReply ? ($latestReply['child_price'] ?? 0) : $childDisplayPriceRD),
+                                                2
+                                            ) ?>
+                                        </p>
+
+                                        <p class="mb-1">
+                                            Infant:
+                                            <span id="totalInfantCount">
+                                                <?= $infantCount ?>
+                                            </span>
+                                            x FREE
+                                        </p>
                                         <p class="mb-1" id='extraMatress'>Extra Mattress (1 x &#8377; <?= $pricing['extra_mattress'] ?>)</p>
                                     </div>
                                     <div>
-                                        <p class="mb-1 text-end" id="adultTotal">&#8377; <?= number_format($requestData['adult_total'], 2) ?></p>
-                                        <p class="mb-1 text-end" id="childrenTotal">&#8377; <?= number_format($requestData['children_total'], 2) ?></p>
+                                        <p class="mb-1 text-end" id="adultTotal">
+                                            &#8377; <?= number_format(
+                                                (float) ($hasReply
+                                                    ? ($latestReply['adult_total'] ?? 0)
+                                                    : ($requestData['adult_total'] ?? 0)),
+                                                2
+                                            ) ?>
+                                        </p>
+
+                                        <p class="mb-1 text-end" id="childrenTotal">
+                                            &#8377; <?= number_format(
+                                                (float) ($hasReply
+                                                    ? ($latestReply['children_total'] ?? 0)
+                                                    : ($requestData['children_total'] ?? 0)),
+                                                2
+                                            ) ?>
+                                        </p>
                                         <p class="mb-1 text-end">&#8377; 0.00</p>
                                         <p class="mb-1 text-end" id="extraMatressTotal">&#8377; <?= $totalExtraMattresses * $pricing['extra_mattress'] ?></p>
                                         
@@ -3314,7 +3470,14 @@ if ($showOriginalEditable): ?>
                                 <hr class="my-1 border border-2 mx-0">
                                 <div class="d-flex justify-content-between">
                                     <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
-                                    <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">&#8377; <?= number_format($requestData['subtotal'], 2) ?></p>
+                                    <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="subTotal">
+                                        &#8377; <?= number_format(
+                                            (float) ($hasReply
+                                                ? ($latestReply['subtotal'] ?? 0)
+                                                : ($requestData['subtotal'] ?? 0)),
+                                            2
+                                        ) ?>
+                                    </p>
                                 </div>
                             </div>
                             
@@ -3323,7 +3486,15 @@ if ($showOriginalEditable): ?>
                                 <p class="fw-bold">Transport</p>
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <p class="fontSize10" id="selectedVehicleText"><?= $requestData['transport_type'] ?></p>
+                                        <p class="fontSize10" id="selectedVehicleText">
+                                            <?= htmlspecialchars(
+                                                $hasReply
+                                                    ? ($latestReply['transport_type'] ?? '')
+                                                    : ($requestData['transport_type'] ?? ''),
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ) ?>
+                                        </p>
                                         <a href="#" class="fontSize10 text-primary" id="changeVehicle">Change Vehicle</a>
                                     </div>
                                     <div>
@@ -3343,6 +3514,32 @@ if ($showOriginalEditable): ?>
                                     </span>
                                 </p>
                                 <div id="couponPassengerContainer1" class="coupon-passenger-container"></div>
+                                <div id="couponPassengerContainer0" class="available-coupons-section mt-3">
+                                    <label class="form-label fw-semibold fontSize10 mb-2">
+                                        <i class="fa-solid fa-ticket me-1"></i>
+                                        Available Coupons
+                                    </label>
+
+                                    <select
+                                        id="availableCouponsSelect"
+                                        class="form-select"
+                                        multiple
+                                        data-placeholder="Search and select coupons"
+                                    >
+                                    </select>
+
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-muted">
+                                            You can select multiple coupons.
+                                        </small>
+
+                                        <span class="fontSize10 fw-bold discountGreen"
+                                            id="availableCouponDiscount">
+                                            - ₹ 0
+                                        </span>
+                                    </div>
+
+                                </div>
                             </div>
                             <hr class="my-1 border border-2 mx-3">
                             <div class="d-flex justify-content-between px-3">
@@ -3405,6 +3602,32 @@ if ($showOriginalEditable): ?>
                                     </span>
                                 </p>
                                 <div id="couponPassengerContainer1" class="coupon-passenger-container"></div>
+                                <div id="couponPassengerContainer0" class="available-coupons-section mt-3">
+                                    <label class="form-label fw-semibold fontSize10 mb-2">
+                                        <i class="fa-solid fa-ticket me-1"></i>
+                                        Available Coupons
+                                    </label>
+
+                                    <select
+                                        id="availableCouponsSelect"
+                                        class="form-select"
+                                        multiple
+                                        data-placeholder="Search and select coupons"
+                                    >
+                                    </select>
+
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <small class="text-muted">
+                                            You can select multiple coupons.
+                                        </small>
+
+                                        <span class="fontSize10 fw-bold discountGreen"
+                                            id="availableCouponDiscount">
+                                            - ₹ 0
+                                        </span>
+                                    </div>
+
+                                </div>
                             </div>
                             
                             <!-- TOTAL -->
@@ -3446,14 +3669,37 @@ if ($showOriginalEditable): ?>
                                 <p class="fw-bold blueDiv">Adjustments</p>
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        
-                                        <p class="mb-1" id=''>GST (<?= $requestData['gst_percentage'] ?>%) </p>
-                                        <p class="mb-1">Convenience Fee </p>
+                                        <p class="mb-1">
+                                            GST (<?= htmlspecialchars(
+                                                $hasReply
+                                                    ? ($latestReply['gst_percentage'] ?? 0)
+                                                    : ($requestData['gst_percentage'] ?? 0),
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ) ?>%)
+                                        </p>
+
+                                        <p class="mb-1">Convenience Fee</p>
                                     </div>
+
                                     <div>
-                                        
-                                        <p class="mb-1 text-end" id="">&#8377; <?= $requestData['gst'] ?></p>
-                                        <p class="mb-1 text-end" id="">&#8377; <?= $requestData['convenience_fee'] ?></p>
+                                        <p class="mb-1 text-end">
+                                            &#8377; <?= number_format(
+                                                (float) ($hasReply
+                                                    ? ($latestReply['gst'] ?? 0)
+                                                    : ($requestData['gst'] ?? 0)),
+                                                2
+                                            ) ?>
+                                        </p>
+
+                                        <p class="mb-1 text-end">
+                                            &#8377; <?= number_format(
+                                                (float) ($hasReply
+                                                    ? ($latestReply['convenience_fee'] ?? 0)
+                                                    : ($requestData['convenience_fee'] ?? 0)),
+                                                2
+                                            ) ?>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -3465,7 +3711,14 @@ if ($showOriginalEditable): ?>
                                         <p class="fs-5 textDarkBlue fw-bold">Total Estimated</br> Price</p>
                                     </div>
                                     <div>
-                                        <p class="fs-5 text-danger fw-bolder text-end" id="">&#8377; <?= number_format($requestData['final_price'], 2) ?></p>
+                                        <p class="fs-5 text-danger fw-bolder text-end" id="">
+                                            &#8377; <?= number_format(
+                                                (float) ($hasReply
+                                                    ? ($latestReply['final_price'] ?? 0)
+                                                    : ($requestData['final_price'] ?? 0)),
+                                                2
+                                            ) ?>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -3586,21 +3839,40 @@ if ($showOriginalEditable): ?>
                                 <div class="tour-details-content">
                                     <div class="destination-accordion mt-2">
                                         <div class="accordion" id="accordionItinerary">
-
                                             <?php
                                                 $count = 1;
 
                                                 // Fetch itinerary days
-                                                $data4 = $conn->prepare("
-                                                    SELECT *
-                                                    FROM package_trip_days
-                                                    WHERE package_id = :package_id
-                                                ");
-                                                $data4->execute([
-                                                    ':package_id' => $id
-                                                ]);
+                                                if ($hasReply) {
 
-                                                $days = $data4->fetchAll(PDO::FETCH_ASSOC);
+                                                    $data4 = $conn->prepare("
+                                                        SELECT *
+                                                        FROM request_details_trip_days
+                                                        WHERE reply_id = :reply_id
+                                                        ORDER BY id ASC
+                                                    ");
+
+                                                    $data4->execute([
+                                                        ':reply_id' => $replyId
+                                                    ]);
+
+                                                    $days = $data4->fetchAll(PDO::FETCH_ASSOC);
+
+                                                } else {
+
+                                                    // Original code - unchanged
+                                                    $data4 = $conn->prepare("
+                                                        SELECT *
+                                                        FROM package_trip_days
+                                                        WHERE package_id = :package_id
+                                                    ");
+
+                                                    $data4->execute([
+                                                        ':package_id' => $id
+                                                    ]);
+
+                                                    $days = $data4->fetchAll(PDO::FETCH_ASSOC);
+                                                }
 
                                                 foreach ($days as $key_3 => $day):
 
@@ -3609,7 +3881,6 @@ if ($showOriginalEditable): ?>
                                                     $dayTransport = $day['day_tansport'] ?? '';
                                                     $stay = $day['stay'] ?? '';
                                             ?>
-
                                                 <div class="timeline-number">
                                                     <?= str_pad($count, 2, '0', STR_PAD_LEFT) ?>
                                                 </div>
@@ -3735,7 +4006,6 @@ if ($showOriginalEditable): ?>
                                                 $count++;
                                             endforeach;
                                             ?>
-
                                         </div>
                                     </div>
                                 </div>
@@ -3747,8 +4017,17 @@ if ($showOriginalEditable): ?>
                                 
                                 <div class="row">
                                     <?php
-                                        $inclusions = safeJsonDecode($itinery['inclusion'] ?? '');
-                                        $exclusions = safeJsonDecode($itinery['exclusion'] ?? '');
+                                        $inclusions = safeJsonDecode(
+                                            $hasReply
+                                                ? ($replyItinerary[0]['inclusion'] ?? '')
+                                                : ($itinery['inclusion'] ?? '')
+                                        );
+
+                                        $exclusions = safeJsonDecode(
+                                            $hasReply
+                                                ? ($replyItinerary[0]['exclusion'] ?? '')
+                                                : ($itinery['exclusion'] ?? '')
+                                        );
                                     ?>
                                     <!-- Inclusions -->
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
@@ -3797,33 +4076,40 @@ if ($showOriginalEditable): ?>
                         </div>
                         <div id="policies1" class="section-block">
                             <div class="card cardBackgroundColor rounded-3 p-3 cardShadow">
-
                                 <h5 class="fw-bolder mb-3 textDarkBlue">Policies</h5>
-
                                 <p class="text-muted fontSize3 mb-3">
                                     Upload brochures, itinerary PDFs or any other important documents for reference.
                                 </p>
-
                                 <div id="otherPolicyList">
                                     <?php
-                                        $newPolicyStmt = $conn->prepare("
-                                            SELECT *
-                                            FROM request_details_policy_document
-                                            WHERE request_id = :request_id
-                                            ORDER BY id ASC
-                                        ");
+                                        if ($hasReply) {
 
-                                        $newPolicyStmt->execute([
-                                            ':request_id' => $request_id
-                                        ]);
+                                            // Reply exists: use only its policy documents
+                                            $allPolicies = $replyPolicyDocuments ?? [];
 
-                                        $newPolicies = $newPolicyStmt->fetchAll(PDO::FETCH_ASSOC);
+                                        } else {
 
-                                        // Merge existing and newly added policies
-                                        $allPolicies = array_merge(
-                                            $policies ?? [],
-                                            $newPolicies ?? []
-                                        );
+                                            // No reply: original code remains unchanged
+                                            $newPolicyStmt = $conn->prepare("
+                                                SELECT *
+                                                FROM request_details_policy_document
+                                                WHERE request_id = :request_id
+                                                ORDER BY id ASC
+                                            ");
+
+                                            $newPolicyStmt->execute([
+                                                ':request_id' => $request_id
+                                            ]);
+
+                                            $newPolicies = $newPolicyStmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                            // Merge existing and newly added policies
+                                            $allPolicies = array_merge(
+                                                $policies ?? [],
+                                                $newPolicies ?? []
+                                            );
+                                        }
+
                                         $hasPolicies = false;
 
                                         foreach ($allPolicies as $doc):
@@ -3834,7 +4120,6 @@ if ($showOriginalEditable): ?>
 
                                             $hasPolicies = true;
                                     ?>
-
                                         <div class="policyItem"
                                             data-id="<?= (int)$doc['id'] ?>"
                                             data-existing="1">
@@ -3945,33 +4230,45 @@ if ($showOriginalEditable): ?>
                                         <div class="text-center mb-2">
                                             <label for="mrpPerChild" class="mb-0">Cancellation Charges</label>
                                         </div>
+                                        
+                                        <?php
+                                        $cancellationPolicy = $hasReply
+                                            ? ($replyCancellationPolicy[0] ?? [])
+                                            : ($cancel_policy ?? []);
+                                        ?>
+
                                         <div class="inputFieldAlignment">
                                             <div class="input-group inputWidth">
-                                                <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= $cancel_policy['policy_1']??0 ?>">
+                                                <input type="number" class="form-control" id="cancellationPercentage1" name="cancellationPercentage1" placeholder="0" value="<?= htmlspecialchars($cancellationPolicy['policy_1'] ?? 0) ?>">
                                                 <span class="input-group-text">%</span>
                                                 <small class="error-message" id="cancellationPercentage1_error"></small>
                                             </div>
+
                                             <div class="input-group inputWidth">
-                                                <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= $cancel_policy['policy_2']??0 ?>">
+                                                <input type="number" class="form-control" id="cancellationPercentage2" name="cancellationPercentage2" placeholder="0" value="<?= htmlspecialchars($cancellationPolicy['policy_2'] ?? 0) ?>">
                                                 <span class="input-group-text">%</span>
                                                 <small class="error-message" id="cancellationPercentage2_error"></small>
                                             </div>
+
                                             <div class="input-group inputWidth">
-                                                <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= $cancel_policy['policy_3']??0 ?>">
+                                                <input type="number" class="form-control" id="cancellationPercentage3" name="cancellationPercentage3" placeholder="0" value="<?= htmlspecialchars($cancellationPolicy['policy_3'] ?? 0) ?>">
                                                 <span class="input-group-text">%</span>
                                                 <small class="error-message" id="cancellationPercentage3_error"></small>
                                             </div>
+
                                             <div class="input-group inputWidth">
-                                                <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= $cancel_policy['policy_4']??0 ?>">
+                                                <input type="number" class="form-control" id="cancellationPercentage4" name="cancellationPercentage4" placeholder="0" value="<?= htmlspecialchars($cancellationPolicy['policy_4'] ?? 0) ?>">
                                                 <span class="input-group-text">%</span>
                                                 <small class="error-message" id="cancellationPercentage4_error"></small>
                                             </div>
+
                                             <div class="input-group inputWidth">
-                                                <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= $cancel_policy['policy_5']??0 ?>">
+                                                <input type="number" class="form-control" id="cancellationPercentage5" name="cancellationPercentage5" placeholder="0" value="<?= htmlspecialchars($cancellationPolicy['policy_5'] ?? 0) ?>">
                                                 <span class="input-group-text">%</span>
                                                 <small class="error-message" id="cancellationPercentage5_error"></small>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -3984,6 +4281,100 @@ if ($showOriginalEditable): ?>
                                         <h5 class="fw-bolder textDarkBlue">MarkUp Calculation</h5>
 
                                         <div class="borderHighlight rounded-3 p-3">
+
+                                        <?php
+                                            $markupData = [];
+
+                                            if ($hasReply) {
+
+                                                $markupStmt = $conn->prepare("
+                                                    SELECT *
+                                                    FROM request_details_markup
+                                                    WHERE request_id = :request_id
+                                                    AND reply_id = :reply_id
+                                                    ORDER BY id DESC
+                                                    LIMIT 1
+                                                ");
+
+                                                $markupStmt->execute([
+                                                    ':request_id' => $request_id,
+                                                    ':reply_id'   => $replyId
+                                                ]);
+
+                                                $markupData = $markupStmt->fetch(PDO::FETCH_ASSOC) ?: [];
+
+                                                // ==========================================
+                                                // TABLE 1: BM / SF / M / TE / F / TC
+                                                // ==========================================
+                                                $packagePricingMarkup = [
+                                                    'bm_direct_commission' => $markupData['ste_bm_mf_sf_commi'] ?? 0,
+                                                    'bm_incentive'         => $markupData['ste_bm_mf_sf_incen'] ?? 0,
+                                                    'ca_direct_commission' => $markupData['te_f_i_commi'] ?? 0,
+                                                    'ca_incentive'         => 0,
+                                                    'ta_markup'            => $markupData['tc_ibr'] ?? 0
+                                                ];
+
+                                                // ==========================================
+                                                // TABLE 2: CTE / ETE / STE / TE / F / TC
+                                                // ==========================================
+                                                $packagePricingTeChain = [
+                                                    'cte_direct_commission' => $markupData['cte_bcm_commi'] ?? 0,
+                                                    'cte_incentive'         => $markupData['cte_bcm_incen'] ?? 0,
+
+                                                    'ete_direct_commission' => $markupData['ete_bdm_commi'] ?? 0,
+                                                    'ete_incentive'         => $markupData['ete_bdm_incen'] ?? 0,
+
+                                                    'ste_direct_commission' => $markupData['ste_bm_mf_sf_commi'] ?? 0,
+                                                    'ste_incentive'         => $markupData['ste_bm_mf_sf_incen'] ?? 0,
+
+                                                    'te_direct_commission'  => $markupData['te_f_i_commi'] ?? 0,
+                                                    'te_incentive'          => 0,
+
+                                                    'ta_markup'             => $markupData['tc_ibr'] ?? 0
+                                                ];
+
+                                                // ==========================================
+                                                // TABLE 3: INSTITUTION
+                                                // ==========================================
+                                                $packagePricingInstitution = [
+                                                    'bm_direct_commission' => $markupData['ste_bm_mf_sf_commi'] ?? 0,
+                                                    'bm_incentive'         => $markupData['ste_bm_mf_sf_incen'] ?? 0,
+                                                    'ins_markup'           => $markupData['te_f_i_commi'] ?? 0
+                                                ];
+
+                                                // ==========================================
+                                                // TABLE 4: TECHNO INSTITUTION
+                                                // ==========================================
+                                                $packagePricingTechnoInstitution = [
+                                                    'cte_direct_commission' => $markupData['cte_bcm_commi'] ?? 0,
+                                                    'cte_incentive'         => $markupData['cte_bcm_incen'] ?? 0,
+
+                                                    'ete_direct_commission' => $markupData['ete_bdm_commi'] ?? 0,
+                                                    'ete_incentive'         => $markupData['ete_bdm_incen'] ?? 0,
+
+                                                    'ins_markup'            => $markupData['te_f_i_commi'] ?? 0
+                                                ];
+
+                                                // Coupon Adjustment
+                                                $packagePricing['coupon_adjustment'] =
+                                                    $markupData['coupon_adjustment'] ?? 0;
+
+                                                // Company
+                                                $packagePricingMarkup['company'] =
+                                                    $markupData['company_commission'] ?? 0;
+
+                                                // Suspense
+                                                $suspenseAmount = $markupData['suspense'] ?? 0;
+
+                                                // Customer amounts
+                                                $customerCom1 = $markupData['l1_customer'] ?? 0;
+                                                $customerCom2 = $markupData['l2_customer'] ?? 0;
+                                                $customerCom3 = $markupData['l3_customer'] ?? 0;
+                                            }
+
+                                        ?>
+
+
                                             <?php if (in_array($upperChainId, [9, 10, 11, 13, 14, 15, 17, 18, 19, 21], true)) { ?>
                                             <!-- cu->tc->te/f->bm/mf/sf -->
                                             <div class="table-responsive">
@@ -4746,7 +5137,25 @@ if ($showOriginalEditable): ?>
                                             </div>
 
                                             <hr>
+                                            <?php 
 
+                                                if ($hasReply) {
+
+                                                    // Net prices from request_details_reply
+                                                    $packagePricing['net_price_adult'] = $replyData['adult_price'] ?? 0;
+                                                    $packagePricing['net_price_child'] = $replyData['child_price'] ?? 0;
+
+                                                    // Original prices from request_details_markup
+                                                    $originalAdultPrice = (float) ($requestDetailsMarkup['original_adult_price'] ?? 0);
+                                                    $originalChildPrice = (float) ($requestDetailsMarkup['original_child_price'] ?? 0);
+
+                                                    // Price differences
+                                                    $adultDifference = (float) $packagePricing['net_price_adult'] - $originalAdultPrice;
+                                                    $childDifference = (float) $packagePricing['net_price_child'] - $originalChildPrice;
+                                                }
+
+                                            ?>
+                                            
                                             <!-- NET PRICE -->
                                             <div class="row g-3">
 
@@ -4765,8 +5174,29 @@ if ($showOriginalEditable): ?>
                                                         step="1"
                                                     >
 
-                                                    <small class="text-muted d-block" id="netPriceAdult_original"></small>
-                                                    <small class="fw-semibold d-block mt-1" id="netPriceAdult_difference"></small>
+                                                    <small class="text-muted d-block" id="netPriceAdult_original">
+                                                        <?php if ($hasReply): ?>
+                                                            Original Price: ₹ <?= number_format($originalAdultPrice, 2) ?>
+                                                        <?php endif; ?>
+                                                    </small>
+
+                                                    <small class="fw-semibold d-block mt-1" id="netPriceAdult_difference">
+                                                        <?php if ($hasReply): ?>
+                                                            <?php if ($adultDifference > 0): ?>
+                                                                <span class="text-danger">
+                                                                    <i class="fa-solid fa-arrow-up"></i>
+                                                                    Increased by ₹ <?= number_format($adultDifference, 2) ?>
+                                                                </span>
+                                                            <?php elseif ($adultDifference < 0): ?>
+                                                                <span class="text-success">
+                                                                    <i class="fa-solid fa-arrow-down"></i>
+                                                                    Decreased by ₹ <?= number_format(abs($adultDifference), 2) ?>
+                                                                </span>
+                                                            <?php else: ?>
+                                                                <span class="text-muted">No Price Change</span>
+                                                            <?php endif; ?>
+                                                        <?php endif; ?>
+                                                    </small>
 
                                                     <small class="error-message" id="netPriceAdult_error"></small>
                                                 </div>
@@ -4786,18 +5216,375 @@ if ($showOriginalEditable): ?>
                                                         step="1"
                                                     >
 
-                                                    <small class="text-muted d-block" id="netPriceChild_original"></small>
-                                                    <small class="fw-semibold d-block mt-1" id="netPriceChild_difference"></small>
+                                                    <small class="text-muted d-block" id="netPriceChild_original">
+                                                        <?php if ($hasReply): ?>
+                                                            Original Price: ₹ <?= number_format($originalChildPrice, 2) ?>
+                                                        <?php endif; ?>
+                                                    </small>
+
+                                                    <small class="fw-semibold d-block mt-1" id="netPriceChild_difference">
+                                                        <?php if ($hasReply): ?>
+                                                            <?php if ($childDifference > 0): ?>
+                                                                <span class="text-danger">
+                                                                    <i class="fa-solid fa-arrow-up"></i>
+                                                                    Increased by ₹ <?= number_format($childDifference, 2) ?>
+                                                                </span>
+                                                            <?php elseif ($childDifference < 0): ?>
+                                                                <span class="text-success">
+                                                                    <i class="fa-solid fa-arrow-down"></i>
+                                                                    Decreased by ₹ <?= number_format(abs($childDifference), 2) ?>
+                                                                </span>
+                                                            <?php else: ?>
+                                                                <span class="text-muted">No Price Change</span>
+                                                            <?php endif; ?>
+                                                        <?php endif; ?>
+                                                    </small>
 
                                                     <small class="error-message" id="netPriceChild_error"></small>
                                                 </div>
 
                                             </div>
 
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            
+                            <?php if ($hasReply) { ?>
+                            <div class="col-xl-4">
+                                <div class="card cardShadow section-block mt-4">
+                                    <div class="quick-header p-3">
+                                        <div class="d-flex gap-2">
+                                            <i class="fa-solid fa-file-contract fa-xl align-content-center quickIcon"></i>
+                                            <h5 class="fw-bold mb-0 textDarkBlue align-content-center">Revised Quotation</h5>
+                                        </div>
+                                    </div>
+                                    <?php 
+                                    // ==========================================
+                                    // FETCH REQUEST DETAILS REVISED QUOTE
+                                    // ==========================================
+
+                                    $sql = "
+                                        SELECT *
+                                        FROM request_details_revised_quote
+                                        WHERE request_id = :request_id
+                                        AND reply_id = :reply_id
+                                        LIMIT 1
+                                    ";
+
+                                    $stmt = $conn->prepare($sql);
+
+                                    $stmt->execute([
+                                        ':request_id' => $request_id,
+                                        ':reply_id' => $replyId
+                                    ]);
+
+                                    $requestDetailsRevisedQuote = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+                                    ?>
+                                        <div class="p-3 pb-0" id="CustDiscountedPriceDetails">
+                                            <?php
+                                                $customerDiscountDetails = json_decode(
+                                                    $requestDetailsRevisedQuote['cust_dis_details'] ?? '{}',
+                                                    true
+                                                );
+
+                                                if (!is_array($customerDiscountDetails)) {
+                                                    $customerDiscountDetails = [];
+                                                }
+
+                                                $discountSubtotal = $requestDetailsRevisedQuote['cust_dis_details_total'] ?? 0
+                                            ?>
+                                            <p class="mb-2 fw-bold blueDiv">
+                                                Customer Applied Discount Details
+                                            </p>
+                                            
+                                            <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                                <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                    <i class="ri-price-tag-3-line"></i>
+                                                    Discounts (Coupon)
+                                                </p>
+
+                                                <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustCouponDiscount">
+                                                    - ₹ <?= number_format((float)$requestData['coupon_discount'], 2) ?>
+                                                </p>
+                                            </div>
+
+                                            <?php if ((float)$requestData['referral_wallet_amount'] != 0) { ?>
+                                                <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                                    <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                        <i class="ri-wallet-3-line"></i>
+                                                        Reference Wallet
+                                                    </p>
+
+                                                    <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustReferenceWallet">
+                                                        - ₹ <?= number_format((float)$requestData['referral_wallet_amount'], 2) ?>
+                                                    </p>
+                                                </div>
+                                            <?php } ?>
+
+                                            <?php if ((float)$requestData['discount_wallet_amount'] != 0) { ?>
+                                                <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                                    <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                        <i class="ri-wallet-3-line"></i>
+                                                        Discount Wallet
+                                                    </p>
+
+                                                    <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustDiscountWallet">
+                                                        - ₹ <?= number_format((float)$requestData['discount_wallet_amount'], 2) ?>
+                                                    </p>
+                                                </div>
+                                            <?php } ?>
+                                        <hr class="my-1 border border-2 mx-0">
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
+                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="CustDiscountedPriceSubTotal">
+                                                &#8377; <?= number_format($discountSubtotal,2) ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <?php
+                                        $discountedPriceDetails = json_decode(
+                                            $requestDetailsRevisedQuote['dis_details'] ?? '{}',
+                                            true
+                                        );
+
+                                        if (!is_array($discountedPriceDetails)) {
+                                            $discountedPriceDetails = [];
+                                        }
+
+                                        $discountedRows = $discountedPriceDetails['details'] ?? [];
+
+                                        if (!is_array($discountedRows)) {
+                                            $discountedRows = [];
+                                        }
+
+                                        $discountedSubtotal = (float) (
+                                            $requestDetailsRevisedQuote['dis_details_total']
+                                            ?? $discountedPriceDetails['subtotal']
+                                            ?? 0
+                                        );
+                                    ?>
+                                    
+
+                                    <!-- Discounted Price Details -->
+                                    <div class="p-3 pb-0" id="discountedPriceDetails">
+
+                                    <p class="mb-2 fw-bold blueDiv">
+                                        Discounted Price Details
+                                    </p>
+
+                                    <div id="discountedAdjustmentRows" class="d-flex flex-column">
+
+                                        <?php foreach ($discountedRows as $discount): ?>
+
+                                            <?php
+                                            $title = $discount['title'] ?? 'Discount';
+                                            $amount = (float) ($discount['amount'] ?? 0);
+
+                                            if ($amount == 0) {
+                                                continue;
+                                            }
+                                            ?>
+
+                                            <div class="d-flex justify-content-between align-items-center w-100 mb-1">
+
+                                                <p class="mb-0 text-success">
+                                                    <?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>
+                                                </p>
+
+                                                <p class="mb-0 text-end text-success">
+                                                    - ₹ <?= number_format($amount, 2) ?>
+                                                </p>
+
+                                            </div>
+
+                                        <?php endforeach; ?>
+
+                                    </div>
+
+                                    <hr class="my-1 border border-2 mx-0">
+
+                                    <div class="d-flex justify-content-between">
+
+                                        <p class="fw-bold fs-5 textDarkBlue mb-0">
+                                            Subtotal
+                                        </p>
+
+                                        <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="discountedSubTotal">
+                                            ₹ <?= number_format($discountedSubtotal, 2) ?>
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                                    <?php
+                                        $additionalPriceDetails = json_decode(
+                                            $requestDetailsRevisedQuote['additional_details'] ?? '{}',
+                                            true
+                                        );
+
+                                        if (!is_array($additionalPriceDetails)) {
+                                            $additionalPriceDetails = [];
+                                        }
+
+                                        $additionalRows = $additionalPriceDetails['details'] ?? [];
+
+                                        if (!is_array($additionalRows)) {
+                                            $additionalRows = [];
+                                        }
+
+                                        $additionalSubtotal = (float) (
+                                            $requestDetailsRevisedQuote['additional_details_total']
+                                            ?? $additionalPriceDetails['subtotal']
+                                            ?? 0
+                                        );
+                                    ?>
+
+                                    <!-- Additional Price Details -->
+                                    <div class="p-3 pb-0" id="additionalPriceDetails">
+
+                                        <p class="mb-2 fw-bold blueDiv">
+                                            Additional Price Details
+                                        </p>
+
+                                        <div id="additionalAdjustmentRows" class="d-flex flex-column">
+
+                                            <?php foreach ($additionalRows as $additional) {
+
+                                                $title = $additional['title'] ?? 'Additional Amount';
+                                                $amount = (float) ($additional['amount'] ?? 0);
+
+                                                if ($amount == 0) {
+                                                    continue;
+                                                }
+                                            ?>
+
+                                                <div class="d-flex justify-content-between align-items-center w-100 mb-1">
+
+                                                    <p class="mb-0 text-danger">
+                                                        <?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>
+                                                    </p>
+
+                                                    <p class="mb-0 text-end text-danger">
+                                                        + ₹ <?= number_format($amount, 2) ?>
+                                                    </p>
+
+                                                </div>
+
+                                            <?php } ?>
+
+                                        </div>
+
+                                        <hr class="my-1 border border-2 mx-0">
+
+                                        <div class="d-flex justify-content-between">
+
+                                            <p class="fw-bold fs-5 textDarkBlue mb-0">
+                                                Subtotal
+                                            </p>
+
+                                            <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="additionalSubTotal">
+                                                ₹ <?= number_format($additionalSubtotal, 2) ?>
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                    <hr class="my-2 border border-2 mx-3">
+                                    <?php
+                                        $netPriceAdjustment = json_decode(
+                                            $requestDetailsRevisedQuote['final_quot_adjus'] ?? '{}',
+                                            true
+                                        );
+
+                                        if (!is_array($netPriceAdjustment)) {
+                                            $netPriceAdjustment = [];
+                                        }
+
+                                        $adjustmentLabel = $netPriceAdjustment['label'] ?? 'No Price Adjustment';
+                                        $adjustmentAmount = (float) ($netPriceAdjustment['amount'] ?? 0);
+                                    ?>
+                                    <div class="p-3" id="finalQuotedPriceDetails">
+                                        <p class="fw-bold blueDiv">Final Quoted Price</p>
+
+                                        <div class="d-flex justify-content-between">
+
+                                            <div>
+                                                <p class="mb-1" id="netPriceAdjustmentLabel">
+                                                    <?= htmlspecialchars($adjustmentLabel, ENT_QUOTES, 'UTF-8') ?>
+                                                </p>
+
+                                                <p class="mb-1">Final Quoted Price</p>
+                                            </div>
+
+                                            <div>
+                                                <p class="mb-1 text-end fw-bold" id="netPriceAdjustment">
+                                                    ₹ <?= number_format($adjustmentAmount, 2) ?>
+                                                </p>
+
+                                                <p class="mb-1 text-end fw-bold" id="finalQuotedPrice">
+                                                    ₹ <?= number_format(
+                                                        (float) ($requestDetailsRevisedQuote['final_quot_price'] ?? 0),
+                                                        2
+                                                    ) ?>
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3">
+                                        <p class="fw-bold blueDiv">Adjustments</p>
+
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="mb-1" id="quoteGst">GST (<?= $requestDetailsRevisedQuote['gst_percentage'] ?>%)</p>
+                                                <p class="mb-1">Convenience Fee</p>
+                                            </div>
+
+                                            <div>
+                                                
+                                                <p class="mb-1 text-end" id="quoteGstAmount">
+                                                    &#8377; <?= number_format((float)$replyData['gst'], 2) ?>
+                                                </p>
+                                                <p class="mb-1 text-end" id="quoteConvenienceFee">
+                                                    &#8377; <?= number_format((float)$requestDetailsRevisedQuote['convenience_fee'], 2) ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-1 border border-2 mx-3">
+
+                                    <div class="p-3 pb-0">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fs-5 textDarkBlue fw-bold">Total Estimated</br> Price</p>
+                                            </div>
+
+                                            <div>
+                                                <p class="fs-5 text-danger fw-bolder text-end" id="estimatedFinalPackagePrice">
+                                                    &#8377; <?= number_format((float)$requestDetailsRevisedQuote['total_estimated_price'], 2) ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 pb-2">
+                                        <div class="d-flex justify-content-center">
+                                            <button type="submit" name="submit_quote" id="submitQuoteBtn"
+                                                class="btn btn-primary px-4">
+                                                <i class="fa-solid fa-paper-plane me-2"></i>
+                                                Submit Quote
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php } else { ?>
                             <div class="col-xl-4">
                                 <div class="card cardShadow section-block mt-4">
                                     <div class="quick-header p-3">
@@ -4808,6 +5595,7 @@ if ($showOriginalEditable): ?>
                                     </div>
                                     <div class="p-3 pb-0" id="CustDiscountedPriceDetails">
                                         <p class="mb-2 fw-bold blueDiv">Customer Applied Discount Details</p>
+                                        
                                         <div class="d-flex justify-content-between align-items-center px-3 pb-2">
                                             <p class="fontSize10 discountGreen fw-bold mb-0">
                                                 <i class="ri-price-tag-3-line"></i>
@@ -4947,6 +5735,8 @@ if ($showOriginalEditable): ?>
                                     </div>
                                 </div>
                             </div>
+                            
+                            <?php } ?>
                         </div>
                         
                     </div>
@@ -4957,4 +5747,3 @@ if ($showOriginalEditable): ?>
     </div>
 
 <?php endif; ?>
-
