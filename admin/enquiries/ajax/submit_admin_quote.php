@@ -10,6 +10,7 @@
 
     $uploadedFiles = [];
     $transactionStarted = false;
+    $$databaseCommitted = false;
 
     try {
 
@@ -1060,59 +1061,69 @@
         }
 
         
+        
         // ==========================================
         // 15. COMMIT TRANSACTION
         // ==========================================
 
-        if ($transactionStarted && $conn->inTransaction()) {
+        if ($conn->inTransaction()) {
 
             $conn->commit();
+
             $transactionStarted = false;
+            $databaseCommitted = true;
+        }
 
-            // ==========================================
-            // 16. UPDATE request_details STATUS TO 3
-            // RUN ONLY AFTER SUCCESSFUL COMMIT
-            // ==========================================
+        // ==========================================
+        // 16. UPDATE request_details STATUS TO 3
+        // EXECUTE ONLY AFTER COMMIT
+        // ==========================================
 
-            $sql = "
-                UPDATE request_details
-                SET
-                    status = 3,
-                    updated_on = CURRENT_TIMESTAMP
+        $sql = "
+            UPDATE request_details
+            SET
+                status = 3,
+                updated_on = CURRENT_TIMESTAMP
+            WHERE request_id = :request_id
+        ";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->execute([
+            ':request_id' => $requestId
+        ]);
+
+        // ==========================================
+        // VERIFY STATUS UPDATE
+        // ==========================================
+
+        if ($stmt->rowCount() === 0) {
+
+            $checkSql = "
+                SELECT status
+                FROM request_details
                 WHERE request_id = :request_id
+                LIMIT 1
             ";
 
-            $stmt = $conn->prepare($sql);
+            $checkStmt = $conn->prepare($checkSql);
 
-            $stmt->execute([
+            $checkStmt->execute([
                 ':request_id' => $requestId
             ]);
 
-            if ($stmt->rowCount() === 0) {
+            $existingRequest = $checkStmt->fetch(PDO::FETCH_ASSOC);
 
-                // Check whether the request exists but already has status 3
-                $checkSql = "
-                    SELECT status
-                    FROM request_details
-                    WHERE request_id = :request_id
-                    LIMIT 1
-                ";
+            if (!$existingRequest) {
+                throw new Exception(
+                    'Request details record not found.'
+                );
+            }
 
-                $checkStmt = $conn->prepare($checkSql);
-
-                $checkStmt->execute([
-                    ':request_id' => $requestId
-                ]);
-
-                $existingRequest = $checkStmt->fetch(PDO::FETCH_ASSOC);
-
-                if (!$existingRequest) {
-                    throw new Exception('Request details record not found.');
-                }
-
-                if ((int) $existingRequest['status'] !== 3) {
-                    throw new Exception('Unable to update request status.');
-                }
+            if ((int) $existingRequest['status'] !== 3) {
+                throw new Exception(
+                    'Unable to update request status.'
+                );
             }
         }
 
@@ -1133,29 +1144,36 @@
 
     } catch (Throwable $e) {
 
+        
         // ==========================================
-        // 17. COMMIT TRANSACTION
+        // 1. ROLLBACK TRANSACTION IF NOT COMMITTED
         // ==========================================
 
-        if ($transactionStarted && $conn->inTransaction()) {
-            $conn->commit();
-            $transactionStarted = false;
+        if ($conn->inTransaction()) {
+            $conn->rollBack();
         }
+
+        $transactionStarted = false;
+
         // ==========================================
-        // 2. DELETE UPLOADED FILES
+        // 2. DELETE UPLOADED FILES ONLY IF NOT COMMITTED
         // ==========================================
 
-        foreach ($uploadedFiles as $filePath) {
+        if (!$databaseCommitted) {
 
-            if (is_file($filePath)) {
+            foreach ($uploadedFiles as $filePath) {
 
-                if (!unlink($filePath)) {
-                    error_log(
-                        'Unable to delete uploaded file: ' . $filePath
-                    );
+                if (is_file($filePath)) {
+
+                    if (!unlink($filePath)) {
+                        error_log(
+                            'Unable to delete uploaded file: ' . $filePath
+                        );
+                    }
                 }
             }
         }
+
 
         // ==========================================
         // 3. LOG ACTUAL ERROR
