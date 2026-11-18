@@ -2361,6 +2361,147 @@
                                         </div>
                                     </div>
                                 </div>
+                                <?php
+                                    $customerResponseStatus = $customerResponseStatus ?? 'change_requesteed';
+
+                                    $responseConfig = [
+                                        'approved' => [
+                                            'label' => 'Approved',
+                                            'icon' => 'ri-checkbox-circle-fill',
+                                            'class' => 'response-approved',
+                                            'message' => 'The customer has approved the quotation.'
+                                        ],
+                                        'rejected' => [
+                                            'label' => 'Rejected',
+                                            'icon' => 'ri-close-circle-fill',
+                                            'class' => 'response-rejected',
+                                            'message' => 'The customer has rejected the quotation.'
+                                        ],
+                                        'change_request' => [
+                                            'label' => 'Change Requested',
+                                            'icon' => 'ri-edit-circle-fill',
+                                            'class' => 'response-change-request',
+                                            'message' => 'The customer has requested changes to the quotation.'
+                                        ]
+                                    ];
+
+                                    $response = $responseConfig[$customerResponseStatus] ?? $responseConfig['change_request'];
+                                ?>
+
+                                <div id="customerRply" class="section-block mt-4">
+
+                                    <div class="card cardBackgroundColor rounded-3 p-3 p-md-4 cardShadow mb-0">
+
+                                        <!-- Header -->
+                                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="customerReplyIcon">
+                                                    <i class="ri-chat-3-line"></i>
+                                                </div>
+
+                                                <div>
+                                                    <h5 class="fw-bolder textDarkBlue mb-0">
+                                                        Customer Response
+                                                    </h5>
+
+                                                    <small class="text-muted">
+                                                        Customer feedback on quotation
+                                                    </small>
+                                                </div>
+                                            </div>
+
+                                            <!-- Response Status -->
+                                            <span class="customerResponseBadge <?= $response['class'] ?>">
+                                                <i class="<?= $response['icon'] ?>"></i>
+                                                <?= htmlspecialchars($response['label']) ?>
+                                            </span>
+
+                                        </div>
+
+                                        <!-- Response Details -->
+                                        <div class="customerResponseMessage <?= $response['class'] ?> mb-3">
+
+                                            <div class="d-flex align-items-start gap-2">
+
+                                                <i class="<?= $response['icon'] ?> customerResponseStatusIcon"></i>
+
+                                                <div>
+                                                    <p class="fw-bold fontSize12 mb-1">
+                                                        <?= htmlspecialchars($response['message']) ?>
+                                                    </p>
+
+                                                    <p class="fontSize10 text-muted mb-0">
+                                                        Review the customer's response and take the appropriate action.
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Customer Comment -->
+                                        <div class="customerCommentBox mb-3">
+
+                                            <p class="fontSize10 fw-bold textDarkBlue mb-2">
+                                                <i class="ri-message-2-line me-1"></i>
+                                                Customer Remarks
+                                            </p>
+
+                                            <p class="fontSize11 text-secondary mb-0">
+                                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                Itaque quam, rem asperiores officiis aperiam assumenda
+                                                id vel dolorum error illum tenetur adipisci incidunt?
+                                            </p>
+
+                                        </div>
+
+                                        <!-- Admin Actions -->
+                                        <div class="d-flex justify-content-end flex-wrap gap-2">
+
+                                            <?php if ($customerResponseStatus === 'approved') { ?>
+
+                                                <button type="button" class="btn btn-outline-secondary btn-sm adminResponseBtn">
+                                                    <i class="ri-file-list-3-line me-1"></i>
+                                                    View Quotation
+                                                </button>
+
+                                                <button type="button" class="btn btn-success btn-sm adminResponseBtn">
+                                                    <i class="ri-check-double-line me-1"></i>
+                                                    Proceed Booking
+                                                </button>
+
+                                            <?php } elseif ($customerResponseStatus === 'rejected') { ?>
+
+                                                <button type="button" class="btn btn-outline-secondary btn-sm adminResponseBtn">
+                                                    <i class="ri-file-list-3-line me-1"></i>
+                                                    View Quotation
+                                                </button>
+
+                                                <button type="button" class="btn btn-danger btn-sm adminResponseBtn">
+                                                    <i class="ri-close-circle-line me-1"></i>
+                                                    Close Request
+                                                </button>
+
+                                            <?php } else { ?>
+
+                                                <button type="button" class="btn btn-outline-secondary btn-sm adminResponseBtn">
+                                                    <i class="ri-eye-line me-1"></i>
+                                                    View Details
+                                                </button>
+
+                                                <button type="button" class="btn btn-warning btn-sm adminResponseBtn">
+                                                    <i class="ri-edit-2-line me-1"></i>
+                                                    Review Changes
+                                                </button>
+
+                                            <?php } ?>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
                             </div>
                             <div class="col-xl-4">
                                 <div class="card cardShadow section-block mt-4">
