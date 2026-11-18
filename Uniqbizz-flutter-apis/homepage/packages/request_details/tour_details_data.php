@@ -446,8 +446,8 @@ try {
     $showGuestPrice = !empty($userType)
         && !in_array((int)$userType, [1, 17, 15]);
 
-    $adultPrice = (float)$pricing['net_price_adult_with_GST'];
-    $childPrice = (float)$pricing['net_price_child_with_GST'];
+    $adultPrice = (float)$pricing['total_package_price_per_adult'];
+    $childPrice = (float)$pricing['total_package_price_per_child'];
 
     $adultDisplayPrice = $adultPrice;
     $childDisplayPrice = $childPrice;

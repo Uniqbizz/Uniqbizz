@@ -251,7 +251,7 @@ try {
 
     // Your business rule:
     // 5 calendar days = 4 Nights / 3 Days
-    $days = max(0, $calendarDays);
+    $days = max(0, $calendarDays - 2);
 
     $noOfNightsDays =$nights . " Nights / " . $days . " Days";
     // =====================================================
@@ -319,6 +319,11 @@ try {
     $discountWallet = (float)($data['discount_wallet_amount'] ?? 0);
     $finalPrice =(float)($data['final_package_price'] ?? 0);
     // =====================================================
+    // GROSS PRICE
+    // Before coupon discount
+    // =====================================================
+    $grossPrice =$subtotal +$convenienceFee +$gst;
+    // =====================================================
     // JSON DATA
     // =====================================================
     $couponsJson =
@@ -370,6 +375,8 @@ try {
             gst,
             coupons_applied_count,
             coupon_discount,
+            base_price,
+            gross_price,
             final_price,
             coupons,
             rooms,
@@ -416,6 +423,8 @@ try {
             :gst,
             :coupon_applied_count,
             :coupon_discount,
+            :base_price,
+            :gross_price,
             :final_price,
             :coupons,
             :rooms,
@@ -509,6 +518,8 @@ try {
         // -------------------------------------------------
         // FINAL PRICING
         // -------------------------------------------------
+        'base_price'  => $subtotal,
+        'gross_price' => $grossPrice,
         'final_price' => $finalPrice,
         // -------------------------------------------------
         // JSON
