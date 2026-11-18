@@ -1007,6 +1007,7 @@ $cuCoupons = [];
 $loyaltyCoupons = [];
 $referralBalance = 0;
 $discountBalance = 0;
+$extendedBalance = 0;
 
 if (
     $prefix === 'CU' &&
@@ -1062,6 +1063,18 @@ if (
         $discountWallet = $stmt4->fetch(PDO::FETCH_ASSOC);
 
         $discountBalance = (float)($discountWallet['balance'] ?? 0);
+        $stmt5 = $conn->prepare("
+            SELECT balance
+            FROM customer_extended_wallet_utilization
+            WHERE customer_id = :user_id
+            ORDER BY id DESC
+            LIMIT 1
+        ");
+
+        $stmt4->execute([':user_id' => $user_id]);
+        $extendedWallet = $stmt4->fetch(PDO::FETCH_ASSOC);
+
+        $extendedBalance = (float)($extendedWallet['balance'] ?? 0);
     }
     else if (strcasecmp($Requester_type , 'Neo Select') !== 0) { // noe neo select
 

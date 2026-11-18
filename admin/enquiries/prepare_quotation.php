@@ -2026,10 +2026,30 @@
         </script>
         <script type="text/javascript" src="../assets/js/requestDetails.js"></script>
         <script>
-            const savedCoupons = <?= json_encode(
-                json_decode($requestData['coupons'] ?? '[]', true) ?: [],
-                JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
-            ) ?>;
+            const savedCoupons = [
+                ...(
+                    <?= json_encode(
+                        json_decode($requestData['coupons'] ?? '[]', true) ?: [],
+                        JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+                    ) ?>
+                ),
+                ...(
+                    <?= json_encode(
+                        json_decode(
+                            ($hasReply
+                                ? ($latestReply['admin_coupons'] ?? '[]')
+                                : ($requestData['admin_coupons'] ?? '[]')
+                            ),
+                            true
+                        ) ?: [],
+                        JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+                    ) ?>
+                ).map(coupon => ({
+                    code: coupon.code,
+                    amount: coupon.amount,
+                    passenger: ''
+                }))
+            ];
 
             const availableCuCoupons = <?= json_encode(
                 $cuCoupons,
@@ -2294,7 +2314,7 @@
                             return;
                         }
 
-                        const passenger = String(coupon.passenger || '');
+                        const passenger = String(coupon.passenger || 'Coupon');
                         const amount = Number(coupon.amount) || 0;
 
                         const $row = $(`
@@ -2347,7 +2367,7 @@
 
                 if ($availableSelect.length) {
 
-                    const previouslySelected = $availableSelect.val() || [];
+                    const previouslySelected = [].concat($availableSelect.val() || []);
 
                     $availableSelect.empty();
 
@@ -2507,7 +2527,7 @@
                         }
                     }
 
-                    updateAvailableCouponDiscount();
+                    // updateAvailableCouponDiscount();
                 }
 
 
@@ -2515,7 +2535,11 @@
                 // UPDATE COMBINED TOTAL
                 // ==========================================
 
+                updateAvailableCouponDiscount();
+
                 updateTotalCouponDiscountApplied(1);
+
+                updateCustomerDiscountedSubtotal();
             }
 
 
@@ -2539,7 +2563,99 @@
 
                 return total;
             }
+            // ==========================================
+            // GET NUMERIC AMOUNT
+            // ==========================================
 
+            function getNumericAmount(selector) {
+
+                const $element = $(selector);
+
+                if (!$element.length) {
+                    return 0;
+                }
+
+                const value = $element.is('input, select, textarea')
+                    ? $element.val()
+                    : $element.text();
+
+                return Math.abs(
+                    parseFloat(String(value || '0').replace(/[^0-9.-]/g, ''))
+                ) || 0;
+            }
+
+
+            // ==========================================
+            // UPDATE CUSTOMER DISCOUNT DETAILS
+            // ==========================================
+
+            function updateCustomerDiscountedSubtotal() {
+
+                // ==========================================
+                // 1. GET TOTAL COUPON DISCOUNT
+                // Saved coupons + newly selected coupons
+                // ==========================================
+
+                const couponDetails = updateTotalCouponDiscountApplied(1);
+
+                const couponDiscount = couponDetails
+                    ? Number(couponDetails.totalCouponDiscount) || 0
+                    : 0;
+
+
+                // ==========================================
+                // 2. GET REFERENCE WALLET
+                // ==========================================
+
+                const referenceWallet = getNumericAmount(
+                    '#CustReferenceWallet'
+                );
+
+
+                // ==========================================
+                // 3. GET DISCOUNT WALLET
+                // ==========================================
+
+                const discountWallet = getNumericAmount(
+                    '#CustDiscountWallet'
+                );
+
+
+                // ==========================================
+                // 4. UPDATE INDIVIDUAL DISCOUNT DETAILS
+                // ==========================================
+
+                $('#CustCouponDiscount').text(
+                    '- ₹ ' + couponDiscount.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+
+                // ==========================================
+                // 5. CALCULATE CUSTOMER DISCOUNT SUBTOTAL
+                // ==========================================
+
+                const totalCustomerDiscount =
+                    couponDiscount +
+                    referenceWallet +
+                    discountWallet;
+
+
+                // ==========================================
+                // 6. UPDATE SUBTOTAL DISPLAY
+                // ==========================================
+
+                $('#CustDiscountedPriceSubTotal').text(
+                    '₹ ' + totalCustomerDiscount.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+                return totalCustomerDiscount;
+            }
 
 
             
@@ -2556,8 +2672,96 @@
                 updateCustomerDiscountedSubtotal();
 
                 renderPricingChanges();
-            });
 
+            });
+            // ==========================================
+            // SAVED COUPON SELECTION / DESELECTION EVENT
+            // ==========================================
+
+            // ==========================================
+            // COUPON SELECTION / DESELECTION EVENTS
+            // ==========================================
+
+            $(document).on(
+                'change',
+                '#couponPassengerContainer1 .saved-coupon-display .coupon-select, #availableCouponsSelect',
+                function () {
+
+                    // Update individual saved coupon display, if applicable.
+                    if ($(this).closest('.saved-coupon-display').length) {
+
+                        const $row = $(this).closest('.coupon-passenger-row');
+
+                        const amount = Number(
+                            $(this).find('option:selected').attr('data-amount')
+                        ) || 0;
+
+                        $row.find('.coupon-discount').text(
+                            '- ₹ ' + amount.toLocaleString('en-IN')
+                        );
+                    }
+
+                    // Update available coupon total.
+                    updateAvailableCouponDiscount();
+
+                    // Update combined coupon total.
+                    updateTotalCouponDiscountApplied(1);
+
+                    // Update complete customer discount section.
+                    updateCustomerDiscountedSubtotal();
+
+                    // Update quotation calculations.
+                    if (typeof renderPricingChanges === 'function') {
+                        renderPricingChanges();
+                    }
+                }
+            );
+            // ==========================================
+            // WATCH CUSTOMER WALLET AMOUNT CHANGES
+            // ==========================================
+
+            function watchCustomerWalletChanges() {
+
+                const walletElements = document.querySelectorAll(
+                    '#CustReferenceWallet, #CustDiscountWallet','#CustExtendedtWallet'
+                );
+
+                if (!walletElements.length) {
+                    return;
+                }
+
+                const observer = new MutationObserver(function () {
+
+                    updateCustomerDiscountedSubtotal();
+
+                    if (typeof renderPricingChanges === 'function') {
+                        renderPricingChanges();
+                    }
+
+                });
+
+                walletElements.forEach(function (element) {
+
+                    observer.observe(element, {
+                        childList: true,
+                        characterData: true,
+                        subtree: true
+                    });
+
+                });
+            }
+            $(document).on(
+                'input change',
+                '#appliedReferralWallet, #appliedDiscountWallet','#appliedExtendedWallet',
+                function () {
+
+                    updateCustomerDiscountedSubtotal();
+
+                    if (typeof renderPricingChanges === 'function') {
+                        renderPricingChanges();
+                    }
+                }
+            );
             // ==========================================
             // UPDATE TOTAL COUPON DISCOUNT APPLIED
             // ==========================================
@@ -2565,13 +2769,19 @@
             function updateTotalCouponDiscountApplied(index) {
 
                 if (String(index) !== '1') {
-                    return;
+                    return {
+                        totalCouponDiscount: 0,
+                        totalCoupons: 0
+                    };
                 }
 
                 const $container = $('#couponPassengerContainer1');
 
                 if (!$container.length) {
-                    return;
+                    return {
+                        totalCouponDiscount: 0,
+                        totalCoupons: 0
+                    };
                 }
 
                 let totalCouponDiscount = 0;
@@ -2581,10 +2791,14 @@
                 // 1. SAVED COUPONS
                 // ==========================================
 
-                $container.find('.saved-coupon-display .coupon-passenger-row').each(function () {
+                $container.find(
+                    '.saved-coupon-display .coupon-passenger-row'
+                ).each(function () {
 
                     const amount = Number(
-                        $(this).find('.coupon-select option:selected').attr('data-amount')
+                        $(this)
+                            .find('.coupon-select option:selected')
+                            .attr('data-amount')
                     ) || 0;
 
                     if (amount > 0) {
@@ -2602,13 +2816,15 @@
 
                     const amount = Number($(this).attr('data-amount')) || 0;
 
-                    totalCouponDiscount += amount;
-                    totalCoupons++;
+                    if (amount > 0) {
+                        totalCouponDiscount += amount;
+                        totalCoupons++;
+                    }
                 });
 
 
                 // ==========================================
-                // 3. UPDATE TOTAL
+                // 3. UPDATE DISPLAY
                 // ==========================================
 
                 $('#totalCouponDiscount1').text(
@@ -3356,7 +3572,7 @@
 
                     // Update final quoted price
                     $('#finalQuotedPrice').text(formatAmount(finalPrice));
-
+                    
                     // -------------------------------------------------
                     // F. UPDATE TOTAL ESTIMATED PRICE
                     // -------------------------------------------------
@@ -3528,6 +3744,9 @@
                         couponDiscount + referenceWallet + discountWallet;
 
                     $('#CustDiscountedPriceSubTotal').text(
+                        formatAmount(totalCustomerDiscount)
+                    );
+                    $('#CustCouponDiscount').text(
                         formatAmount(totalCustomerDiscount)
                     );
 
@@ -3726,11 +3945,15 @@
 
                         let couponWalletDetails = {
                             coupons: [],
+                            admin_coupons: [],
                             total_coupon_discount: '',
+                            admin_coupon_total: '',
                             referral_wallet_balance: '',
                             applied_referral_wallet: '',
                             discount_wallet_balance: '',
-                            applied_discount_wallet: ''
+                            applied_discount_wallet: '',
+                            extended_wallet_balance: '',
+                            applied_extended_wallet: ''
                         };
 
                         <?php
@@ -3745,8 +3968,47 @@
                         ], true)) {
                         ?>
 
-                        couponWalletDetails.coupons = savedCoupons;
+                        $('#couponPassengerContainer1 .saved-coupon-display .coupon-passenger-row').each(function () {
 
+                            const $row = $(this);
+                            const $selected = $row.find('.coupon-select option:selected');
+
+                            const code = $selected.val();
+                            const amount = Number($selected.attr('data-amount')) || 0;
+                            const passenger = $row.attr('data-passenger') || '';
+
+                            if (code && amount > 0) {
+
+                                couponWalletDetails.coupons.push({
+                                    code: code,
+                                    amount: amount,
+                                    passenger: passenger
+                                });
+                            }
+                        });
+                        $('#availableCouponsSelect option:selected').each(function () {
+
+                            const $option = $(this);
+
+                            const code = $option.attr('data-code');
+                            const amount = Number($option.attr('data-amount')) || 0;
+                            const type = $option.attr('data-type');
+                            const couponId = $option.attr('data-id');
+
+                            if (code && amount > 0) {
+
+                                couponWalletDetails.admin_coupons.push({
+                                    id: couponId,
+                                    code: code,
+                                    amount: amount,
+                                    type: type
+                                });
+                            }
+                        });
+                        couponWalletDetails.admin_coupon_total = couponWalletDetails.admin_coupons.reduce(
+                            (total, coupon) => total + (Number(coupon.amount) || 0),
+                            0
+                        );
                         couponWalletDetails.total_coupon_discount = Math.abs(getAmount('#totalCouponDiscount1'));
                         couponWalletDetails.referral_wallet_balance = getAmount('#referralWalletBalance');
                         couponWalletDetails.applied_referral_wallet = getAmount('#appliedReferralWallet');
@@ -3755,6 +4017,8 @@
 
                         couponWalletDetails.discount_wallet_balance = getAmount('#discountWalletBalance');
                         couponWalletDetails.applied_discount_wallet = getAmount('#appliedDiscountWallet');
+                        couponWalletDetails.extended_wallet_balance = getAmount('#extendedWalletBalance');
+                        couponWalletDetails.applied_extended_wallet = getAmount('#appliedExtendedWallet');
 
                         <?php } ?>
 

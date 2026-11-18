@@ -963,6 +963,13 @@ function updateFinalPackagePrice() {
     const discountWallet =
         getAmount("#appliedDiscountWallet") || 0;
 
+    // =====================================================
+    // APPLIED EXTENEDED WALLET
+    // =====================================================
+
+    const extendedWallet =
+        getAmount("#appliedExtendedWallet") || 0;
+
 
     // =====================================================
     // TOTAL WALLET DEDUCTION
@@ -970,7 +977,8 @@ function updateFinalPackagePrice() {
 
     const totalWalletDeduction =
         referralWallet +
-        discountWallet;
+        discountWallet +
+        extendedWallet;
 
     
     
@@ -2020,6 +2028,10 @@ $(document).ready(function () {
     setupWalletInput(
         'discountWalletBalance',
         'appliedDiscountWallet'
+    );
+    setupWalletInput(
+        'extendedWalletBalance',
+        'appliedExtendedWallet'
     );
 
     // =====================================================

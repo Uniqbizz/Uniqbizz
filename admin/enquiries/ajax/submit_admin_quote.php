@@ -116,6 +116,7 @@
 
         $rooms = $tripRequest['rooms'] ?? [];
         $coupons = $couponWalletDetails['coupons'] ?? [];
+        $admin_coupons = $couponWalletDetails['admin_coupons'] ?? [];
 
         if (!is_array($rooms)) {
             $rooms = [];
@@ -210,7 +211,9 @@
                 special_requirement,
                 coupons_applied_count,
                 coupon_discount,
+                admin_coupon_total,
                 coupons,
+                admin_coupons,
                 rooms,
                 gst,
                 gst_percentage,
@@ -224,7 +227,8 @@
                 updated_on,
                 status,
                 discount_wallet_amount,
-                referral_wallet_amount
+                referral_wallet_amount,
+                extended_wallet_amount
             )
             VALUES
             (
@@ -255,7 +259,9 @@
                 :special_requirement,
                 :coupons_applied_count,
                 :coupon_discount,
+                :admin_coupon_total,
                 :coupons,
+                :admin_coupons,
                 :rooms,
                 :gst,
                 :gst_percentage,
@@ -269,7 +275,8 @@
                 NULL,
                 :status,
                 :discount_wallet_amount,
-                :referral_wallet_amount
+                :referral_wallet_amount,
+                :extended_wallet_amount
             )
         ";
 
@@ -312,10 +319,12 @@
             ':transport_preference' => $customerPreferences['transport'] ?? '',
             ':special_requirement' => $customerPreferences['special_requirement'] ?? '',
 
-            ':coupons_applied_count' => count($coupons),
+            ':coupons_applied_count' => count($coupons) + count($admin_coupons),
             ':coupon_discount' => $couponWalletDetails['total_coupon_discount'] ?? 0,
+            ':admin_coupon_total' => $couponWalletDetails['admin_coupon_total'] ?? 0,
 
             ':coupons' => json_encode($coupons, JSON_UNESCAPED_UNICODE),
+            ':admin_coupons' => json_encode($admin_coupons, JSON_UNESCAPED_UNICODE),
             ':rooms' => json_encode($rooms, JSON_UNESCAPED_UNICODE),
 
             ':gst' => $gst,
@@ -334,7 +343,9 @@
                 $couponWalletDetails['applied_discount_wallet'] ?? 0,
 
             ':referral_wallet_amount' =>
-                $couponWalletDetails['applied_referral_wallet'] ?? 0
+                $couponWalletDetails['applied_referral_wallet'] ?? 0,
+            ':extended_wallet_amount' =>
+                $couponWalletDetails['applied_extended_wallet'] ?? 0
 
         ]);
         $replyId = (int) $conn->lastInsertId();

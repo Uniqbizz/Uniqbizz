@@ -749,59 +749,82 @@
                                     </span>
                                 </p>
 
+                                <?php
+                                    $customerCoupons = json_decode($requestData['coupons'] ?? '[]', true) ?: [];
+
+                                    $adminCouponsJson = $replyData['admin_coupons'] ?? '[]';
+
+                                    $adminCoupons = json_decode($adminCouponsJson, true) ?: [];
+
+                                    $savedCoupons = array_merge(
+                                        $customerCoupons,
+                                        array_map(function ($coupon) {
+                                            return [
+                                                'code' => $coupon['code'] ?? '',
+                                                'amount' => $coupon['amount'] ?? 0,
+                                                'passenger' => ''
+                                            ];
+                                        }, $adminCoupons)
+                                    );
+                                ?>
                                 <div class="coupon-passenger-container">
 
-                                    <?php if (!empty($savedCoupons)): ?>
+                                <?php if (!empty($savedCoupons)): ?>
 
-                                        <?php foreach ($savedCoupons as $coupon): ?>
+                                    <?php foreach ($savedCoupons as $coupon): ?>
 
-                                            <?php
-                                            $couponCode = trim($coupon['code'] ?? '');
-                                            $passenger = $coupon['passenger'] ?? '';
-                                            $amount = (float) ($coupon['amount'] ?? 0);
+                                        <?php
+                                        $couponCode = trim($coupon['code'] ?? '');
+                                        $passenger = trim($coupon['passenger'] ?? '');
+                                        $amount = (float) ($coupon['amount'] ?? 0);
 
-                                            if ($couponCode === '') {
-                                                continue;
-                                            }
+                                        if ($couponCode === '') {
+                                            continue;
+                                        }
 
-                                            $totalCouponDiscount += $amount;
-                                            ?>
+                                        $displayPassenger = ($passenger !== '')
+                                            ? $passenger
+                                            : 'Coupon';
 
-                                            <div class="d-flex justify-content-between mb-2 saved-coupon-row">
+                                        $totalCouponDiscount += $amount;
+                                        ?>
 
-                                                <div class="d-flex gap-3 largeDisplay">
+                                        <div class="d-flex justify-content-between mb-2 saved-coupon-row">
 
-                                                    <p class="fontSize10 align-content-end mb-0">
-                                                        <?= htmlspecialchars($passenger) ?>
-                                                    </p>
+                                            <div class="d-flex gap-3 largeDisplay">
 
-                                                    <p class="mb-0">
-                                                        <select class="form-select fontSize10 selectPadding" disabled>
-                                                            <option value="<?= htmlspecialchars($couponCode) ?>" selected>
-                                                                <?= htmlspecialchars($couponCode) ?>
-                                                            </option>
-                                                        </select>
-                                                    </p>
+                                                <p class="fontSize10 align-content-end mb-0">
+                                                    <?= htmlspecialchars($displayPassenger) ?>
+                                                </p>
 
-                                                </div>
-
-                                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0">
-                                                    - ₹ <?= number_format($amount, 0, '.', ',') ?>
+                                                <p class="mb-0">
+                                                    <select class="form-select fontSize10 selectPadding" disabled>
+                                                        <option value="<?= htmlspecialchars($couponCode) ?>" selected>
+                                                            <?= htmlspecialchars($couponCode) ?>
+                                                        </option>
+                                                    </select>
                                                 </p>
 
                                             </div>
 
-                                        <?php endforeach; ?>
+                                            <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0">
+                                                - ₹ <?= number_format($amount, 0, '.', ',') ?>
+                                            </p>
 
-                                    <?php else: ?>
+                                        </div>
 
-                                        <p class="fontSize10 text-muted mb-2">
-                                            No coupons applied.
-                                        </p>
+                                    <?php endforeach; ?>
 
-                                    <?php endif; ?>
+                                <?php else: ?>
 
-                                </div>
+                                    <p class="fontSize10 text-muted mb-2">
+                                        No coupons applied.
+                                    </p>
+
+                                <?php endif; ?>
+
+                            </div>
+
 
                             </div>
 
@@ -821,6 +844,7 @@
                             <?php
                             $referralWalletBalance = $referralBalance ?? 0;
                             $discountWalletBalance = $discountBalance ?? 0;
+                            $extendedWalletBalance = $extendedBalance ?? 0;
                             ?>
 
                             <!-- <hr class="my-1 border border-2 mx-3"> -->
@@ -853,6 +877,22 @@
                                 <p class="fontSize10 discountGreen fw-bold text-end mb-0"
                                 id="">
                                     ₹ <?= number_format($discountWalletBalance, 2) ?>
+                                </p>
+                                <div class="d-flex align-items-center">
+                                    <span class="fontSize10 discountGreen fw-bold me-1">
+                                        - ₹
+                                    </span>
+                                    <input type="number" class="form-control form-control-sm walletInput" id="" value="<?= $replyData['discount_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
+                                </div>
+                            </div>
+                            <hr class="my-1 border border-2 mx-3">
+                            <div class="d-flex justify-content-between align-items-center px-3">
+                                <p class="fontSize10 discountGreen fw-bold mb-0">
+                                    Extended Wallet
+                                </p>
+                                <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                id="">
+                                    ₹ <?= number_format($extendedWalletBalance, 2) ?>
                                 </p>
                                 <div class="d-flex align-items-center">
                                     <span class="fontSize10 discountGreen fw-bold me-1">
@@ -2405,6 +2445,18 @@
                                                     </p>
                                                 </div>
                                             <?php } ?>
+                                            <?php if ((float)$replyData['extended_wallet_amount'] != 0) { ?>
+                                                <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                                    <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                        <i class="ri-wallet-3-line"></i>
+                                                        Extended Wallet
+                                                    </p>
+
+                                                    <p class="fontSize10 discountGreen fw-bold text-end mb-0">
+                                                        - ₹ <?= number_format((float)$replyData['extended_wallet_amount'], 2) ?>
+                                                    </p>
+                                                </div>
+                                            <?php } ?>
                                         <hr class="my-1 border border-2 mx-0">
 
                                         <div class="d-flex justify-content-between">
@@ -3552,8 +3604,9 @@
                                 </p>
                             </div>
                             <?php
-                            $referralWalletBalance = $referralBalance ?? 0;
-                            $discountWalletBalance = $discountBalance ?? 0;
+                                $referralWalletBalance = $referralBalance ?? 0;
+                                $discountWalletBalance = $discountBalance ?? 0;
+                                $extendedWalletBalance = $extendedBalance ?? 0;
                             ?>
 
                             <!-- <hr class="my-1 border border-2 mx-3"> -->
@@ -3573,7 +3626,17 @@
                                     <span class="fontSize10 discountGreen fw-bold me-1">
                                         - ₹
                                     </span>
-                                    <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="<?= $requestData['referral_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
+                                    <input
+                                        type="number"
+                                        class="form-control form-control-sm walletInput"
+                                        id="appliedReferralWallet"
+                                        value="<?= htmlspecialchars($requestData['referral_wallet_amount'] ?? 0) ?>"
+                                        min="0"
+                                        step="1"
+                                        <?= ((float)$referralWalletBalance == 0) ? 'disabled' : '' ?>
+                                        max="<?= htmlspecialchars($referralWalletBalance) ?>"
+                                        style="width: 80px;"
+                                    >
                                 </div>
                             </div>
                             <hr class="my-1 border border-2 mx-3">
@@ -3589,18 +3652,83 @@
                                     <span class="fontSize10 discountGreen fw-bold me-1">
                                         - ₹
                                     </span>
-                                    <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                    <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" 
+                                        value="<?= htmlspecialchars($requestData['discount_wallet_amount'] ?? 0) ?>" min="0" step="1"
+                                        <?= ((float)$discountWalletBalance == 0) ? 'disabled' : '' ?>
+                                        max="<?= htmlspecialchars($discountWalletBalance) ?>" style="width: 80px;">
                                 </div>
                             </div>
-                            <?php } elseif ($Requester_type != 'Neo Select' && in_array($Requester_type,['Prime','Premium','Premium Plus','Premium Select','Premium Select Lite','Neo Select','Neo Select Ultra'])) {?>
-                            <div class="p-3 pb-0">
-                                <p class="fw-bold mb-2 textDarkBlue blueDiv">
-                                    Apply Coupons
-                                    <span class="text-muted fw-normal fontSize12">
-                                        Only one coupon can be applied per package
-                                        <i class="ri-error-warning-line"></i>
-                                    </span>
+                            <hr class="my-1 border border-2 mx-3">
+                            <?php if ($hasReply) : ?>
+                            <div class="d-flex justify-content-between align-items-center px-3">
+                                <p class="fontSize10 discountGreen fw-bold mb-0">
+                                    Extended Wallet
                                 </p>
+                                <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                id="extendedWalletBalance">
+                                    ₹ <?= number_format($extendedWalletBalance, 2) ?>
+                                </p>
+                                <div class="d-flex align-items-center">
+                                    <span class="fontSize10 discountGreen fw-bold me-1">
+                                        - ₹
+                                    </span>
+                                    <input type="number" class="form-control form-control-sm walletInput" id="appliedExtendedWallet" 
+                                        value="<?= htmlspecialchars($latestReply['extended_wallet_amount'] ?? 0) ?>" min="0" step="1"
+                                        <?= ((float)$extendedWalletBalance == 0) ? 'disabled' : '' ?>
+                                        max="<?= htmlspecialchars($extendedWalletBalance) ?>" style="width: 80px;">
+                                </div>
+                            </div>
+                            <?php else:?>
+                                <div class="d-flex justify-content-between align-items-center px-3">
+                                    <p class="fontSize10 discountGreen fw-bold mb-0">
+                                        Extended Wallet
+                                    </p>
+
+                                    <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                        id="extendedWalletBalance">
+                                        ₹ <?= number_format($extendedWalletBalance, 2) ?>
+                                    </p>
+
+                                    <div class="d-flex align-items-center">
+                                        <span class="fontSize10 discountGreen fw-bold me-1">
+                                            - ₹
+                                        </span>
+
+                                        <input
+                                            type="number"
+                                            class="form-control form-control-sm walletInput"
+                                            id="appliedExtendedWallet"
+                                            value="0"
+                                            min="0"
+                                            step="1"
+                                            <?= ((float)$extendedWalletBalance == 0) ? 'disabled' : '' ?>
+                                            max="<?= htmlspecialchars($extendedWalletBalance) ?>"
+                                            style="width: 80px;"
+                                        >
+                                    </div>
+                                </div>
+                            <?php endif;
+                            }elseif (
+                                $Requester_type != 'Neo Select' &&
+                                in_array($Requester_type, [
+                                    'Prime',
+                                    'Premium',
+                                    'Premium Plus',
+                                    'Premium Select',
+                                    'Premium Select Lite',
+                                    'Neo Select',
+                                    'Neo Select Ultra'
+                                ])
+                            ) {
+                            ?>
+                                <div class="p-3 pb-0">
+                                    <p class="fw-bold mb-2 textDarkBlue blueDiv">
+                                        Apply Coupons
+                                        <span class="text-muted fw-normal fontSize12">
+                                            Only one coupon can be applied per package
+                                            <i class="ri-error-warning-line"></i>
+                                        </span>
+                                    </p>
                                 <div id="couponPassengerContainer1" class="coupon-passenger-container"></div>
                                 <div id="couponPassengerContainer0" class="available-coupons-section mt-3">
                                     <label class="form-label fw-semibold fontSize10 mb-2">
@@ -5621,6 +5749,20 @@
                                                 <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustDiscountWallet">- ₹ <?= $requestData['discount_wallet_amount'] ?></p>
                                             </div>
                                         <?php } ?>
+                                        <?php 
+                                            if($hasReply):
+
+                                                if ($latestReply['extended_wallet_amount'] != 0) :?>
+                                            
+                                        <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                            <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                <i class="ri-wallet-3-line"></i>
+                                                Extended Wallet
+                                            </p>
+                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustExtendedtWallet">- ₹ <?= $latestReply['extended_wallet_amount'] ?></p>
+                                        </div>
+                                        <?php   endif;
+                                            endif; ?>
                                         <hr class="my-1 border border-2 mx-0">
 
                                         <div class="d-flex justify-content-between">
@@ -5746,4 +5888,4 @@
         </div>
     </div>
 
-<?php endif; ?>
+<?php endif;?>
