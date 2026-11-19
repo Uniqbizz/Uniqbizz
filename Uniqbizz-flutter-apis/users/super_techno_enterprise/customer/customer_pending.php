@@ -43,6 +43,7 @@ try {
                 cu.firstname,
                 cu.lastname,
                 cu.contact_no,
+                cu.country_code,
                 cu.email,
                 cu.added_on,
                 cu.status,
@@ -51,7 +52,7 @@ try {
                 ta.firstname AS ref_firstname,
                 ta.lastname AS ref_lastname,
 
-                'TE' AS ref_type
+                'TC' AS ref_type
 
             FROM ca_customer cu
 

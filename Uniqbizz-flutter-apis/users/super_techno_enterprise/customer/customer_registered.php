@@ -43,6 +43,7 @@ try {
                 cu.firstname,
                 cu.lastname,
                 cu.contact_no,
+                cu.country_code,
                 cu.email,
                 cu.register_date,
                 cu.status,
@@ -61,7 +62,7 @@ try {
                 ta.firstname AS ref_firstname,
                 ta.lastname AS ref_lastname,
                 DATE_FORMAT(cu.deleted_date, '%d %b %Y') AS deleted_date,
-                'TE' AS ref_type
+                'TC' AS ref_type
 
             FROM ca_customer cu
 

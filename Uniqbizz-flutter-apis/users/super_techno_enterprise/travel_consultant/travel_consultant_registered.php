@@ -42,6 +42,7 @@ try {
                 ta.firstname,
                 ta.lastname,
                 ta.contact_no,
+                ta.country_code,
                 ta.email,
                 ta.register_date,
                 ta.status,
