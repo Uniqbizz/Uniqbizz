@@ -507,6 +507,205 @@
                 background-color: #eaf2ff;
                 box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.12);
             }
+
+            /* ==========================================
+            UNIQBIZZ DATE TIME PICKER
+            ========================================== */
+
+            .ubx-datetime-wrapper {
+                position: relative;
+                width: 100%;
+            }
+
+            .ubx-datetime-input {
+                width: 100%;
+                padding: 12px 42px 12px 14px;
+                border: 1px solid #dfe3eb;
+                border-radius: 8px;
+                font-size: 13px;
+                color: #252b36;
+                background: #fff;
+                cursor: pointer;
+                outline: none;
+            }
+
+            .ubx-datetime-input:focus {
+                border-color: #635bff;
+                box-shadow: 0 0 0 3px rgba(99, 91, 255, .10);
+            }
+
+            .ubx-datetime-icon {
+                position: absolute;
+                right: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #635bff;
+                pointer-events: none;
+            }
+
+            .ubx-picker {
+                position: fixed !important;
+                z-index: 999999 !important;
+                display: none;
+
+                width: 320px;
+                max-width: calc(100vw - 24px);
+
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 14px;
+                padding: 16px;
+
+                box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+
+                max-height: calc(100vh - 20px);
+                overflow-y: auto;
+            }
+
+            .ubx-picker.ubx-picker-visible {
+                display: block;
+            }
+
+            .ubx-month-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .ubx-month-nav {
+                background: #f1f0ff;
+                color: #635bff;
+                border: none;
+                border-radius: 7px;
+                padding: 8px 12px;
+                cursor: pointer;
+            }
+
+            .ubx-month-title {
+                font-size: 14px;
+                font-weight: 700;
+                color: #252b36;
+            }
+
+            .ubx-weekdays,
+            .ubx-calendar {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                gap: 5px;
+                text-align: center;
+            }
+
+            .ubx-weekdays span {
+                font-size: 11px;
+                color: #9298a4;
+                padding: 8px 0;
+            }
+
+            .ubx-day {
+                border: none;
+                background: transparent;
+                border-radius: 8px;
+                padding: 9px 0;
+                cursor: pointer;
+                font-size: 12px;
+                color: #333;
+            }
+
+            .ubx-day:hover {
+                background: #f0efff;
+            }
+
+            .ubx-day.ubx-selected {
+                background: #635bff;
+                color: #fff;
+            }
+
+            .ubx-day.ubx-today {
+                border: 1px solid #635bff;
+            }
+
+            .ubx-day.ubx-empty {
+                visibility: hidden;
+            }
+
+            .ubx-time-section {
+                margin-top: 20px;
+                border-top: 1px solid #eee;
+                padding-top: 15px;
+            }
+
+            .ubx-time-title {
+                font-size: 13px;
+                font-weight: 700;
+                margin-bottom: 12px;
+            }
+
+            .ubx-time-controls {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .ubx-time-controls input {
+                width: 100%;
+                padding: 10px 5px;
+                border: 1px solid #dfe3eb;
+                border-radius: 8px;
+                text-align: center;
+                font-size: 15px;
+                outline: none;
+            }
+
+            .ubx-time-controls input:focus {
+                border-color: #635bff;
+            }
+
+            .ubx-time-labels {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                text-align: center;
+                font-size: 10px;
+                color: #89909c;
+                margin-top: 6px;
+            }
+
+            .ubx-picker-actions {
+                display: flex;
+                gap: 10px;
+                margin-top: 18px;
+            }
+
+            .ubx-picker-actions button {
+                flex: 1;
+                padding: 10px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 12px;
+                font-weight: 700;
+            }
+
+            .ubx-apply {
+                background: #635bff;
+                color: #fff;
+            }
+
+            .ubx-cancel {
+                background: #edf0f5;
+                color: #424956;
+            }
+
+            @media (max-width: 400px) {
+                .ubx-picker {
+                    padding: 13px;
+                }
+
+                .ubx-day {
+                    padding: 8px 0;
+                }
+            }
+
             @media (max-width: 576px) {
                 .accordion-heading-content {
                     align-items: flex-start;
@@ -2060,6 +2259,27 @@
                 $loyaltyCoupons,
                 JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
             ) ?>;
+            const picker = document.getElementById('ubxPicker');
+            const input = document.getElementById('ubxDatetime');
+            const ubxInput = document.getElementById('ubxDatetime');
+            const ubxPicker = document.getElementById('ubxPicker');
+            const mysqlInput = document.getElementById('ubxMysqlDatetime');
+
+            const calendar = document.getElementById('ubxCalendar');
+            const monthTitle = document.getElementById('ubxMonthTitle');
+
+            const hourInput = document.getElementById('ubxHour');
+            const minuteInput = document.getElementById('ubxMinute');
+            const secondInput = document.getElementById('ubxSecond');
+            let selected = new Date();
+            selected.setMilliseconds(0);
+
+            let viewYear = selected.getFullYear();
+            let viewMonth = selected.getMonth();
+
+            let isPM = selected.getHours() >= 12;
+
+            let previousSelection = new Date(selected);
             //coupon row
             function createCouponRow(type, number) {
 
@@ -2138,27 +2358,16 @@
                     </div>
                 `;
             }
+
+
             $(document).ready(function () {
 
                 // ==========================================
                 // LOAD SAVED AND AVAILABLE COUPONS
                 // ==========================================
 
-                console.log('Loading saved coupons...');
-
-                console.log('Saved Coupons:', savedCoupons);
-
-                console.log(
-                    'Coupon Container Found:',
-                    $('#couponPassengerContainer1').length
-                );
 
                 loadSavedCoupons();
-
-                console.log(
-                    'Rendered Coupon Rows:',
-                    $('#couponPassengerContainer1 .saved-coupon-display .coupon-passenger-row').length
-                );
 
 
                 // ==========================================
@@ -2242,9 +2451,290 @@
                     refreshNavPosition();
 
                 });
+                
+
+                if (!picker || !input || !calendar) {
+                    return;
+                }
+
+                document.getElementById('ubxPrev').addEventListener('click', function () {
+                    changeMonth(-1);
+                });
+
+                document.getElementById('ubxNext').addEventListener('click', function () {
+                    changeMonth(1);
+                });
+
+                input.addEventListener('click', openPicker);
+
+                document.getElementById('ubxCancel').addEventListener('click', function () {
+
+                    selected = new Date(previousSelection);
+
+                    closePicker();
+                });
+
+                document.getElementById('ubxApply').addEventListener('click', function () {
+
+                    let hours = Number(hourInput.value);
+                    let minutes = Number(minuteInput.value);
+                    let seconds = Number(secondInput.value);
+
+                    if (
+                        !Number.isInteger(hours) ||
+                        !Number.isInteger(minutes) ||
+                        !Number.isInteger(seconds) ||
+                        hours < 0 || hours > 23 ||
+                        minutes < 0 || minutes > 59 ||
+                        seconds < 0 || seconds > 59
+                    ) {
+
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Invalid Time',
+                                text: 'Please enter valid hours, minutes and seconds.'
+                            });
+                        } else {
+                            alert('Please enter valid hours, minutes and seconds.');
+                        }
+
+                        return;
+                    }
+
+                    selected.setHours(hours, minutes, seconds, 0);
+
+                    const year = selected.getFullYear();
+                    const month = pad(selected.getMonth() + 1);
+                    const day = pad(selected.getDate());
+
+                    const mysqlValue =
+                        `${year}-${month}-${day} ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+                    const displayValue = selected.toLocaleString('en-IN', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: true
+                    });
+
+                    input.value = displayValue;
+
+                    if (mysqlInput) {
+                        mysqlInput.value = mysqlValue;
+                    }
+
+                    closePicker();
+
+                    // Trigger change event for existing form logic
+                    input.dispatchEvent(new Event('change', {
+                        bubbles: true
+                    }));
+
+                    if (mysqlInput) {
+                        mysqlInput.dispatchEvent(new Event('change', {
+                            bubbles: true
+                        }));
+                    }
+
+                });
+
+                // Initialize calendar
+                renderCalendar();
+                restrictTimeInput(document.getElementById('ubxHour'), 0, 23);
+                restrictTimeInput(document.getElementById('ubxMinute'), 0, 59);
+                restrictTimeInput(document.getElementById('ubxSecond'), 0, 59);
 
             });
+            function restrictTimeInput(input, min, max) {
 
+                input.addEventListener('input', function () {
+
+                    // Remove negative signs, decimals and non-numeric characters
+                    this.value = this.value.replace(/[^0-9]/g, '');
+
+                    if (this.value.length > 2) {
+                        this.value = this.value.slice(0, 2);
+                    }
+
+                    if (this.value !== '') {
+
+                        let value = parseInt(this.value, 10);
+
+                        if (value > max) {
+                            this.value = max;
+                        }
+                    }
+                });
+
+                input.addEventListener('blur', function () {
+
+                    if (this.value === '' || parseInt(this.value, 10) < min) {
+                        this.value = String(min).padStart(2, '0');
+                    } else {
+                        this.value = String(
+                            Math.min(parseInt(this.value, 10), max)
+                        ).padStart(2, '0');
+                    }
+                });
+            }
+            function positionUbxPicker() {
+
+                const rect = ubxInput.getBoundingClientRect();
+
+                const pickerWidth = ubxPicker.offsetWidth || 320;
+                const pickerHeight = ubxPicker.offsetHeight;
+
+                const viewportHeight = window.innerHeight;
+                const viewportWidth = window.innerWidth;
+
+                // Horizontal positioning
+                let left = rect.left;
+
+                if (left + pickerWidth > viewportWidth - 10) {
+                    left = viewportWidth - pickerWidth - 10;
+                }
+
+                left = Math.max(10, left);
+
+                // Vertical positioning
+                let top = rect.bottom + 8;
+
+                // If insufficient space below, open above
+                if (top + pickerHeight > viewportHeight - 10) {
+
+                    const spaceAbove = rect.top - 10;
+
+                    if (spaceAbove > pickerHeight) {
+                        top = rect.top - pickerHeight - 8;
+                    } else {
+                        top = Math.max(10, viewportHeight - pickerHeight - 10);
+                    }
+                }
+
+                ubxPicker.style.left = left + 'px';
+                ubxPicker.style.top = top + 'px';
+            }
+            function pad(value) {
+                return String(value).padStart(2, '0');
+            }
+
+            function renderCalendar() {
+
+                calendar.innerHTML = '';
+
+                const firstDay = new Date(
+                    viewYear,
+                    viewMonth,
+                    1
+                ).getDay();
+
+                const totalDays = new Date(
+                    viewYear,
+                    viewMonth + 1,
+                    0
+                ).getDate();
+
+                monthTitle.textContent = new Date(
+                    viewYear,
+                    viewMonth
+                ).toLocaleDateString('en-IN', {
+                    month: 'long',
+                    year: 'numeric'
+                });
+
+                for (let i = 0; i < firstDay; i++) {
+
+                    const empty = document.createElement('span');
+
+                    empty.className = 'ubx-day ubx-empty';
+
+                    calendar.appendChild(empty);
+                }
+
+                for (let day = 1; day <= totalDays; day++) {
+
+                    const button = document.createElement('button');
+
+                    button.type = 'button';
+                    button.textContent = day;
+                    button.className = 'ubx-day';
+
+                    if (
+                        day === selected.getDate() &&
+                        viewMonth === selected.getMonth() &&
+                        viewYear === selected.getFullYear()
+                    ) {
+                        button.classList.add('ubx-selected');
+                    }
+
+                    const today = new Date();
+
+                    if (
+                        day === today.getDate() &&
+                        viewMonth === today.getMonth() &&
+                        viewYear === today.getFullYear()
+                    ) {
+                        button.classList.add('ubx-today');
+                    }
+
+                    button.addEventListener('click', function () {
+
+                        selected.setFullYear(
+                            viewYear,
+                            viewMonth,
+                            day
+                        );
+
+                        renderCalendar();
+                    });
+
+                    calendar.appendChild(button);
+                }
+            }
+
+            function updateTimeControls() {
+
+                const hours = selected.getHours();
+
+                isPM = hours >= 12;
+
+                hourInput.value = pad(hours);
+                minuteInput.value = pad(selected.getMinutes());
+                secondInput.value = pad(selected.getSeconds());
+
+                amButton.classList.toggle('ubx-active', !isPM);
+                pmButton.classList.toggle('ubx-active', isPM);
+            }
+
+            function openPicker() {
+
+                ubxPicker.classList.add('ubx-picker-visible');
+
+                positionUbxPicker();
+            }
+
+            function closePicker() {
+
+                ubxPicker.classList.remove('ubx-picker-visible');
+            }
+
+            function changeMonth(amount) {
+
+                const date = new Date(
+                    viewYear,
+                    viewMonth + amount,
+                    1
+                );
+
+                viewYear = date.getFullYear();
+                viewMonth = date.getMonth();
+
+                renderCalendar();
+            }
             function updateActiveNav() {
 
                 const scrollPos = $(window).scrollTop() + 200;
@@ -2265,6 +2755,21 @@
                     }
                 });
             }
+            window.addEventListener('scroll', function () {
+
+                if (ubxPicker.classList.contains('ubx-picker-visible')) {
+                    positionUbxPicker();
+                }
+
+            }, true);
+
+            window.addEventListener('resize', function () {
+
+                if (ubxPicker.classList.contains('ubx-picker-visible')) {
+                    positionUbxPicker();
+                }
+
+            });
 
             $(".nav-link").on("click", function (e) {
 
@@ -2671,7 +3176,7 @@
 
                 updateCustomerDiscountedSubtotal();
 
-                renderPricingChanges();
+                // renderPricingChanges();
 
             });
             // ==========================================
@@ -3886,6 +4391,7 @@
                         const guestMobile = <?= json_encode($requestData['guestPhone']) ?>;
                         const guestEmail = <?= json_encode($requestData['guestEmail']) ?>;
                         const packageId = <?= json_encode($id) ?>;
+                        const validityDatetime =$('#ubxMysqlDatetime').val();
 
                         // ==========================================
                         // 2. TRIP REQUEST
@@ -4376,7 +4882,9 @@
 
                             additional_price_details: additionalPriceData,
 
-                            final_quotation_details: finalQuotationDetails
+                            final_quotation_details: finalQuotationDetails,
+                            
+                            validity_datetime: validityDatetime
 
                         };
 

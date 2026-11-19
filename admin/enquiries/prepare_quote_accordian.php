@@ -2356,6 +2356,47 @@
 
                                                 </div>
 
+                                                <div class="ubx-datetime-wrapper">
+                                                    <?php
+                                                        $quotValidity = $replyData['quot_validity'] ?? '';
+
+                                                        $displayValidity = '';
+
+                                                        if (!empty($quotValidity) && $quotValidity !== '0000-00-00 00:00:00') {
+                                                            $displayValidity = date('d/m/Y h:i:s A', strtotime($quotValidity));
+                                                        }
+                                                    ?>
+                                                    <div class="ubx-datetime-wrapper">
+
+                                                        <label for="ubxDatetime" class="form-label fw-semibold">
+                                                            Quotation Validity Date & Time
+                                                        </label>
+
+                                                        <div class="position-relative">
+
+                                                            <input
+                                                                type="text"
+                                                                id="ubxDatetime"
+                                                                name="datetime"
+                                                                class="ubx-datetime-input"
+                                                                placeholder="DD/MM/YYYY HH:MM:SS"
+                                                                value="<?= htmlspecialchars($displayValidity, ENT_QUOTES, 'UTF-8') ?>"
+                                                                readonly
+                                                            >
+
+                                                            <i class="ri-calendar-event-line ubx-datetime-icon"></i>
+
+                                                        </div>
+
+                                                        <input
+                                                            type="hidden"
+                                                            id="ubxMysqlDatetime"
+                                                            name="mysql_datetime"
+                                                            value="<?= htmlspecialchars($quotValidity, ENT_QUOTES, 'UTF-8') ?>"
+                                                        >
+                                                    </div>
+                                                    
+                                                </div>
                                             </div>
 
                                         </div>
@@ -5639,7 +5680,103 @@
                                                 </div>
 
                                             </div>
+                                            <div class="ubx-datetime-wrapper">
 
+                                                <label for="ubxDatetime" class="form-label fw-semibold">
+                                                    Quotation Validity Date & Time
+                                                </label>
+
+                                                <div class="position-relative">
+
+                                                    <input
+                                                        type="text"
+                                                        id="ubxDatetime"
+                                                        name="datetime"
+                                                        class="ubx-datetime-input"
+                                                        placeholder="DD/MM/YYYY HH:MM:SS"
+                                                        readonly
+                                                    >
+
+                                                    <i class="ri-calendar-event-line ubx-datetime-icon"></i>
+
+                                                </div>
+
+                                                <input
+                                                    type="hidden"
+                                                    id="ubxMysqlDatetime"
+                                                    name="mysql_datetime"
+                                                >
+
+                                                <div class="ubx-picker" id="ubxPicker">
+
+                                                    <div class="ubx-month-header">
+
+                                                        <button type="button" class="ubx-month-nav" id="ubxPrev">
+                                                            <i class="ri-arrow-left-s-line"></i>
+                                                        </button>
+
+                                                        <span class="ubx-month-title" id="ubxMonthTitle"></span>
+
+                                                        <button type="button" class="ubx-month-nav" id="ubxNext">
+                                                            <i class="ri-arrow-right-s-line"></i>
+                                                        </button>
+
+                                                    </div>
+
+                                                    <div class="ubx-weekdays">
+                                                        <span>Su</span>
+                                                        <span>Mo</span>
+                                                        <span>Tu</span>
+                                                        <span>We</span>
+                                                        <span>Th</span>
+                                                        <span>Fr</span>
+                                                        <span>Sa</span>
+                                                    </div>
+
+                                                    <div class="ubx-calendar" id="ubxCalendar"></div>
+
+                                                    <div class="ubx-time-section">
+
+                                                        <div class="ubx-time-title">
+                                                            Select Time
+                                                        </div>
+
+                                                        <div class="ubx-time-controls">
+
+                                                            <input type="number" id="ubxHour"
+                                                                min="0" max="23" value="12">
+
+                                                            <input type="number" id="ubxMinute"
+                                                                min="0" max="59" value="0">
+
+                                                            <input type="number" id="ubxSecond"
+                                                                min="0" max="59" value="0">
+
+                                                        </div>
+
+                                                        <div class="ubx-time-labels">
+                                                            <span>Hours</span>
+                                                            <span>Minutes</span>
+                                                            <span>Seconds</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="ubx-picker-actions">
+
+                                                        <button type="button" class="ubx-cancel" id="ubxCancel">
+                                                            Cancel
+                                                        </button>
+
+                                                        <button type="button" class="ubx-apply" id="ubxApply">
+                                                            Apply
+                                                        </button>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
 
                                         </div>
                                     </div>

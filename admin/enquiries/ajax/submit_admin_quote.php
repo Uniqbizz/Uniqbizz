@@ -228,7 +228,8 @@
                 status,
                 discount_wallet_amount,
                 referral_wallet_amount,
-                extended_wallet_amount
+                extended_wallet_amount,
+                quot_validity
             )
             VALUES
             (
@@ -276,7 +277,8 @@
                 :status,
                 :discount_wallet_amount,
                 :referral_wallet_amount,
-                :extended_wallet_amount
+                :extended_wallet_amount,
+                :quot_validity
             )
         ";
 
@@ -345,7 +347,9 @@
             ':referral_wallet_amount' =>
                 $couponWalletDetails['applied_referral_wallet'] ?? 0,
             ':extended_wallet_amount' =>
-                $couponWalletDetails['applied_extended_wallet'] ?? 0
+                $couponWalletDetails['applied_extended_wallet'] ?? 0,
+            ':quot_validity' =>
+                $quotationPayload['validity_datetime'] ?? 0
 
         ]);
         $replyId = (int) $conn->lastInsertId();
