@@ -58,7 +58,7 @@ try {
         LIMIT 1
     ");
 
-    $checkStmt->bindValue(':ste_id', $steId, PDO::PARAM_INT);
+    $checkStmt->bindValue(':ste_id', $steId, PDO::PARAM_STR);
     $checkStmt->execute();
 
     if (!$checkStmt->fetchColumn()) {

@@ -136,7 +136,7 @@ try {
     // ==========================================
     // BIND PARAMETERS
     // ==========================================
-    $stmt->bindValue(':ste_id', $steId, PDO::PARAM_INT);
+    $stmt->bindValue(':ste_id', $steId, PDO::PARAM_STR);
     $stmt->bindValue(':id_search', $idSearch, PDO::PARAM_INT);
 
     $stmt->bindValue(':search_firstname', $likeSearch, PDO::PARAM_STR);

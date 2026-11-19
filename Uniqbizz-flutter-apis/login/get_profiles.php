@@ -39,7 +39,7 @@
                 ON ut.id = l.user_type_id
 
             WHERE l.username = :email
-            AND l.user_type_id IN (11, 10, 29, 16, 35)
+            AND l.user_type_id IN (11, 10, 29, 16, 35,34)
             AND (
                 l.user_id LIKE 'F%'
                 OR l.user_id LIKE 'TA%'
@@ -47,6 +47,7 @@
                 OR l.user_id LIKE 'TE%'
                 OR l.user_id LIKE 'CA%'
                 OR l.user_id LIKE 'STE%'
+                OR l.user_id LIKE 'ETE%'
             )
             AND l.status = 1
 

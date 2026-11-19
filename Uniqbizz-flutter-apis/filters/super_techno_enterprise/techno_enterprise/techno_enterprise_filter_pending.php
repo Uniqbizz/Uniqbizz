@@ -4,6 +4,9 @@ require '../../../../connect.php';
 
 try {
 
+    // ==========================================
+    // VALIDATE REQUEST METHOD
+    // ==========================================
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
         echo json_encode([
@@ -13,6 +16,9 @@ try {
         exit;
     }
 
+    // ==========================================
+    // GET POST DATA
+    // ==========================================
     $postData = json_decode(file_get_contents('php://input'), true);
 
     if (!is_array($postData)) {
@@ -52,7 +58,15 @@ try {
         SELECT te.*
         FROM corporate_agency te
         WHERE te.reference_no = :ste_id
-            AND te.status IN ('0','2', '4')
+        AND te.status IN ('0', '2', '4')
+    ";
+
+    // ==========================================
+    // SEARCH FILTER (ONLY WHEN NOT BLANK)
+    // ==========================================
+    if ($search !== '') {
+
+        $sql .= "
             AND (
                 te.id = :id_search
                 OR te.firstname LIKE :search_firstname
@@ -63,44 +77,84 @@ try {
                 OR te.contact_no LIKE :search_contact
                 OR te.added_on LIKE :search_added_on
             )
-    ";
+        ";
+    }
 
     // ==========================================
     // DATE FILTERS
     // ==========================================
-    if (!empty($fromDate) && !empty($toDate)) {
-        $sql .= " AND DATE(te.added_on) BETWEEN :from_date AND :to_date";
-    } elseif (!empty($fromDate)) {
-        $sql .= " AND DATE(te.added_on) >= :from_date";
-    } elseif (!empty($toDate)) {
-        $sql .= " AND DATE(te.added_on) <= :to_date";
+    if ($fromDate !== '' && $toDate !== '') {
+
+        $sql .= "
+            AND DATE(te.added_on) BETWEEN :from_date AND :to_date
+        ";
+
+    } elseif ($fromDate !== '') {
+
+        $sql .= "
+            AND DATE(te.added_on) >= :from_date
+        ";
+
+    } elseif ($toDate !== '') {
+
+        $sql .= "
+            AND DATE(te.added_on) <= :to_date
+        ";
     }
 
+    // ==========================================
+    // ORDER BY
+    // ==========================================
     $sql .= " ORDER BY te.added_on DESC";
 
+    // ==========================================
+    // PREPARE QUERY
+    // ==========================================
     $stmt = $conn->prepare($sql);
 
-    $stmt->bindValue(':ste_id', $steId, PDO::PARAM_INT);
-    $stmt->bindValue(':id_search', $idSearch, PDO::PARAM_INT);
-    $stmt->bindValue(':search_firstname', $likeSearch, PDO::PARAM_STR);
-    $stmt->bindValue(':search_lastname', $likeSearch, PDO::PARAM_STR);
-    $stmt->bindValue(':search_fullname', $likeSearch, PDO::PARAM_STR);
-    $stmt->bindValue(':search_reference', $likeSearch, PDO::PARAM_STR);
-    $stmt->bindValue(':search_registrant', $likeSearch, PDO::PARAM_STR);
-    $stmt->bindValue(':search_contact', $likeSearch, PDO::PARAM_STR);
-    $stmt->bindValue(':search_added_on', $likeSearch, PDO::PARAM_STR);
+    // ==========================================
+    // BIND STE ID
+    // ==========================================
+    $stmt->bindValue(':ste_id', $steId, PDO::PARAM_STR);
 
-    if (!empty($fromDate)) {
+    // ==========================================
+    // BIND SEARCH PARAMETERS ONLY WHEN SEARCH
+    // IS NOT BLANK
+    // ==========================================
+    if ($search !== '') {
+
+        $stmt->bindValue(':id_search', $idSearch, PDO::PARAM_INT);
+
+        $stmt->bindValue(':search_firstname', $likeSearch, PDO::PARAM_STR);
+        $stmt->bindValue(':search_lastname', $likeSearch, PDO::PARAM_STR);
+        $stmt->bindValue(':search_fullname', $likeSearch, PDO::PARAM_STR);
+        $stmt->bindValue(':search_reference', $likeSearch, PDO::PARAM_STR);
+        $stmt->bindValue(':search_registrant', $likeSearch, PDO::PARAM_STR);
+        $stmt->bindValue(':search_contact', $likeSearch, PDO::PARAM_STR);
+        $stmt->bindValue(':search_added_on', $likeSearch, PDO::PARAM_STR);
+    }
+
+    // ==========================================
+    // BIND DATE PARAMETERS
+    // ==========================================
+    if ($fromDate !== '') {
         $stmt->bindValue(':from_date', $fromDate, PDO::PARAM_STR);
     }
 
-    if (!empty($toDate)) {
+    if ($toDate !== '') {
         $stmt->bindValue(':to_date', $toDate, PDO::PARAM_STR);
     }
 
+    // ==========================================
+    // EXECUTE QUERY
+    // ==========================================
     $stmt->execute();
+
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // ==========================================
+    // ADD FULLNAME
+    // ==========================================
     foreach ($data as &$row) {
         $row['fullname'] = trim(
             $row['firstname'] . ' ' . $row['lastname']
@@ -109,11 +163,16 @@ try {
 
     unset($row);
 
+    // ==========================================
+    // JSON RESPONSE
+    // ==========================================
     echo json_encode([
         'status' => true,
         'count' => count($data),
         'data' => $data,
-        'message' => count($data) ? 'Records found' : 'No matching results'
+        'message' => count($data) > 0
+            ? 'Records found'
+            : 'No matching results'
     ], JSON_PRETTY_PRINT);
 
 } catch (PDOException $e) {
@@ -124,8 +183,7 @@ try {
 
     echo json_encode([
         'status' => false,
-        'message' => 'DB Error',
-        'error' => $e->getMessage()
+        'message' => 'DB Error'
     ]);
 }
 ?>

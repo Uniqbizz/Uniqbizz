@@ -80,7 +80,7 @@ try {
 
     $stmt = $conn->prepare($sql);
 
-    $stmt->bindValue(':ste_id', $steId, PDO::PARAM_INT);
+    $stmt->bindValue(':ste_id', $steId, PDO::PARAM_STR);
     $stmt->bindValue(':id_search', $idSearch, PDO::PARAM_INT);
     $stmt->bindValue(':search_firstname', $likeSearch, PDO::PARAM_STR);
     $stmt->bindValue(':search_lastname', $likeSearch, PDO::PARAM_STR);
