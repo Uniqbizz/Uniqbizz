@@ -2386,6 +2386,28 @@
                                     ];
 
                                     $response = $responseConfig[$customerResponseStatus] ?? $responseConfig['change_request'];
+                                    $madultCount  = (int)($replyData['adult_count'] ?? 0);
+                                    $mchildCount  = (int)($replyData['child_count'] ?? 0);
+                                    $minfantCount = (int)($replyData['infant_count'] ?? 0);
+
+                                    $memberGroups = [
+                                        'Adult' => [
+                                            'count' => $madultCount,
+                                            'age' => '28 Years'
+                                        ],
+                                        'Child' => [
+                                            'count' => $mchildCount,
+                                            'age' => '8 Years'
+                                        ],
+                                        'Infant' => [
+                                            'count' => $minfantCount,
+                                            'age' => '1 Year'
+                                        ]
+                                    ];
+
+                                    $memberNumber = 0;
+
+                                    $totalMembers = $madultCount + $mchildCount + $minfantCount;
                                 ?>
 
                                 <div id="customerRply" class="section-block mt-4">
@@ -2453,6 +2475,110 @@
                                                 Itaque quam, rem asperiores officiis aperiam assumenda
                                                 id vel dolorum error illum tenetur adipisci incidunt?
                                             </p>
+
+                                        </div>
+                                        <!-- Member Details -->
+                                        <div class="customerCommentBox mb-3">
+
+                                            <!-- Heading -->
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                                                <p class="fontSize10 fw-bold textDarkBlue mb-0">
+                                                    <i class="ri-group-line me-1"></i>
+                                                    Member Details
+                                                </p>
+
+                                                <span class="badge bg-light text-dark">
+                                                    <?= $totalMembers ?> Members
+                                                </span>
+
+                                            </div>
+
+                                            <?php if ($totalMembers > 0) { ?>
+
+                                                <div class="table-responsive">
+
+                                                    <table class="table table-bordered table-hover align-middle mb-0">
+
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th class="fontSize10 text-center">#</th>
+                                                                <th class="fontSize10">Member Type</th>
+                                                                <th class="fontSize10">Full Name</th>
+                                                                <th class="fontSize10">Age</th>
+                                                                <th class="fontSize10">Gender</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            <?php foreach ($memberGroups as $memberType => $group) { ?>
+
+                                                                <?php for ($i = 1; $i <= $group['count']; $i++) { ?>
+
+                                                                    <?php
+                                                                    $memberNumber++;
+
+                                                                    $placeholderName = $memberType . ' Member ' . $i;
+
+                                                                    $placeholderGender = ($i % 2 === 0)
+                                                                        ? 'Female'
+                                                                        : 'Male';
+                                                                    ?>
+
+                                                                    <tr>
+
+                                                                        <td class="fontSize11 text-center">
+                                                                            <?= $memberNumber ?>
+                                                                        </td>
+
+                                                                        <td class="fontSize11">
+                                                                            <?php
+                                                                            if ($memberType === 'Adult') {
+                                                                                $badgeClass = 'bg-primary-subtle text-primary';
+                                                                            } elseif ($memberType === 'Child') {
+                                                                                $badgeClass = 'bg-success-subtle text-success';
+                                                                            } else {
+                                                                                $badgeClass = 'bg-warning-subtle text-dark';
+                                                                            }
+                                                                            ?>
+
+                                                                            <span class="badge <?= $badgeClass ?>">
+                                                                                <?= $memberType ?>
+                                                                            </span>
+                                                                        </td>
+
+                                                                        <td class="fontSize11 fw-semibold textDarkBlue">
+                                                                            <?= htmlspecialchars($placeholderName) ?>
+                                                                        </td>
+
+                                                                        <td class="fontSize11">
+                                                                            <?= htmlspecialchars($group['age']) ?>
+                                                                        </td>
+
+                                                                        <td class="fontSize11">
+                                                                            <?= htmlspecialchars($placeholderGender) ?>
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                <?php } ?>
+
+                                                            <?php } ?>
+
+                                                        </tbody>
+
+                                                    </table>
+
+                                                </div>
+
+                                            <?php } else { ?>
+
+                                                <p class="fontSize11 text-muted text-center mb-0">
+                                                    No member details available.
+                                                </p>
+
+                                            <?php } ?>
 
                                         </div>
 
