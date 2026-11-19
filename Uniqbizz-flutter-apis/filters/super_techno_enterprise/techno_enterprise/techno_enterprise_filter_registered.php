@@ -42,15 +42,18 @@ try {
     // ==========================================
     // SEARCH PARAMETERS
     // ==========================================
-    $idSearch = ctype_digit($search) ? (int)$search : -1;
+    $idSearch = $search;
     $likeSearch = '%' . $search . '%';
 
     // ==========================================
     // STE -> TE
     // ==========================================
     $sql = "
-        SELECT te.*
+        SELECT te.corporate_agency_id AS teuser_id,te.firstname,te.lastname,te.contact_no,te.country_code,te.email,
+        te.register_date,te.status,te.amount,te.user_type,te.deleted_date,ste.firstname AS ref_firstname, 
+        ste.lastname AS ref_lastname, ste.super_techno_enterprise_id
         FROM corporate_agency te
+        INNER JOIN super_techno_enterprise ste ON ste.super_techno_enterprise_id =:ste_id 
         WHERE te.reference_no = :ste_id
             AND te.status IN ('1','3')
             AND (

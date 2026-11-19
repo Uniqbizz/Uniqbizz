@@ -55,8 +55,11 @@ try {
     // STE -> TE
     // ==========================================
     $sql = "
-        SELECT te.*
+        SELECT te.id,te.firstname,te.lastname,te.contact_no,te.country_code,te.email,te.added_on,te.status,te.user_type,
+        'te' AS user_type_str,te.deleted_date,ste.firstname AS ref_firstname, ste.lastname AS ref_lastname, ste.super_techno_enterprise_id, 
+        'corporate_agency' AS  source_table
         FROM corporate_agency te
+        INNER JOIN super_techno_enterprise ste ON ste.super_techno_enterprise_id =:ste_id 
         WHERE te.reference_no = :ste_id
         AND te.status IN ('0', '2', '4')
     ";
