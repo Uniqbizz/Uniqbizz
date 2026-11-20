@@ -2,73 +2,7 @@
     include (__DIR__.'/urls.php');
     include_once(__DIR__ . '/../dashboard_user_details.php');
     include (__DIR__ .'/customer_model.php');
-    include (__DIR__ .'/customer_mapping.php');
-    
-    $stmt = $conn->prepare("
-        SELECT *
-        FROM request_details
-        WHERE userId = :userId
-        LIMIT 1
-    ");
-
-    $stmt->execute([
-        ':userId' => $userId
-    ]);
-
-    $requestData = $stmt->fetch(PDO::FETCH_ASSOC);
-    // ==========================================
-    // 1. FETCH MAIN REQUEST STATUS
-    // ==========================================
-
-    $mainStmt = $conn->prepare("
-        SELECT status
-        FROM request_details
-        WHERE userId = :userId
-        LIMIT 1
-    ");
-
-    $mainStmt->execute([
-        ':userId' => $userId
-    ]);
-
-    $mainRequestStatus = $mainStmt->fetchColumn();
-
-
-    // ==========================================
-    // 2. FETCH ALL REPLY RECORDS
-    // ==========================================
-
-    $replyStmt = $conn->prepare("
-        SELECT *
-        FROM request_details_reply
-        WHERE userId = :userId
-        ORDER BY id DESC
-    ");
-
-    $replyStmt->execute([
-        ':userId' => $userId
-    ]);
-    $replyRecords = $replyStmt->fetchAll(PDO::FETCH_ASSOC);
-    // Get package_id from the latest record
-    $package_id = $replyRecords[0]['package_id'] ?? 0;
-    $request_id = $replyRecords[0]['request_id'] ?? 0;
-    $reply_id = $replyRecords[0]['id'] ?? 0;
-
-    include(__DIR__ . '/ajax/tour_details_data.php');
-
-
-    // ==========================================
-    // 3. DETERMINE WHETHER TO SHOW ORIGINAL
-    //    EDITABLE SECTION
-    // ==========================================
-
-    $showOriginalEditable = in_array(
-        (int) $mainRequestStatus,
-        [1, 3],
-        true
-    );
-
-    
+    include (__DIR__ .'/customer_mapping.php'); 
 
 ?>
 <!doctype html>
@@ -536,7 +470,84 @@
                         <!-- Card Section 2 End -->
                         <div class="row">
                             <div class="col-12">
+                    <?php 
+                        $stmt = $conn->prepare("
+                            SELECT *
+                            FROM request_details
+                            WHERE userId = :userId
+                            LIMIT 1
+                        ");
 
+                        $stmt->execute([
+                            ':userId' => $userId
+                        ]);
+
+                        $requestData = $stmt->fetch(PDO::FETCH_ASSOC);
+                        // ==========================================
+                        // 1. FETCH MAIN REQUEST STATUS
+                        // ==========================================
+
+                        $mainStmt = $conn->prepare("
+                            SELECT status
+                            FROM request_details
+                            WHERE userId = :userId
+                            LIMIT 1
+                        ");
+
+                        $mainStmt->execute([
+                            ':userId' => $userId
+                        ]);
+
+                        $mainRequestStatus = $mainStmt->fetchColumn();
+
+
+                        // ==========================================
+                        // 2. FETCH ALL REPLY RECORDS
+                        // ==========================================
+
+                        $replyStmt = $conn->prepare("
+                            SELECT *
+                            FROM request_details_reply
+                            WHERE userId = :userId
+                            ORDER BY id DESC
+                        ");
+
+                        $replyStmt->execute([
+                            ':userId' => $userId
+                        ]);
+                        $replyRecords = $replyStmt->fetchAll(PDO::FETCH_ASSOC);
+                        
+                        if (!$requestData) { ?>
+                                <!-- No Enquiries Found -->
+                                <div class="card border-0 shadow-sm rounded-4 text-center p-4 p-md-5">
+
+                                    <div class="mb-3">
+                                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle"
+                                            style="width: 75px; height: 75px; background: #eef5ff;">
+
+                                            <i class="ri-inbox-archive-line"
+                                            style="font-size: 36px; color: #3b82f6;"></i>
+
+                                        </div>
+                                    </div>
+
+                                    <h5 class="fw-bold mb-2">No Enquiries Yet!</h5>
+
+                                    <p class="text-muted mb-0 mx-auto" style="max-width: 430px; font-size: 14px; line-height: 1.7;">
+                                        You haven't made any travel enquiries yet.
+                                        Explore our exciting travel packages and send us an enquiry.
+                                        Your enquiry details and updates will appear here.
+                                    </p>
+
+                                </div>
+                    <?php }else{ 
+                        // Get package_id from the latest record
+                        $package_id = $replyRecords[0]['package_id'] ?? 0;
+                        $request_id = $replyRecords[0]['request_id'] ?? 0;
+                        $reply_id = $replyRecords[0]['id'] ?? 0;
+
+                        include(__DIR__ . '/ajax/tour_details_data.php');
+                    ?>
                                 <div class="accordion custom-history-accordion" id="formHistoryAccordion">
                                 <!-- Section 1 -->
                                 <div class="accordion-item">
@@ -3790,7 +3801,9 @@
                             </div>
                         </div>
 
-                    <?php endforeach;?>
+                    <?php endforeach;
+                        }
+                    ?>
                     </div>
                 </div>
                 <?php include_once "customer_footer.php" ?>
