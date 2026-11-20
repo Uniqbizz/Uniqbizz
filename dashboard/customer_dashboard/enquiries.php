@@ -542,9 +542,9 @@
                                 </div>
                     <?php }else{ 
                         // Get package_id from the latest record
-                        $package_id = $replyRecords[0]['package_id'] ?? 0;
-                        $request_id = $replyRecords[0]['request_id'] ?? 0;
-                        $reply_id = $replyRecords[0]['id'] ?? 0;
+                        $package_id = $requestData['package_id'] ?? 0;
+                        $request_id = $requestData['request_id'] ?? 0;
+                        $reply_id = $requestData['id'] ?? 0;
 
                         include(__DIR__ . '/ajax/tour_details_data.php');
                     ?>
@@ -1679,7 +1679,8 @@
                                     </div>
 
                                 </div>
-                    <?php foreach ($replyRecords as $index => $replyData): 
+                    <?php if($replyRecords){
+                     foreach ($replyRecords as $index => $replyData): 
 
                         $accordionNumber = $index + 1;
 
@@ -3798,12 +3799,14 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            
 
                     <?php endforeach;
                         }
+                        }
                     ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?php include_once "customer_footer.php" ?>
