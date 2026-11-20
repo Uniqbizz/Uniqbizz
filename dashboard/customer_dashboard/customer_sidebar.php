@@ -38,11 +38,11 @@
                         <i class="ri-calendar-check-line"></i> <span data-key="t-home">My Bookings</span>
                     </a>
                 </li>
-                <!-- <li class="nav-item <php ($current_page == 'order_history.php') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="<php $base_url?>order_history.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-wallet-line"></i> <span data-key="t-home">Upcoming Trips</span>
+                <li class="nav-item <php ($current_page == 'enquiries.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="<?= $base_url_cust ?>enquiries.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="ri-wallet-line"></i> <span data-key="t-home">Enquiries</span>
                     </a>
-                </li> -->
+                </li>
                 <li class="nav-item <?= ($current_page == 'customer_wallet.php') ? 'active' : ''; ?>">
                     <a class="nav-link menu-link" href="<?= $base_url_cust.$folder_map[$customer['customer_type']]?>customer_wallet.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-wallet-line"></i> <span data-key="t-home">Wallet</span>

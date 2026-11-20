@@ -2403,7 +2403,94 @@
                                     </div>
                                 </div>
                                 <?php
-                                    $customerResponseStatus = $customerResponseStatus ?? 'change_requesteed';
+
+                                    $customerReply = null;
+                                    $customerMembers = [];
+
+                                    $customerResponseStatus = 'change_request';
+
+                                    try {
+
+                                        // ==========================================
+                                        // FETCH LATEST CUSTOMER RESPONSE
+                                        // ==========================================
+
+                                        $stmt = $conn->prepare("
+                                            SELECT
+                                                id,
+                                                request_id,
+                                                reply_id,
+                                                title,
+                                                message,
+                                                status,
+                                                uploaded_on
+                                            FROM request_details_customer_reply
+                                            WHERE request_id = :request_id
+                                            AND reply_id = :reply_id
+                                            ORDER BY id DESC
+                                            LIMIT 1
+                                        ");
+
+                                        $stmt->execute([
+                                            ':request_id' => $request_id,
+                                            ':reply_id'   => $replyData['id']
+                                        ]);
+
+                                        $customerReply = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+                                        if ($customerReply) {
+
+                                            // ==========================================
+                                            // MAP DATABASE STATUS
+                                            // ==========================================
+
+                                            $statusMap = [
+                                                1 => 'approved',
+                                                0 => 'rejected',
+                                                2 => 'change_request'
+                                            ];
+
+                                            $customerResponseStatus =
+                                                $statusMap[(int)$customerReply['status']] ?? 'change_request';
+
+
+                                            // ==========================================
+                                            // FETCH ACTUAL TRAVELLER DETAILS
+                                            // ==========================================
+
+                                            if ($customerResponseStatus === 'approved') {
+
+                                                $memberStmt = $conn->prepare("
+                                                    SELECT
+                                                        id,
+                                                        member_type,
+                                                        name,
+                                                        age,
+                                                        gender
+                                                    FROM request_details_member_details
+                                                    WHERE request_id = :request_id
+                                                    AND reply_id = :customer_reply_id
+                                                    ORDER BY id ASC
+                                                ");
+
+                                                $memberStmt->execute([
+                                                    ':request_id'       => $request_id,
+                                                    ':customer_reply_id' => $customerReply['id']
+                                                ]);
+
+                                                $customerMembers = $memberStmt->fetchAll(PDO::FETCH_ASSOC);
+                                            }
+                                        }
+
+                                    } catch (PDOException $e) {
+
+                                        error_log('Customer response fetch error: ' . $e->getMessage());
+
+                                    }
+
+                                ?>
+                                <?php
 
                                     $responseConfig = [
                                         'approved' => [
@@ -2426,29 +2513,10 @@
                                         ]
                                     ];
 
-                                    $response = $responseConfig[$customerResponseStatus] ?? $responseConfig['change_request'];
-                                    $madultCount  = (int)($replyData['adult_count'] ?? 0);
-                                    $mchildCount  = (int)($replyData['child_count'] ?? 0);
-                                    $minfantCount = (int)($replyData['infant_count'] ?? 0);
+                                    $response = $responseConfig[$customerResponseStatus];
 
-                                    $memberGroups = [
-                                        'Adult' => [
-                                            'count' => $madultCount,
-                                            'age' => '28 Years'
-                                        ],
-                                        'Child' => [
-                                            'count' => $mchildCount,
-                                            'age' => '8 Years'
-                                        ],
-                                        'Infant' => [
-                                            'count' => $minfantCount,
-                                            'age' => '1 Year'
-                                        ]
-                                    ];
+                                    $totalMembers = count($customerMembers);
 
-                                    $memberNumber = 0;
-
-                                    $totalMembers = $madultCount + $mchildCount + $minfantCount;
                                 ?>
 
                                 <div id="customerRply" class="section-block mt-4">
@@ -2512,16 +2580,15 @@
                                             </p>
 
                                             <p class="fontSize11 text-secondary mb-0">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                                Itaque quam, rem asperiores officiis aperiam assumenda
-                                                id vel dolorum error illum tenetur adipisci incidunt?
+                                                <?= !empty($customerReply['message'])
+                                                    ? nl2br(htmlspecialchars($customerReply['message'], ENT_QUOTES, 'UTF-8'))
+                                                    : 'No remarks provided by the customer.' ?>
                                             </p>
 
                                         </div>
                                         <!-- Member Details -->
                                         <div class="customerCommentBox mb-3">
 
-                                            <!-- Heading -->
                                             <div class="d-flex justify-content-between align-items-center mb-3">
 
                                                 <p class="fontSize10 fw-bold textDarkBlue mb-0">
@@ -2553,57 +2620,45 @@
 
                                                         <tbody>
 
-                                                            <?php foreach ($memberGroups as $memberType => $group) { ?>
+                                                            <?php foreach ($customerMembers as $index => $member) { ?>
 
-                                                                <?php for ($i = 1; $i <= $group['count']; $i++) { ?>
+                                                                <?php
+                                                                $memberType = ucfirst(strtolower($member['member_type']));
 
-                                                                    <?php
-                                                                    $memberNumber++;
+                                                                if ($memberType === 'Adult') {
+                                                                    $badgeClass = 'bg-primary-subtle text-primary';
+                                                                } elseif ($memberType === 'Child') {
+                                                                    $badgeClass = 'bg-success-subtle text-success';
+                                                                } else {
+                                                                    $badgeClass = 'bg-warning-subtle text-dark';
+                                                                }
+                                                                ?>
 
-                                                                    $placeholderName = $memberType . ' Member ' . $i;
+                                                                <tr>
 
-                                                                    $placeholderGender = ($i % 2 === 0)
-                                                                        ? 'Female'
-                                                                        : 'Male';
-                                                                    ?>
+                                                                    <td class="fontSize11 text-center">
+                                                                        <?= $index + 1 ?>
+                                                                    </td>
 
-                                                                    <tr>
+                                                                    <td class="fontSize11">
+                                                                        <span class="badge <?= $badgeClass ?>">
+                                                                            <?= htmlspecialchars($memberType, ENT_QUOTES, 'UTF-8') ?>
+                                                                        </span>
+                                                                    </td>
 
-                                                                        <td class="fontSize11 text-center">
-                                                                            <?= $memberNumber ?>
-                                                                        </td>
+                                                                    <td class="fontSize11 fw-semibold textDarkBlue">
+                                                                        <?= htmlspecialchars($member['name'], ENT_QUOTES, 'UTF-8') ?>
+                                                                    </td>
 
-                                                                        <td class="fontSize11">
-                                                                            <?php
-                                                                            if ($memberType === 'Adult') {
-                                                                                $badgeClass = 'bg-primary-subtle text-primary';
-                                                                            } elseif ($memberType === 'Child') {
-                                                                                $badgeClass = 'bg-success-subtle text-success';
-                                                                            } else {
-                                                                                $badgeClass = 'bg-warning-subtle text-dark';
-                                                                            }
-                                                                            ?>
+                                                                    <td class="fontSize11">
+                                                                        <?= htmlspecialchars($member['age'], ENT_QUOTES, 'UTF-8') ?>
+                                                                    </td>
 
-                                                                            <span class="badge <?= $badgeClass ?>">
-                                                                                <?= $memberType ?>
-                                                                            </span>
-                                                                        </td>
+                                                                    <td class="fontSize11">
+                                                                        <?= htmlspecialchars($member['gender'], ENT_QUOTES, 'UTF-8') ?>
+                                                                    </td>
 
-                                                                        <td class="fontSize11 fw-semibold textDarkBlue">
-                                                                            <?= htmlspecialchars($placeholderName) ?>
-                                                                        </td>
-
-                                                                        <td class="fontSize11">
-                                                                            <?= htmlspecialchars($group['age']) ?>
-                                                                        </td>
-
-                                                                        <td class="fontSize11">
-                                                                            <?= htmlspecialchars($placeholderGender) ?>
-                                                                        </td>
-
-                                                                    </tr>
-
-                                                                <?php } ?>
+                                                                </tr>
 
                                                             <?php } ?>
 
