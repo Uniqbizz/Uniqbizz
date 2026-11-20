@@ -647,59 +647,100 @@ $vehicleOptions = [
                                             </div>
                                         </div>
                                         <!-- COUPON SELECT -->
-                                        <div class="package-coupon-box d-flex justify-content-between">
-                                            <i class="ri-coupon-3-line"></i>
-                                            <div class="coupon-select-wrapper">
-                                                <select id="packageCouponSelect" class="form-select fontSize10 selectPadding coupon-select1">
-                                                    <option value="">Select Coupon</option>
-                                                    <?php if (!empty($cuCoupons)): ?>
-                                                        <optgroup label="Primary Coupons">
-                                                            <?php foreach ($cuCoupons as $coupon): ?>
-                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="primary" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
-                                                                    <?= htmlspecialchars($coupon['code']) ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </optgroup>
-                                                    <?php endif; ?>
-                                                    <?php if (!empty($loyaltyCoupons)): ?>
-                                                        <optgroup label="Loyalty Coupons">
-                                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
-                                                                <option value="<?= htmlspecialchars($coupon['code']) ?>" data-type="loyalty" data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
-                                                                    <?= htmlspecialchars($coupon['code']) ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </optgroup>
-                                                    <?php endif; ?>
-                                                </select>
+                                        <div class="package-coupon-box">
+
+                                            <!-- COUPON SELECTION ROW -->
+                                            <div class="d-flex align-items-center gap-2 mb-3">
+
+                                                <i class="ri-coupon-3-line"></i>
+
+                                                <div class="coupon-select-wrapper flex-grow-1">
+                                                    <select id="packageCouponSelect"
+                                                            class="form-select fontSize10 selectPadding coupon-select1">
+
+                                                        <option value="">Select Coupon</option>
+
+                                                        <?php if (!empty($cuCoupons)): ?>
+                                                            <optgroup label="Primary Coupons">
+                                                                <?php foreach ($cuCoupons as $coupon): ?>
+                                                                    <option value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                                            data-type="primary"
+                                                                            data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                        <?= htmlspecialchars($coupon['code']) ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </optgroup>
+                                                        <?php endif; ?>
+
+                                                        <?php if (!empty($loyaltyCoupons)): ?>
+                                                            <optgroup label="Loyalty Coupons">
+                                                                <?php foreach ($loyaltyCoupons as $coupon): ?>
+                                                                    <option value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                                            data-type="loyalty"
+                                                                            data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+                                                                        <?= htmlspecialchars($coupon['code']) ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </optgroup>
+                                                        <?php endif; ?>
+
+                                                    </select>
+                                                </div>
+
                                             </div>
-                                            <!-- DISCOUNT -->
-                                            <div class="package-discount">
-                                                <span class="text-muted fontSize10">Discount</span>
-                                                <span class="discountGreen fw-bold fontSize10" id="packageCouponDiscount"> ₹ 0</span>
+
+                                            <!-- COUPON DISCOUNT ROW -->
+                                            <div class="d-flex justify-content-between align-items-center px-2 mb-3">
+
+                                                <span class="text-muted fontSize10">
+                                                    Coupon Discount
+                                                </span>
+
+                                                <span class="discountGreen fw-bold fontSize10"
+                                                    id="packageCouponDiscount">
+                                                    ₹ 0
+                                                </span>
+
                                             </div>
+
                                             <?php
                                             $referralWalletBalance = $referralBalance ?? 0;
                                             ?>
-                                            <hr class="my-1 border border-2 mx-3">
 
-                                            <div class="d-flex justify-content-between align-items-center px-3">
+                                            <hr class="my-2 border border-2">
 
-                                                <p class="fontSize10 discountGreen fw-bold mb-0">
-                                                    Referral Wallet
-                                                </p>
+                                            <!-- REFERRAL WALLET ROW -->
+                                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 px-2">
 
-                                                <p class="fontSize10 discountGreen fw-bold text-end mb-0"
-                                                id="referralWalletBalance">
-                                                    ₹ <?= number_format($referralWalletBalance, 2) ?>
-                                                </p>
+                                                <div>
+                                                    <p class="fontSize10 discountGreen fw-bold mb-1">
+                                                        <i class="ri-wallet-3-line me-1"></i>
+                                                        Referral Wallet
+                                                    </p>
+
+                                                    <p class="fontSize10 text-muted mb-0"
+                                                    id="referralWalletBalance">
+                                                        Available: ₹ <?= number_format($referralWalletBalance, 2) ?>
+                                                    </p>
+                                                </div>
 
                                                 <div class="d-flex align-items-center">
                                                     <span class="fontSize10 discountGreen fw-bold me-1">
                                                         - ₹
                                                     </span>
-                                                    <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+
+                                                    <input type="number"
+                                                        class="form-control form-control-sm walletInput"
+                                                        id="appliedReferralWallet"
+                                                        value="0"
+                                                        min="0"
+                                                        step="1"
+                                                        disabled
+                                                        style="width: 80px;">
                                                 </div>
+
                                             </div>
+
                                         </div>
                                     </div>
                                     <!-- TOTAL -->
