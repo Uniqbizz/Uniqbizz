@@ -20,6 +20,41 @@ function parseFaqTxt($filePath)
 
     return $faqs;
 }
+$chainMap = [
+    'CU->IBR->I->SF'                 => 1,
+    'CU->IBR->I->MF'                 => 2,
+    'CU->IBR->I->BM'                 => 3,
+    'CU->IBR->I->ETE->CTE'           => 4,
+
+    'CU->TA->I->SF'                  => 5,
+    'CU->TA->I->MF'                  => 6,
+    'CU->TA->I->BM'                  => 7,
+    'CU->TA->I->ETE->CTE'            => 8,
+
+    'CU->TA->TE->SF'                 => 9,
+    'CU->TA->TE->MF'                 => 10,
+    'CU->TA->TE->BM'                 => 11,
+    'CU->TA->TE->STE->ETE->CTE'      => 12,
+
+    'CU->TA->CA->SF'                 => 13,
+    'CU->TA->CA->MF'                 => 14,
+    'CU->TA->CA->BM'                 => 15,
+    'CU->TA->CA->STE->ETE->CTE'      => 16,
+
+    'CU->TA->F->SF'                  => 17,
+    'CU->TA->F->MF'                  => 18,
+    'CU->TA->F->BM'                  => 19,
+    'CU->TA->F->STE->ETE->CTE'       => 20,
+
+    'CU->TA->BM'                     => 21
+];
+$upperChain =[];
+$upperChainString = null;
+$upperChainId = null;
+$upperChainReference = null;
+$upperChainPrefix = null;
+$customerReferrals = [];
+$chainDetails = [];
 //gst
 $stmt = $conn->prepare("SELECT * FROM `gst` ORDER BY id DESC");
 $stmt->execute();

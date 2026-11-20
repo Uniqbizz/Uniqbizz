@@ -1444,8 +1444,8 @@
                                                                     Discounts (Coupons)
                                                                 </p>
                                                                 <p class="fontSize10 discountGreen fw-bold text-end"
-                                                                id="totalCouponDiscount0">
-                                                                    - ₹ 0
+                                                                >
+                                                                    - ₹ <?= $requestData['coupon_discount'] ?>
                                                                 </p>
                                                             </div>
                                                             <?php
@@ -1508,7 +1508,7 @@
                                                                     <i class="ri-price-tag-3-line"></i>
                                                                     Discounts (Coupon)
                                                                 </p>
-                                                                <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount0">- ₹ 0</p>
+                                                                <p class="fontSize10 discountGreen fw-bold text-end mb-0" >- ₹ <?= $requestData['coupon_discount'] ?></p>
                                                             </div>
                                                             <?php } ?>
                                                             
@@ -2792,6 +2792,76 @@
 
             function loadSavedCoupons() {
 
+                const couponsToLoad0 = Array.isArray(savedCoupons) ? savedCoupons : [];
+
+                // ==========================================
+                // CONTAINER 0: DISPLAY SAVED COUPONS
+                // ==========================================
+
+                const $savedContainer0 = $('#couponPassengerContainer0');
+
+                if ($savedContainer0.length) {
+
+                    let $display = $savedContainer0.find('.saved-coupon-display').first();
+
+                    if (!$display.length) {
+                        $display = $('<div class="saved-coupon-display"></div>');
+                        $savedContainer0.prepend($display);
+                    }
+
+                    $display.empty();
+
+                    couponsToLoad0.forEach(function (coupon) {
+
+                        const couponCode = String(coupon.code || '').trim();
+
+                        if (!couponCode) {
+                            return;
+                        }
+
+                        const passenger = String(coupon.passenger || 'Coupon');
+                        const amount = Number(coupon.amount) || 0;
+
+                        const $row = $(`
+                            <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+                                <div class="d-flex gap-3 largeDisplay">
+                                    <p class="fontSize10 align-content-end mb-0 coupon-passenger"></p>
+                                    <p class="mb-0">
+                                        <select class="form-select fontSize10 selectPadding coupon-select" disabled>
+                                            <option value="">Select Coupon</option>
+                                        </select>
+                                    </p>
+                                </div>
+
+                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 coupon-discount"></p>
+                            </div>
+                        `);
+
+                        $row.attr({
+                            'data-coupon-code': couponCode,
+                            'data-passenger': passenger
+                        });
+
+                        $row.find('.coupon-passenger').text(passenger);
+
+                        const $select = $row.find('.coupon-select');
+
+                        $select.append(
+                            $('<option>', {
+                                value: couponCode,
+                                text: couponCode
+                            }).attr('data-amount', amount)
+                        );
+
+                        $select.val(couponCode);
+
+                        $row.find('.coupon-discount').text(
+                            '- ₹ ' + amount.toLocaleString('en-IN')
+                        );
+
+                        $display.append($row);
+                    });
+                }
                 const couponsToLoad = Array.isArray(savedCoupons) ? savedCoupons : [];
 
                 // ==========================================

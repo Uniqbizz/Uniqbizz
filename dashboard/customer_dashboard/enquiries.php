@@ -3,13 +3,14 @@
     include_once(__DIR__ . '/../dashboard_user_details.php');
     include (__DIR__ .'/customer_model.php');
     include (__DIR__ .'/customer_mapping.php'); 
+    $request_id = $_POST['request_id'] ?? '';
 
 ?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
     <head>
         <meta charset="utf-8" />
-        <title>Dashboard | Uniqbizz</title>
+        <title>Enquiries</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- App favicon -->
         <link rel="shortcut icon" href="<?= $base_url ?>assets/images/fav.png">
@@ -467,6 +468,22 @@
             <div class="main-content">
                 <div class="page-content">
                     <div class="container-fluid ps-0">
+                        Enquirie<!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0">Enquiry</h4>
+
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="<?= $base_url_cust ?>enquiries_list.php">Enquiries List</a></li>
+                                            <li class="breadcrumb-item active">Enquiry</li>
+                                        </ol>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                         <!-- Card Section 2 End -->
                         <div class="row">
                             <div class="col-12">
@@ -474,12 +491,12 @@
                         $stmt = $conn->prepare("
                             SELECT *
                             FROM request_details
-                            WHERE userId = :userId
+                            WHERE request_id = :request_id
                             LIMIT 1
                         ");
 
                         $stmt->execute([
-                            ':userId' => $userId
+                            ':request_id' => $request_id
                         ]);
 
                         $requestData = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -490,12 +507,12 @@
                         $mainStmt = $conn->prepare("
                             SELECT status
                             FROM request_details
-                            WHERE userId = :userId
+                            WHERE request_id = :request_id
                             LIMIT 1
                         ");
 
                         $mainStmt->execute([
-                            ':userId' => $userId
+                            ':request_id' => $request_id
                         ]);
 
                         $mainRequestStatus = $mainStmt->fetchColumn();
@@ -508,12 +525,12 @@
                         $replyStmt = $conn->prepare("
                             SELECT *
                             FROM request_details_reply
-                            WHERE userId = :userId
+                            WHERE request_id = :request_id
                             ORDER BY id DESC
                         ");
 
                         $replyStmt->execute([
-                            ':userId' => $userId
+                            ':request_id' => $request_id
                         ]);
                         $replyRecords = $replyStmt->fetchAll(PDO::FETCH_ASSOC);
                         
@@ -543,7 +560,6 @@
                     <?php }else{ 
                         // Get package_id from the latest record
                         $package_id = $requestData['package_id'] ?? 0;
-                        $request_id = $requestData['request_id'] ?? 0;
                         $reply_id = $requestData['id'] ?? 0;
 
                         include(__DIR__ . '/ajax/tour_details_data.php');
@@ -1246,7 +1262,7 @@
                                                             </p>
                                                             <p class="fontSize10 discountGreen fw-bold text-end"
                                                             id="totalCouponDiscount0">
-                                                                - ₹ 0
+                                                                - ₹ <?= $requestData['coupon_discount'] ?>
                                                             </p>
                                                         </div>
                                                         <?php
@@ -1309,7 +1325,7 @@
                                                                 <i class="ri-price-tag-3-line"></i>
                                                                 Discounts (Coupon)
                                                             </p>
-                                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount0">- ₹ 0</p>
+                                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount0">- ₹ <?= $requestData['coupon_discount'] ?></p>
                                                         </div>
                                                         <?php } ?>
                                                         

@@ -38,9 +38,9 @@
                         <i class="ri-calendar-check-line"></i> <span data-key="t-home">My Bookings</span>
                     </a>
                 </li>
-                <li class="nav-item <php ($current_page == 'enquiries.php') ? 'active' : ''; ?>">
-                    <a class="nav-link menu-link" href="<?= $base_url_cust ?>enquiries.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="ri-wallet-line"></i> <span data-key="t-home">Enquiries</span>
+                <li class="nav-item <php ($current_page == 'enquiries_list.php') ? 'active' : ''; ?>">
+                    <a class="nav-link menu-link" href="<?= $base_url_cust ?>enquiries_list.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="ri-questionnaire-line"></i></i> <span data-key="t-home">Enquiries</span>
                     </a>
                 </li>
                 <li class="nav-item <?= ($current_page == 'customer_wallet.php') ? 'active' : ''; ?>">
