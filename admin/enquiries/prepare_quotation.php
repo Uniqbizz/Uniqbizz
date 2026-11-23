@@ -1435,8 +1435,58 @@
                                                                         <i class="ri-error-warning-line"></i>
                                                                     </span>
                                                                 </p>
-                                                                <div id="couponPassengerContainer0" class="coupon-passenger-container"></div>
-                                                                
+                                                                <div class="coupon-passenger-container">
+                                                                    <div class="saved-coupon-display">
+
+                                                                        <?php
+                                                                        $couponsToLoad0 = json_decode($requestData['coupons'] ?? '[]', true) ?: [];
+
+                                                                        foreach ($couponsToLoad0 as $coupon) {
+
+                                                                            // Exclude CU coupons
+                                                                            if (strtoupper(trim($coupon['type'] ?? '')) === 'CU') {
+                                                                                continue;
+                                                                            }
+
+                                                                            $couponCode = trim($coupon['code'] ?? '');
+
+                                                                            if ($couponCode === '') {
+                                                                                continue;
+                                                                            }
+
+                                                                            $passenger = $coupon['passenger'] ?? 'Coupon';
+                                                                            $amount = (float) ($coupon['amount'] ?? 0);
+                                                                        ?>
+
+                                                                            <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+
+                                                                                <div class="d-flex gap-3 largeDisplay">
+
+                                                                                    <p class="fontSize10 align-content-end mb-0 coupon-passenger">
+                                                                                        <?= htmlspecialchars($passenger) ?>
+                                                                                    </p>
+
+                                                                                    <p class="mb-0">
+                                                                                        <select class="form-select fontSize10 selectPadding coupon-select" disabled>
+                                                                                            <option value="<?= htmlspecialchars($couponCode) ?>" selected>
+                                                                                                <?= htmlspecialchars($couponCode) ?>
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </p>
+
+                                                                                </div>
+
+                                                                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 coupon-discount">
+                                                                                    - ₹ <?= $amount ?>
+                                                                                </p>
+
+                                                                            </div>
+
+                                                                        <?php } ?>
+
+                                                                    </div>
+
+                                                                </div>
                                                             </div>
                                                             <hr class="my-1 border border-2 mx-3">
                                                             <div class="d-flex justify-content-between px-3">
@@ -1499,7 +1549,58 @@
                                                                         <i class="ri-error-warning-line"></i>
                                                                     </span>
                                                                 </p>
-                                                                <div id="couponPassengerContainer0" class="coupon-passenger-container"></div>
+                                                                <div class="coupon-passenger-container">
+                                                                    <div class="saved-coupon-display">
+
+                                                                        <?php
+                                                                        $couponsToLoad0 = json_decode($requestData['coupons'] ?? '[]', true) ?: [];
+
+                                                                        foreach ($couponsToLoad0 as $coupon) {
+
+                                                                            // Exclude CU coupons
+                                                                            if (strtoupper(trim($coupon['type'] ?? '')) === 'CU') {
+                                                                                continue;
+                                                                            }
+
+                                                                            $couponCode = trim($coupon['code'] ?? '');
+
+                                                                            if ($couponCode === '') {
+                                                                                continue;
+                                                                            }
+
+                                                                            $passenger = $coupon['passenger'] ?? 'Coupon';
+                                                                            $amount = (float) ($coupon['amount'] ?? 0);
+                                                                        ?>
+
+                                                                            <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+
+                                                                                <div class="d-flex gap-3 largeDisplay">
+
+                                                                                    <p class="fontSize10 align-content-end mb-0 coupon-passenger">
+                                                                                        <?= htmlspecialchars($passenger) ?>
+                                                                                    </p>
+
+                                                                                    <p class="mb-0">
+                                                                                        <select class="form-select fontSize10 selectPadding coupon-select" disabled>
+                                                                                            <option value="<?= htmlspecialchars($couponCode) ?>" selected>
+                                                                                                <?= htmlspecialchars($couponCode) ?>
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </p>
+
+                                                                                </div>
+
+                                                                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 coupon-discount">
+                                                                                    - ₹ <?= $amount ?>
+                                                                                </p>
+
+                                                                            </div>
+
+                                                                        <?php } ?>
+
+                                                                    </div>
+
+                                                                </div>
                                                             </div>
                                                             <!-- TOTAL -->
                                                             <hr class="my-1 border border-2 mx-3">
@@ -2792,76 +2893,7 @@
 
             function loadSavedCoupons() {
 
-                const couponsToLoad0 = Array.isArray(savedCoupons) ? savedCoupons : [];
-
-                // ==========================================
-                // CONTAINER 0: DISPLAY SAVED COUPONS
-                // ==========================================
-
-                const $savedContainer0 = $('#couponPassengerContainer0');
-
-                if ($savedContainer0.length) {
-
-                    let $display = $savedContainer0.find('.saved-coupon-display').first();
-
-                    if (!$display.length) {
-                        $display = $('<div class="saved-coupon-display"></div>');
-                        $savedContainer0.prepend($display);
-                    }
-
-                    $display.empty();
-
-                    couponsToLoad0.forEach(function (coupon) {
-
-                        const couponCode = String(coupon.code || '').trim();
-
-                        if (!couponCode) {
-                            return;
-                        }
-
-                        const passenger = String(coupon.passenger || 'Coupon');
-                        const amount = Number(coupon.amount) || 0;
-
-                        const $row = $(`
-                            <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
-                                <div class="d-flex gap-3 largeDisplay">
-                                    <p class="fontSize10 align-content-end mb-0 coupon-passenger"></p>
-                                    <p class="mb-0">
-                                        <select class="form-select fontSize10 selectPadding coupon-select" disabled>
-                                            <option value="">Select Coupon</option>
-                                        </select>
-                                    </p>
-                                </div>
-
-                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 coupon-discount"></p>
-                            </div>
-                        `);
-
-                        $row.attr({
-                            'data-coupon-code': couponCode,
-                            'data-passenger': passenger
-                        });
-
-                        $row.find('.coupon-passenger').text(passenger);
-
-                        const $select = $row.find('.coupon-select');
-
-                        $select.append(
-                            $('<option>', {
-                                value: couponCode,
-                                text: couponCode
-                            }).attr('data-amount', amount)
-                        );
-
-                        $select.val(couponCode);
-
-                        $row.find('.coupon-discount').text(
-                            '- ₹ ' + amount.toLocaleString('en-IN')
-                        );
-
-                        $display.append($row);
-                    });
-                }
+                
                 const couponsToLoad = Array.isArray(savedCoupons) ? savedCoupons : [];
 
                 // ==========================================

@@ -1252,7 +1252,58 @@
                                                                     <i class="ri-error-warning-line"></i>
                                                                 </span>
                                                             </p>
-                                                            <div id="couponPassengerContainer0" class="coupon-passenger-container"></div>
+                                                            <div id="couponPassengerContainer0" class="coupon-passenger-container">
+                                                                    <div class="saved-coupon-display">
+
+                                                                        <?php
+                                                                        $couponsToLoad0 = json_decode($requestData['coupons'] ?? '[]', true) ?: [];
+
+                                                                        foreach ($couponsToLoad0 as $coupon) {
+
+                                                                            // Exclude CU coupons
+                                                                            if (strtoupper(trim($coupon['type'] ?? '')) === 'CU') {
+                                                                                continue;
+                                                                            }
+
+                                                                            $couponCode = trim($coupon['code'] ?? '');
+
+                                                                            if ($couponCode === '') {
+                                                                                continue;
+                                                                            }
+
+                                                                            $passenger = $coupon['passenger'] ?? 'Coupon';
+                                                                            $amount = (float) ($coupon['amount'] ?? 0);
+                                                                        ?>
+
+                                                                            <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+
+                                                                                <div class="d-flex gap-3 largeDisplay">
+
+                                                                                    <p class="fontSize10 align-content-end mb-0 coupon-passenger">
+                                                                                        <?= htmlspecialchars($passenger) ?>
+                                                                                    </p>
+
+                                                                                    <p class="mb-0">
+                                                                                        <select class="form-select fontSize10 selectPadding coupon-select" disabled>
+                                                                                            <option value="<?= htmlspecialchars($couponCode) ?>" selected>
+                                                                                                <?= htmlspecialchars($couponCode) ?>
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </p>
+
+                                                                                </div>
+
+                                                                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 coupon-discount">
+                                                                                    - ₹ <?= $amount ?>
+                                                                                </p>
+
+                                                                            </div>
+
+                                                                        <?php } ?>
+
+                                                                    </div>
+
+                                                                </div>
                                                             
                                                         </div>
                                                         <hr class="my-1 border border-2 mx-3">
