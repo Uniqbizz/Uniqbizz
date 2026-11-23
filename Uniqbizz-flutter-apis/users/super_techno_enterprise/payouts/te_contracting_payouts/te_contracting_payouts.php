@@ -89,7 +89,7 @@ try {
                 FROM techno_enterprise_payout ca
                 LEFT JOIN techno_enterprise_payout_paid cap 
                     ON cap.$columnDesignation = ca.$columnDesignation
-                    AND cap.business_mentor = ca.business_mentor
+                    AND cap.ste_id = ca.ste_id
                     AND YEAR(cap.date) = ?
                     AND MONTH(cap.date) = ?
                 WHERE ca.$columnDesignation = ? 

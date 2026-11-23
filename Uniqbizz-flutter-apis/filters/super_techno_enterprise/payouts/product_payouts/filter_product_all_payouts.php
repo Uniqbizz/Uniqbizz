@@ -37,8 +37,8 @@
 
     $checkStmt = $conn->prepare("
         SELECT 1 
-        FROM ca_travelagency 
-        WHERE reference_no = :user_ref 
+        FROM super_techno_eneterprise 
+        WHERE super_techno_eneterprise_id = :user_ref 
         LIMIT 1
     ");
     $checkStmt->bindValue(':user_ref', $userId, PDO::PARAM_STR);
@@ -47,7 +47,7 @@
     if (!$checkStmt->fetchColumn()) {
         echo json_encode([
             "status" => false,
-            "message" => "franchisee id invalid"
+            "message" => "STE id invalid"
         ]);
         exit;
     }

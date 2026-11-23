@@ -39,8 +39,8 @@
 
     $checkStmt = $conn->prepare("
         SELECT 1 
-        FROM ca_travelagency 
-        WHERE reference_no = :user_ref 
+        FROM super_techno_enterprise 
+        WHERE super_techno_enterprise_id = :user_ref 
         LIMIT 1
     ");
     $checkStmt->bindValue(':user_ref', $userId, PDO::PARAM_STR);
@@ -54,7 +54,7 @@
         exit;
     }
 
-    $columnDesignation = 'techno_enterprise'; // Fixed as per your code
+    $columnDesignation = 'buiness_mentor'; // Fixed as per your code
 
     // Prepare SQL with date filtering
     $sql = "SELECT * FROM `ca_ta_payout` WHERE $columnDesignation = :userId";
@@ -95,16 +95,16 @@
             $dt = $dt->format('Y-m-d');
             
             // Message - replace . with space (as per your code)
-            $message1 = str_replace('.', ' ', $row['message_te']);
+            $message1 = str_replace('.', ' ', $row['message_bm']);
             
             // Amount calculations
             $tdsPercentage = 0.02;
-            $CommAmt = floatval($row['commision_te']);
+            $CommAmt = floatval($row['commision_bm']);
             $tds = $CommAmt * $tdsPercentage;
             $totalAmt = $CommAmt - $tds;
             
             // Status
-            $statusText = ($row['status_te'] == '1') ? 'Paid' : 'Pending';
+            $statusText = ($row['status_bm'] == '1') ? 'Paid' : 'Pending';
             
             $payouts[] = [
                 'id' => $row['id'],

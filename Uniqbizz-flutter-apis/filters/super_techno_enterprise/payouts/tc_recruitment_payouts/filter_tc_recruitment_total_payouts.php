@@ -36,8 +36,8 @@
     // Validate user
     $checkStmt = $conn->prepare("
         SELECT 1 
-        FROM ca_travelagency 
-        WHERE reference_no = :user_ref 
+        FROM super_techno_enterprise 
+        WHERE super_techno_enterprise_id = :user_ref 
         LIMIT 1
     ");
     $checkStmt->execute([':user_ref' => $userId]);
@@ -50,8 +50,8 @@
         exit;
     }
 
-    $designation = 'techno_enterprise';
-    $commision = 'commision_te';
+    $designation = 'business_mentor';
+    $commision = 'commision_bm';
 
     $response = [
         'success' => false,
@@ -65,7 +65,7 @@
         // Detect message column
         $user_id_str = substr($userId, 0, 1) == 'F' ? substr($userId, 0, 1) : substr($userId, 0, 2);
 
-        if ($user_id_str == 'MF' || $user_id_str == 'SF' || $user_id_str == 'BM') {
+        if ($user_id_str == 'MF' || $user_id_str == 'SF' || $user_id_str == 'BM' || $user_id_str == 'ST') {
             $messageCol = "message_bm";
         } else if ($user_id_str == 'F' || $user_id_str == 'CA' || $user_id_str == 'TE') {
             $messageCol = "message_te";

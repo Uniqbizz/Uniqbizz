@@ -22,7 +22,7 @@ $isAllTime = empty($TotalYear) && empty($TotalMonth);
 // Detect message column (same logic)
 $user_id_str = substr($user_id, 0, 1) == 'F' ? substr($user_id, 0, 1) : substr($user_id, 0, 2);
 
-if ($user_id_str == 'MF' || $user_id_str == 'SF' || $user_id_str == 'BM' || || $user_id_str == 'ST') {
+if ($user_id_str == 'MF' || $user_id_str == 'SF' || $user_id_str == 'BM' || $user_id_str == 'ST') {
     $messageCol = "message_bm";
 } else if ($user_id_str == 'F' || $user_id_str == 'CA' || $user_id_str == 'TE') {
     $messageCol = "message_te";

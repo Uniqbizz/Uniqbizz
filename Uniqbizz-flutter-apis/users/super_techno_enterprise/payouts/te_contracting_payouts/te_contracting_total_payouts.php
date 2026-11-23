@@ -97,7 +97,7 @@ try {
         FROM techno_enterprise_payout ca
         LEFT JOIN techno_enterprise_payout_paid cap 
             ON cap.$designation = ca.$designation 
-            AND cap.travel_consultant = ca.travel_consultant
+            AND cap.ste_id = ca.ste_id
         WHERE $where
         ORDER BY ca.created_date DESC
     ";

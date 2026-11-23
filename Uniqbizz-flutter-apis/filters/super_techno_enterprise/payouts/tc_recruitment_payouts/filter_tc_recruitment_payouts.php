@@ -26,10 +26,10 @@
     $year     = $request['year'] ?? null;
     $month    = $request['month'] ?? null;
 
-    $columnDesignation = 'techno_enterprise';
-    $columnMessage     = 'message_te';
-    $columnCommision   = 'commision_te';
-    $columnStatus      = 'status_te';
+    $columnDesignation = 'business_mentor';
+    $columnMessage     = 'message_bm';
+    $columnCommision   = 'commision_bm';
+    $columnStatus      = 'status_bm';
 
     $tdsPercentage = 2/100;
 

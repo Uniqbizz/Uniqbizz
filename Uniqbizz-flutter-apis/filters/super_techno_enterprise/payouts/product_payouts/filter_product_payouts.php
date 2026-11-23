@@ -35,8 +35,8 @@
 
     $checkStmt = $conn->prepare("
         SELECT 1 
-        FROM ca_travelagency 
-        WHERE reference_no = :user_ref 
+        FROM super_techno_enterprise 
+        WHERE super_techno_enterprise_id = :user_ref 
         LIMIT 1
     ");
 
