@@ -547,9 +547,9 @@ $total_package_count=$totalRecords;
                                             if ($showGuestPrice && $hasGuestAdjustment) {
 
                                                 if ($guest_amount > 0) {
-                                                    $displayPrice = $final_price - $guest_amount;
+                                                    $displayPrice = $final_price + $guest_amount;
                                                 } elseif ($guest_percentage > 0) {
-                                                    $displayPrice = $final_price - (($total_price * $guest_percentage) / 100);
+                                                    $displayPrice = $final_price + (($total_price * $guest_percentage) / 100);
                                                 }
 
                                             } else {
@@ -558,14 +558,14 @@ $total_package_count=$totalRecords;
                                         ?>
 
                                         <p class="pera">
-                                            <span>&#8377;</span><?= $displayPrice ?>
+                                            <span>&#8377;</span><?= ($showGuestPrice && $hasGuestAdjustment) ?$final_price:$displayPrice ?>
                                         </p>
 
                                         <?php
                                         echo ($showGuestPrice && $hasGuestAdjustment)
                                             ? '
                                                 <p class="pera text-muted text-decoration-line-through">
-                                                    <small><span>&#8377;</span>' . $final_price . '</small>
+                                                    <small><span>&#8377;</span>' . $displayPrice . '</small>
                                                 </p>
                                             '
                                             : '';
@@ -786,9 +786,9 @@ $total_package_count=$totalRecords;
                                     if ($showGuestPrice && $hasGuestAdjustment) {
 
                                         if ($guest_amount > 0) {
-                                            $displayPrice = $final_price - $guest_amount;
+                                            $displayPrice = $final_price + $guest_amount;
                                         } elseif ($guest_percentage > 0) {
-                                            $displayPrice = $final_price - (($total_price * $guest_percentage) / 100);
+                                            $displayPrice = $final_price + (($total_price * $guest_percentage) / 100);
                                         }
 
                                     } else {
@@ -797,12 +797,12 @@ $total_package_count=$totalRecords;
                                 ?>
 
                                     <h4 class="fw-bolder pacakgePrice">
-                                        &#8377; <?= $displayPrice ?>
+                                        &#8377; <?= ($showGuestPrice && $hasGuestAdjustment) ?$final_price:$displayPrice ?>
                                     </h4>
 
                                 <?php if ($showGuestPrice && $hasGuestAdjustment): ?>
                                     <small class="fw-bolder pacakgePrice text-muted text-decoration-line-through">
-                                        &#8377; <?= $final_price ?>
+                                        &#8377; <?= $displayPrice ?>
                                     </small>
 
                                 <?php endif; ?>

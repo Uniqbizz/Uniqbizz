@@ -1269,9 +1269,9 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                 if ($showGuestPrice && $hasGuestAdjustment) {
 
                                                     if ($guest_amount > 0) {
-                                                        $displayPrice = $final_price - $guest_amount;
+                                                        $displayPrice = $final_price + $guest_amount;
                                                     } else {
-                                                        $displayPrice = $final_price - (($total_price * $guest_percentage) / 100);
+                                                        $displayPrice = $final_price + (($total_price * $guest_percentage) / 100);
                                                     }
 
                                                 } else {
@@ -1323,7 +1323,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                                         <p class="light-pera">From</p>
 
                                                                         <p class="pera">
-                                                                            <span>&#8377;</span>' . $displayPrice . '
+                                                                            <span>&#8377;</span>' . ($showGuestPrice && $hasGuestAdjustment) ?$final_price:$displayPrice . '
                                                                         </p>
 
                                                                         ' . (
@@ -1331,21 +1331,11 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                                                 ? '
                                                                                     <p class="pera text-muted text-decoration-line-through">
                                                                                         <small>
-                                                                                            <span>&#8377;</span>' . $final_price . '
+                                                                                            <span>&#8377;</span>' . $displayPrice . '
                                                                                         </small>
                                                                                     </p>
                                                                                 '
-                                                                                : (
-                                                                                    !$showGuestPrice && $final_price != $total_price
-                                                                                        ? '
-                                                                                            <p class="pera text-muted text-decoration-line-through">
-                                                                                                <small>
-                                                                                                    <span>&#8377;</span>' . $total_price . '
-                                                                                                </small>
-                                                                                            </p>
-                                                                                        '
-                                                                                        : ''
-                                                                                )
+                                                                                : ''
                                                                         ) . '
 
                                                                     </div>
@@ -1499,9 +1489,9 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                             if ($showGuestPrice && $hasGuestAdjustment) {
 
                                                 if ($guest_amount > 0) {
-                                                    $displayPrice = $final_price - $guest_amount;
+                                                    $displayPrice = $final_price + $guest_amount;
                                                 } else {
-                                                    $displayPrice = $final_price - (($total_price * $guest_percentage) / 100);
+                                                    $displayPrice = $final_price + (($total_price * $guest_percentage) / 100);
                                                 }
 
                                             } else {
@@ -1564,7 +1554,7 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
 
                                                                 <!-- Main Price -->
                                                                 <h4 class="fw-bolder pacakgePrice">
-                                                                    &#8377; ' . $displayPrice . '
+                                                                    &#8377; ' . ($showGuestPrice && $hasGuestAdjustment) ?$final_price:$displayPrice . '
                                                                 </h4>
 
                                                                 ' . (
@@ -1572,19 +1562,10 @@ $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                                                                         ? '
                                                                             <!-- Original price for guest-priced user -->
                                                                             <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">
-                                                                                &#8377; ' . $final_price . '
+                                                                                &#8377; ' . $displayPrice . '
                                                                             </h5>
                                                                         '
-                                                                        : (
-                                                                            !$showGuestPrice && $final_price != $total_price
-                                                                                ? '
-                                                                                    <!-- Normal discounted price -->
-                                                                                    <h5 class="fw-bolder pacakgePrice text-muted text-decoration-line-through">
-                                                                                        &#8377; ' . $total_price . '
-                                                                                    </h5>
-                                                                                '
-                                                                                : ''
-                                                                        )
+                                                                        : ''
                                                                 ) . '
 
                                                             </div>

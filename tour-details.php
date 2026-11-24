@@ -694,19 +694,19 @@ include 'assets/submit/tour_details_data.php';
 
                                                         <div class="position-relative">
 
-                                                            <?php if ($showGuestPrice && $adultDisplayPrice < $adultPrice): ?>
+                                                            <?php if ($showGuestPrice && $adultDisplayPrice > $adultPrice): ?>
 
                                                                 <div class="text-white text-decoration-line-through"
                                                                     style="font-size: 16px; opacity: .8;">
 
-                                                                    &#8377; <?= number_format($adultPrice, 2) ?>
+                                                                    &#8377; <?= number_format($adultDisplayPrice, 2) ?>
 
                                                                 </div>
 
                                                             <?php endif; ?>
 
                                                             <h5 class="fw-bold text-white mb-0">
-                                                                &#8377; <?= number_format($adultDisplayPrice, 2) ?>
+                                                                &#8377; <?= ($showGuestPrice && $adultDisplayPrice > $adultPrice)?number_format($adultPrice, 2):number_format($adultDisplayPrice, 2) ?>
                                                             </h5>
 
                                                             <p class="text-white">
@@ -723,7 +723,7 @@ include 'assets/submit/tour_details_data.php';
 
                                                         <div class="position-relative">
 
-                                                            <?php if ($showGuestPrice && $childDisplayPrice < $childPrice): ?>
+                                                            <?php if ($showGuestPrice && $childDisplayPrice > $childPrice): ?>
 
                                                                 <div class="text-white text-decoration-line-through"
                                                                     style="font-size: 16px; opacity: .8;">
