@@ -21,22 +21,34 @@ function animatePrice($element, finalValue, duration = 800) {
 
             step: function (now) {
 
+                const truncatedValue =
+                    Math.trunc(now * 100) / 100;
+
                 $element.text(
                     '₹ ' +
-                    Math.round(now).toLocaleString('en-IN')
+                    truncatedValue.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
                 );
             },
 
             complete: function () {
 
+                const truncatedFinalValue =
+                    Math.trunc(finalValue * 100) / 100;
+
                 $element.text(
                     '₹ ' +
-                    Math.round(finalValue).toLocaleString('en-IN')
+                    truncatedFinalValue.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
                 );
 
                 $element.data(
                     'current-price',
-                    finalValue
+                    truncatedFinalValue
                 );
             }
         }

@@ -207,12 +207,12 @@ $vehicleOptions = [
                                             <div class="p-2 priceGreenBtn">
                                                 <div class="d-flex justify-content-center align-items-end">Starting from 
                                                     <div class="d-block mx-2">
-                                                        <?php if ($showGuestPrice && $adultDisplayPriceRD > $adultPriceRD): ?>
+                                                        <?php if ($showGuestPrice && $adultDisplayPrice > $adultPrice): ?>
                                                             <p class="priceTextGreen1 fontSize10 text-center d-block">
-                                                                &#8377; <?= number_format($adultDisplayPriceRD, 2) ?> /-
+                                                                &#8377; <?= number_format($adultDisplayPrice, 2) ?> /-
                                                             </p>
                                                         <?php endif; ?>
-                                                        <p class="priceTextGreen">&#8377;<?= (!$showGuestPrice)?number_format($adultDisplayPriceRD, 2):number_format($adultPriceRD, 2) ?> /-</p>
+                                                        <p class="priceTextGreen">&#8377;<?= (!$showGuestPrice)?number_format($adultDisplayPrice, 2):number_format($adultPrice, 2) ?> /-</p>
                                                     </div>
                                                      per adult
                                                 </div>
@@ -589,6 +589,16 @@ $vehicleOptions = [
                                             - ₹ 0
                                         </p>
                                     </div>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class=" p-3 d-flex justify-content-between px-3">
+                                        <p class="fontSize10 textDark fw-bold">
+                                            After Discount
+                                        </p>
+                                        <p class="fontSize10 textDark fw-bold text-end"
+                                        id="totalAfterCouponDiscount">
+                                            - ₹ 0
+                                        </p>
+                                    </div>
                                     <?php
                                     $referralWalletBalance = $referralBalance ?? 0;
                                     $discountWalletBalance = $discountBalance ?? 0;
@@ -702,7 +712,16 @@ $vehicleOptions = [
                                                 </span>
 
                                             </div>
-
+                                            <hr class="my-1 border border-2 mx-3">
+                                            <div class=" p-3 d-flex justify-content-between px-3">
+                                                <p class="fontSize10 textDark fw-bold">
+                                                    After Discount
+                                                </p>
+                                                <p class="fontSize10 textDark fw-bold text-end"
+                                                id="totalAfterCouponDiscount">
+                                                    - ₹ 0
+                                                </p>
+                                            </div>
                                             <?php
                                             $referralWalletBalance = $referralBalance ?? 0;
                                             ?>
@@ -753,6 +772,17 @@ $vehicleOptions = [
                                         <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount">- ₹ 0</p>
                                     </div>
                                     <?php } ?>
+                                    <hr class="my-1 border border-2 mx-3">
+                                    <div class="p-3">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <p class="fw-bold fontSize10">After Wallet Deductions</p>
+                                            </div>
+                                            <div>
+                                                <p class="fontSize10 text-end" id="afterWalletDeduction">&#8377; 0</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <hr class="my-1 border border-2 mx-3">
                                     <div class="p-3">
                                         <p class="fw-bold">Other Charges</p>
@@ -1033,9 +1063,17 @@ $vehicleOptions = [
         <!-- keep this internal js as it is dated 27-08-2026 -->
         <script>
             // Price values from PHP
-            const perAdultPrice = <?= json_encode((float)($adultDisplayPriceRD ?? 0)) ?>;
-            const perChildPrice = <?= json_encode((float)($childDisplayPriceRD ?? 0)) ?>;
+            const perAdultPrice = <?= json_encode(
+                (float)($showGuestPrice
+                    ? $adultPriceRD
+                    : $adultDisplayPriceRD)
+            ) ?>;
 
+            const perChildPrice = <?= json_encode(
+                (float)($showGuestPrice
+                    ? $childPriceRD
+                    : $childDisplayPriceRD)
+            ) ?>;
             // Tour information
             const tourDays = <?= json_encode((int)($tour_days_total ?? 0)) ?>;
 

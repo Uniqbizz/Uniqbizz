@@ -219,11 +219,10 @@ try {
     $calendarDays = $startDate->diff($endDate)->days + 1;
 
     // Nights = calendar days - 1
-    $nights = max(0, $calendarDays - 2);
+    $nights = max(0, $calendarDays - 1);
 
     // Your business rule:
-    // 5 calendar days = 4 Nights / 3 Days
-    $days = max(0, $calendarDays - 1);
+    $days = max(0, $calendarDays);
 
     $noOfNightsDays =$nights . " Nights / " . $days . " Days";
     // =====================================================

@@ -841,6 +841,22 @@
                                 </p>
 
                             </div>
+                            <hr class="my-1 border border-2 mx-3">
+                            <div class=" p-1 d-flex justify-content-between px-3">
+                                <p class="fontSize10 textDark fw-bold">
+                                    After Discount
+                                </p>
+                                <?php
+                                $totalAfterCouponDiscount = (float)$replyData['subtotal']
+                                    - (float)$totalCouponDiscount;
+
+                                $totalAfterCouponDiscount = (int)($totalAfterCouponDiscount * 100) / 100;
+                                ?>
+
+                                <p class="fontSize10 textDark fw-bold text-end">
+                                    - ₹ <?= number_format($totalAfterCouponDiscount, 2, '.', ',') ?>
+                                </p>
+                            </div>
                             <?php
                             $referralWalletBalance = $referralBalance ?? 0;
                             $discountWalletBalance = $discountBalance ?? 0;
@@ -861,10 +877,11 @@
                                 </p>
 
                                 <div class="d-flex align-items-center">
+                                    
                                     <span class="fontSize10 discountGreen fw-bold me-1">
-                                        - ₹
+                                        - ₹ 
                                     </span>
-                                    <input type="number" class="form-control form-control-sm walletInput" id="" value="<?= $requestData['referral_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
+                                    <input type="number" class="form-control form-control-sm walletInput" id="" value="<?= $replyData['referral_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
                                 </div>
                             </div>
                             <?php if ($Requester_type == 'Neo Select'){
@@ -880,7 +897,7 @@
                                 </p>
                                 <div class="d-flex align-items-center">
                                     <span class="fontSize10 discountGreen fw-bold me-1">
-                                        - ₹
+                                        - ₹ 
                                     </span>
                                     <input type="number" class="form-control form-control-sm walletInput" id="" value="<?= $replyData['discount_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
                                 </div>
@@ -898,10 +915,29 @@
                                     <span class="fontSize10 discountGreen fw-bold me-1">
                                         - ₹
                                     </span>
-                                    <input type="number" class="form-control form-control-sm walletInput" id="" value="0" min="0" step="1" disabled style="width: 80px;">
+                                    <input type="number" class="form-control form-control-sm walletInput" id="" value="<?= $replyData['extended_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
                                 </div>
                             </div>
                             <?php } ?>
+                            <hr class="my-1 border border-2 mx-3">
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="fw-bold fontSize10">After Wallet Deductions</p>
+                                    </div>
+                                    <div>
+                                        <?php
+                                        $totalAfterWalletDeduction = (float)$replyData['subtotal']
+                                            - (float)$replyData['referral_wallet_amount']
+                                            - (float)$replyData['discount_wallet_amount']
+                                            - (float)$replyData['extended_wallet_amount'];
+
+                                        $totalAfterWalletDeduction = (int)($totalAfterWalletDeduction * 100) / 100;
+                                        ?>
+                                        <p class="fontSize10 text-end">&#8377; <?= number_format($totalAfterWalletDeduction, 2, '.', ',') ?></p>
+                                    </div>
+                                </div>
+                            </div>
                             
                             <hr class="my-2 border border-2 mx-3">
                             <div class="p-3">
@@ -3804,7 +3840,7 @@
                                             &#8377; <?= number_format(
                                                 (float) ($hasReply
                                                     ? ($latestReply['adult_price'] ?? 0)
-                                                    : $adultDisplayPriceRD),
+                                                    : $requestData['adult_price']),
                                                 2
                                             ) ?>
                                         </p>
@@ -3813,7 +3849,7 @@
                                             &#8377; <?= number_format(
                                                 (float) ($hasReply
                                                     ? ($latestReply['child_price'] ?? 0)
-                                                    : $childDisplayPriceRD),
+                                                    : $requestData['child_price']),
                                                 2
                                             ) ?>
                                         </p>
@@ -3833,7 +3869,7 @@
                                             </span>
                                             x &#8377;
                                             <?= number_format(
-                                                (float) ($hasReply ? ($latestReply['adult_price'] ?? 0) : $adultDisplayPriceRD),
+                                                (float) ($hasReply ? ($latestReply['adult_price'] ?? 0) : $requestData['adult_price']),
                                                 2
                                             ) ?>
                                         </p>
@@ -3845,7 +3881,7 @@
                                             </span>
                                             x &#8377;
                                             <?= number_format(
-                                                (float) ($hasReply ? ($latestReply['child_price'] ?? 0) : $childDisplayPriceRD),
+                                                (float) ($hasReply ? ($latestReply['child_price'] ?? 0) : $requestData['child_price']),
                                                 2
                                             ) ?>
                                         </p>
@@ -3964,6 +4000,15 @@
                                 <p class="fontSize10 discountGreen fw-bold text-end"
                                 id="totalCouponDiscount1">
                                     - ₹ 0
+                                </p>
+                            </div>
+                            <hr class="my-1 border border-2 mx-3">
+                            <div class=" p-1 d-flex justify-content-between px-3">
+                                <p class="fontSize10 textDark fw-bold">
+                                    After Discount
+                                </p>
+                                <p class="fontSize10 textDark fw-bold text-end" id="totalAfterCouponDiscount">
+                                    - ₹ 0 
                                 </p>
                             </div>
                             <?php
@@ -4130,6 +4175,15 @@
                                 </p>
                                 <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount1">- ₹ 0</p>
                             </div>
+                            <hr class="my-1 border border-2 mx-3">
+                            <div class=" p-1 d-flex justify-content-between px-3">
+                                <p class="fontSize10 textDark fw-bold">
+                                    After Discount
+                                </p>
+                                <p class="fontSize10 textDark fw-bold text-end" id="totalAfterCouponDiscount">
+                                    - ₹ 0
+                                </p>
+                            </div>
                             <?php
                             $referralWalletBalance = $referralBalance ?? 0;
                             ?>
@@ -4154,7 +4208,17 @@
                                 </div>
                             </div>
                             <?php } ?>
-                            
+                            <hr class="my-1 border border-2 mx-3">
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="fw-bold fontSize10">After Wallet Deductions</p>
+                                    </div>
+                                    <div>
+                                        <p class="fontSize10 text-end" id="afterWalletDeduction">&#8377; 0</p>
+                                    </div>
+                                </div>
+                            </div>
                             <hr class="my-2 border border-2 mx-3">
                             <div class="p-3">
                                 <p class="fw-bold blueDiv">Adjustments</p>

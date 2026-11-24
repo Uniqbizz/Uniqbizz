@@ -21,22 +21,34 @@ function animatePrice($element, finalValue, duration = 800) {
 
             step: function (now) {
 
+                const truncatedValue =
+                    Math.trunc(now * 100) / 100;
+
                 $element.text(
                     '₹ ' +
-                    Math.round(now).toLocaleString('en-IN')
+                    truncatedValue.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
                 );
             },
 
             complete: function () {
 
+                const truncatedFinalValue =
+                    Math.trunc(finalValue * 100) / 100;
+
                 $element.text(
                     '₹ ' +
-                    Math.round(finalValue).toLocaleString('en-IN')
+                    truncatedFinalValue.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
                 );
 
                 $element.data(
                     'current-price',
-                    finalValue
+                    truncatedFinalValue
                 );
             }
         }
@@ -812,13 +824,9 @@ function updateFinalPackagePrice() {
     // TOTAL AFTER COUPON
     // =====================================================
 
-    const totalAfterCoupon =
-        Math.max(
-            0,
-            (adultTotal +
-            childrenTotal) -
-            couponDiscount
-        );
+    const totalAfterCoupon = Math.trunc(
+        Math.max(0, (adultTotal + childrenTotal) - couponDiscount) * 100
+    ) / 100;
 
     // =====================================================
     // APPLIED REFERRAL WALLET
@@ -850,12 +858,9 @@ function updateFinalPackagePrice() {
     // AMOUNT AFTER WALLET
     // =====================================================
 
-    const amountAfterWallet =
-        Math.max(
-            0,
-            totalAfterCoupon -
-            totalWalletDeduction
-        );
+    const amountAfterWallet = Math.trunc(
+        Math.max(0, totalAfterCoupon - totalWalletDeduction) * 100
+    ) / 100;
     // =====================================================
     // GST
     // CALCULATED ON CONVENIENCE FEE
@@ -904,6 +909,12 @@ function updateFinalPackagePrice() {
 
     $('#finalPackagePrice').text(
         '₹ ' + formattedFinalAmount
+    );
+    $('#totalAfterCouponDiscount').text(
+        '₹ ' + amountAfterWallet
+    );
+    $('#afterWalletDeduction').text(
+        '₹ ' + totalAfterCoupon
     );
 
     $('#finalPackagePrice1').text(
@@ -1043,11 +1054,10 @@ $('.guest-counter').each(function () {
 
 $('#adultCount').on('change', function () {
 
-    const adultCount =
-        parseInt($(this).val()) || 0;
+    const adultCount = parseInt($(this).val(), 10) || 0;
 
     const adultTotal =
-        adultCount * perAdultPrice;
+        Math.trunc((adultCount * perAdultPrice) * 100) / 100;
 
     $('#totalAdultCount').text(adultCount);
 
@@ -1066,8 +1076,9 @@ $('#adultCount').on('change', function () {
     // Update coupon passenger rows
     generateCouponDropdowns();
 
-    //update final price
+    // Update final price
     updateFinalPackagePrice();
+
     // Update vehicle text
     updateSelectedVehicleText();
 });
@@ -1079,11 +1090,10 @@ $('#adultCount').on('change', function () {
 
 $('#childrenCount').on('change', function () {
 
-    const childrenCount =
-        parseInt($(this).val()) || 0;
+    const childrenCount = parseInt($(this).val(), 10) || 0;
 
     const childrenTotal =
-        childrenCount * perChildPrice;
+        Math.trunc((childrenCount * perChildPrice) * 100) / 100;
 
     $('#totalChildrenCount').text(childrenCount);
 
@@ -1102,11 +1112,11 @@ $('#childrenCount').on('change', function () {
     // Update coupon passenger rows
     generateCouponDropdowns();
 
-    //update final price
+    // Update final price
     updateFinalPackagePrice();
+
     // Update vehicle text
     updateSelectedVehicleText();
-
 });
 
 // =====================================================

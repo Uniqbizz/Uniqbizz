@@ -1436,12 +1436,10 @@
                                                             <p class="fw-bold blueDiv">Adjustments</p>
                                                             <div class="d-flex justify-content-between">
                                                                 <div>
-                                                                    <p class="mb-1">Extra Mattress (1 x &#8377; <?= $pricing['extra_mattress'] ?>)</p>
                                                                     <p class="mb-1">GST (<?= $requestData['gst_percentage'] ?>%) </p>
                                                                     <p class="mb-1">Convenience Fee </p>
                                                                 </div>
                                                                 <div>
-                                                                    <p class="mb-1 text-end" id="#">&#8377; <?= $totalExtraMattresses * $pricing['extra_mattress'] ?></p>
                                                                     <p class="mb-1 text-end">&#8377; <?= $requestData['gst'] ?></p>
                                                                     <p class="mb-1 text-end" id="#">&#8377; <?= $requestData['convenience_fee'] ?></p>
                                                                 </div>

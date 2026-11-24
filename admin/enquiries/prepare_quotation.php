@@ -1384,8 +1384,8 @@
                                                                         <p class="mb-1">Infant (0-1 yrs)</p>
                                                                     </div>
                                                                     <div>
-                                                                        <p class="mb-1 text-end">&#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
-                                                                        <p class="mb-1 text-end">&#8377; <?= number_format($childDisplayPriceRD, 2) ?></p>
+                                                                        <p class="mb-1 text-end">&#8377; <?= $requestData['adult_price'] ?></p>
+                                                                        <p class="mb-1 text-end">&#8377; <?= $requestData['child_price'] ?></p>
                                                                         <p class="mb-1 text-end">FREE</p>
                                                                     </div>
                                                                 </div>
@@ -1394,8 +1394,8 @@
                                                                 <p class="mb-2 fw-bold blueDiv">Price Based on Travelers</p>
                                                                 <div class="d-flex justify-content-between">
                                                                     <div>
-                                                                        <p class="mb-1">Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
-                                                                        <p class="mb-1">Children: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPriceRD, 2) ?></p>
+                                                                        <p class="mb-1">Adult: <span class="" id="totalAdultCount"><?= $requestData['adult_count'] ?></span> x &#8377; <?= $requestData['adult_price'] ?></p>
+                                                                        <p class="mb-1">Children: <span class="" id="totalChildrenCount"><?= $requestData['child_count'] ?></span> x &#8377; <?= $requestData['child_price'] ?></p>
                                                                         <p class="mb-1">Infant: <span class="" id="totalInfantCount"><?= $requestData['infant_count'] ?></span> x FREE</p>
                                                                     </div>
                                                                     <div>
@@ -1498,12 +1498,21 @@
                                                                     - ₹ <?= $requestData['coupon_discount'] ?>
                                                                 </p>
                                                             </div>
+                                                            <hr class="my-1 border border-2 mx-3">
+                                                            <div class=" p-1 d-flex justify-content-between px-3">
+                                                                <p class="fontSize10 textDark fw-bold">
+                                                                    After Discount
+                                                                </p>
+                                                                <p class="fontSize10 textDark fw-bold text-end">
+                                                                    - ₹ <?= number_format($requestData['subtotal']-$requestData['coupon_discount'],2) ?>
+                                                                </p>
+                                                            </div>
                                                             <?php
                                                             $referralWalletBalance = $referralBalance ?? 0;
                                                             $discountWalletBalance = $discountBalance ?? 0;
                                                             ?>
 
-                                                            <!-- <hr class="my-1 border border-2 mx-3"> -->
+                                                            <hr class="my-1 border border-2 mx-3">
 
                                                             <div class="d-flex justify-content-between align-items-center px-3">
 
@@ -1518,7 +1527,7 @@
 
                                                                 <div class="d-flex align-items-center">
                                                                     <span class="fontSize10 discountGreen fw-bold me-1">
-                                                                        - ₹
+                                                                        - ₹ <?= number_format($requestData['referral_wallet_amount']) ?>
                                                                     </span>
                                                                     <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="<?= $requestData['referral_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
                                                                 </div>
@@ -1534,7 +1543,7 @@
                                                                 </p>
                                                                 <div class="d-flex align-items-center">
                                                                     <span class="fontSize10 discountGreen fw-bold me-1">
-                                                                        - ₹
+                                                                        - ₹ <?= number_format($requestData['discount_wallet_amount']) ?>
                                                                     </span>
                                                                     <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
                                                                 </div>
@@ -1611,8 +1620,61 @@
                                                                 </p>
                                                                 <p class="fontSize10 discountGreen fw-bold text-end mb-0" >- ₹ <?= $requestData['coupon_discount'] ?></p>
                                                             </div>
+                                                            <hr class="my-1 border border-2 mx-3">
+                                                            <div class=" p-1 d-flex justify-content-between px-3">
+                                                                <p class="fontSize10 textDark fw-bold">
+                                                                    After Discount
+                                                                </p>
+                                                                <p class="fontSize10 textDark fw-bold text-end">
+                                                                    - ₹ <?= number_format($requestData['subtotal']-$requestData['coupon_discount'],2) ?>
+                                                                </p>
+                                                            </div>
+                                                            <?php
+                                                            $referralWalletBalance = $referralBalance ?? 0;
+                                                            ?>
+                                                            <hr class="my-1 border border-2 mx-3">
+
+                                                            <div class="d-flex justify-content-between align-items-center px-3">
+
+                                                                <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                                    Referral Wallet
+                                                                </p>
+
+                                                                <p class="fontSize10 discountGreen fw-bold text-end mb-0"
+                                                                id="referralWalletBalance">
+                                                                    ₹ <?= number_format($referralWalletBalance, 2) ?>
+                                                                </p>
+
+                                                                <div class="d-flex align-items-center">
+                                                                    <span class="fontSize10 discountGreen fw-bold me-1">
+                                                                        - ₹ <?= number_format($requestData['referral_wallet_amount']) ?>
+                                                                    </span>
+                                                                    <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                                                </div>
+                                                            </div>
                                                             <?php } ?>
-                                                            
+                                                            <hr class="my-1 border border-2 mx-3">
+                                                            <div class="p-3 py-1">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>
+                                                                        <p class="fw-bold fontSize10">After Wallet Deductions</p>
+                                                                    </div>
+                                                                    <?php
+                                                                    $finalAmount = (float)$requestData['subtotal']
+                                                                        - (float)$requestData['coupon_discount']
+                                                                        - (float)$requestData['referral_wallet_amount']
+                                                                        - (float)$requestData['discount_wallet_amount'];
+
+                                                                    $finalAmount = (int)($finalAmount * 100) / 100;
+                                                                    ?>
+
+                                                                    <div>
+                                                                        <p class="fontSize10 text-end">
+                                                                            &#8377; <?= number_format($finalAmount, 2, '.', ',') ?>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                             <hr class="my-2 border border-2 mx-3">
                                                             <div class="p-3">
                                                                 <p class="fw-bold blueDiv">Adjustments</p>
@@ -2245,8 +2307,8 @@
         <script>
 
             // Price values from PHP
-            const perAdultPrice = <?= json_encode((float)($adultDisplayPriceRD ?? 0)) ?>;
-            const perChildPrice = <?= json_encode((float)($childDisplayPriceRD ?? 0)) ?>;
+            const perAdultPrice = <?= json_encode((float)($requestData['adult_price'] ?? 0)) ?>;
+            const perChildPrice = <?= json_encode((float)($requestData['child_price'] ?? 0)) ?>;
 
             // Tour information
             const tourDays = <?= json_encode((int)($tour_days_total ?? 0)) ?>;
@@ -2326,1126 +2388,6 @@
         </script>
         <script type="text/javascript" src="../assets/js/requestDetails.js"></script>
         <script>
-            const savedCoupons = [
-                ...(
-                    <?= json_encode(
-                        json_decode($requestData['coupons'] ?? '[]', true) ?: [],
-                        JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
-                    ) ?>
-                ),
-                ...(
-                    <?= json_encode(
-                        json_decode(
-                            ($hasReply
-                                ? ($latestReply['admin_coupons'] ?? '[]')
-                                : ($requestData['admin_coupons'] ?? '[]')
-                            ),
-                            true
-                        ) ?: [],
-                        JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
-                    ) ?>
-                ).map(coupon => ({
-                    code: coupon.code,
-                    amount: coupon.amount,
-                    passenger: ''
-                }))
-            ];
-
-            const availableCuCoupons = <?= json_encode(
-                $cuCoupons,
-                JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
-            ) ?>;
-
-            const availableLoyaltyCoupons = <?= json_encode(
-                $loyaltyCoupons,
-                JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
-            ) ?>;
-            const picker = document.getElementById('ubxPicker');
-            const input = document.getElementById('ubxDatetime');
-            const ubxInput = document.getElementById('ubxDatetime');
-            const ubxPicker = document.getElementById('ubxPicker');
-            const mysqlInput = document.getElementById('ubxMysqlDatetime');
-
-            const calendar = document.getElementById('ubxCalendar');
-            const monthTitle = document.getElementById('ubxMonthTitle');
-
-            const hourInput = document.getElementById('ubxHour');
-            const minuteInput = document.getElementById('ubxMinute');
-            const secondInput = document.getElementById('ubxSecond');
-            let selected = new Date();
-            selected.setMilliseconds(0);
-
-            let viewYear = selected.getFullYear();
-            let viewMonth = selected.getMonth();
-
-            let isPM = selected.getHours() >= 12;
-
-            let previousSelection = new Date(selected);
-            //coupon row
-            function createCouponRow(type, number) {
-
-                return `
-                    <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
-
-                        <div class="d-flex gap-3 largeDisplay">
-
-                            <p class="fontSize10 align-content-end mb-0">
-                                ${type} ${number}
-                            </p>
-
-                            <p class="mb-0">
-
-                                <select
-                                    class="form-select fontSize10 selectPadding coupon-select">
-
-                                    <option value="">
-                                        Select Coupon
-                                    </option>
-
-                                    <?php if (!empty($cuCoupons)): ?>
-
-                                        <optgroup label="Primary Coupons">
-
-                                            <?php foreach ($cuCoupons as $coupon): ?>
-
-                                                <option
-                                                    value="<?= htmlspecialchars($coupon['code']) ?>"
-                                                    data-type="primary"
-                                                    data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
-
-                                                    <?= htmlspecialchars($coupon['code']) ?>
-
-                                                </option>
-
-                                            <?php endforeach; ?>
-
-                                        </optgroup>
-
-                                    <?php endif; ?>
-
-
-                                    <?php if (!empty($loyaltyCoupons)): ?>
-
-                                        <optgroup label="Loyalty Coupons">
-
-                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
-
-                                                <option
-                                                    value="<?= htmlspecialchars($coupon['code']) ?>"
-                                                    data-type="loyalty"
-                                                    data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
-
-                                                    <?= htmlspecialchars($coupon['code']) ?>
-
-                                                </option>
-
-                                            <?php endforeach; ?>
-
-                                        </optgroup>
-
-                                    <?php endif; ?>
-
-                                </select>
-
-                            </p>
-
-                        </div>
-
-
-                        <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
-                            - ₹ 0
-                        </p>
-
-                    </div>
-                `;
-            }
-
-
-            $(document).ready(function () {
-
-                // ==========================================
-                // LOAD SAVED AND AVAILABLE COUPONS
-                // ==========================================
-
-
-                loadSavedCoupons();
-
-
-                // ==========================================
-                // STICKY NAVIGATION
-                // ==========================================
-
-                $(".sticky-nav-wrapper").each(function () {
-
-                    const $wrapper = $(this);
-                    const $nav = $wrapper.find(".borderColor1").first();
-                    const $placeholder = $wrapper.next(".nav-placeholder");
-                    const $content = $placeholder.next(".content-sections");
-
-                    if (!$nav.length || !$placeholder.length || !$content.length) {
-                        return;
-                    }
-
-                    let navTop = 0;
-
-                    function updateStickyNav() {
-
-                        if ($(window).width() < 992) {
-
-                            $nav.removeClass("nav-fixed").css({
-                                width: ""
-                            });
-
-                            $placeholder.hide().height(0);
-                            return;
-                        }
-
-                        const headerHeight = $(".sticky-bar").outerHeight() || 90;
-
-                        const contentTop = $content.offset().top;
-                        const contentBottom = contentTop + $content.outerHeight();
-
-                        const scrollTop = $(window).scrollTop();
-                        const navHeight = $nav.outerHeight();
-
-                        if (
-                            scrollTop >= navTop - headerHeight &&
-                            scrollTop <= contentBottom - navHeight - headerHeight
-                        ) {
-
-                            $placeholder.height(navHeight).show();
-
-                            $nav.addClass("nav-fixed").css({
-                                width: $wrapper.outerWidth() + "px"
-                            });
-
-                        } else {
-
-                            $placeholder.hide().height(0);
-
-                            $nav.removeClass("nav-fixed").css({
-                                width: ""
-                            });
-                        }
-                    }
-
-                    function refreshNavPosition() {
-
-                        if (!$nav.hasClass("nav-fixed")) {
-                            navTop = $wrapper.offset().top;
-                        }
-
-                        updateStickyNav();
-                    }
-
-                    $(window).on("scroll resize", function () {
-
-                        refreshNavPosition();
-
-                        if (typeof updateActiveNav === "function") {
-                            updateActiveNav();
-                        }
-                    });
-
-                    $(window).on("load", refreshNavPosition);
-
-                    refreshNavPosition();
-
-                });
-                
-
-                if (!picker || !input || !calendar) {
-                    return;
-                }
-
-                document.getElementById('ubxPrev').addEventListener('click', function () {
-                    changeMonth(-1);
-                });
-
-                document.getElementById('ubxNext').addEventListener('click', function () {
-                    changeMonth(1);
-                });
-
-                input.addEventListener('click', openPicker);
-
-                document.getElementById('ubxCancel').addEventListener('click', function () {
-
-                    selected = new Date(previousSelection);
-
-                    closePicker();
-                });
-
-                document.getElementById('ubxApply').addEventListener('click', function () {
-
-                    let hours = Number(hourInput.value);
-                    let minutes = Number(minuteInput.value);
-                    let seconds = Number(secondInput.value);
-
-                    if (
-                        !Number.isInteger(hours) ||
-                        !Number.isInteger(minutes) ||
-                        !Number.isInteger(seconds) ||
-                        hours < 0 || hours > 23 ||
-                        minutes < 0 || minutes > 59 ||
-                        seconds < 0 || seconds > 59
-                    ) {
-
-                        if (typeof Swal !== 'undefined') {
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'Invalid Time',
-                                text: 'Please enter valid hours, minutes and seconds.'
-                            });
-                        } else {
-                            alert('Please enter valid hours, minutes and seconds.');
-                        }
-
-                        return;
-                    }
-
-                    selected.setHours(hours, minutes, seconds, 0);
-
-                    const year = selected.getFullYear();
-                    const month = pad(selected.getMonth() + 1);
-                    const day = pad(selected.getDate());
-
-                    const mysqlValue =
-                        `${year}-${month}-${day} ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
-
-                    const displayValue = selected.toLocaleString('en-IN', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: true
-                    });
-
-                    input.value = displayValue;
-
-                    if (mysqlInput) {
-                        mysqlInput.value = mysqlValue;
-                    }
-
-                    closePicker();
-
-                    // Trigger change event for existing form logic
-                    input.dispatchEvent(new Event('change', {
-                        bubbles: true
-                    }));
-
-                    if (mysqlInput) {
-                        mysqlInput.dispatchEvent(new Event('change', {
-                            bubbles: true
-                        }));
-                    }
-
-                });
-
-                // Initialize calendar
-                renderCalendar();
-                restrictTimeInput(document.getElementById('ubxHour'), 0, 23);
-                restrictTimeInput(document.getElementById('ubxMinute'), 0, 59);
-                restrictTimeInput(document.getElementById('ubxSecond'), 0, 59);
-
-            });
-            function restrictTimeInput(input, min, max) {
-
-                input.addEventListener('input', function () {
-
-                    // Remove negative signs, decimals and non-numeric characters
-                    this.value = this.value.replace(/[^0-9]/g, '');
-
-                    if (this.value.length > 2) {
-                        this.value = this.value.slice(0, 2);
-                    }
-
-                    if (this.value !== '') {
-
-                        let value = parseInt(this.value, 10);
-
-                        if (value > max) {
-                            this.value = max;
-                        }
-                    }
-                });
-
-                input.addEventListener('blur', function () {
-
-                    if (this.value === '' || parseInt(this.value, 10) < min) {
-                        this.value = String(min).padStart(2, '0');
-                    } else {
-                        this.value = String(
-                            Math.min(parseInt(this.value, 10), max)
-                        ).padStart(2, '0');
-                    }
-                });
-            }
-            function positionUbxPicker() {
-
-                const rect = ubxInput.getBoundingClientRect();
-
-                const pickerWidth = ubxPicker.offsetWidth || 320;
-                const pickerHeight = ubxPicker.offsetHeight;
-
-                const viewportHeight = window.innerHeight;
-                const viewportWidth = window.innerWidth;
-
-                // Horizontal positioning
-                let left = rect.left;
-
-                if (left + pickerWidth > viewportWidth - 10) {
-                    left = viewportWidth - pickerWidth - 10;
-                }
-
-                left = Math.max(10, left);
-
-                // Vertical positioning
-                let top = rect.bottom + 8;
-
-                // If insufficient space below, open above
-                if (top + pickerHeight > viewportHeight - 10) {
-
-                    const spaceAbove = rect.top - 10;
-
-                    if (spaceAbove > pickerHeight) {
-                        top = rect.top - pickerHeight - 8;
-                    } else {
-                        top = Math.max(10, viewportHeight - pickerHeight - 10);
-                    }
-                }
-
-                ubxPicker.style.left = left + 'px';
-                ubxPicker.style.top = top + 'px';
-            }
-            function pad(value) {
-                return String(value).padStart(2, '0');
-            }
-
-            function renderCalendar() {
-
-                calendar.innerHTML = '';
-
-                const firstDay = new Date(
-                    viewYear,
-                    viewMonth,
-                    1
-                ).getDay();
-
-                const totalDays = new Date(
-                    viewYear,
-                    viewMonth + 1,
-                    0
-                ).getDate();
-
-                monthTitle.textContent = new Date(
-                    viewYear,
-                    viewMonth
-                ).toLocaleDateString('en-IN', {
-                    month: 'long',
-                    year: 'numeric'
-                });
-
-                for (let i = 0; i < firstDay; i++) {
-
-                    const empty = document.createElement('span');
-
-                    empty.className = 'ubx-day ubx-empty';
-
-                    calendar.appendChild(empty);
-                }
-
-                for (let day = 1; day <= totalDays; day++) {
-
-                    const button = document.createElement('button');
-
-                    button.type = 'button';
-                    button.textContent = day;
-                    button.className = 'ubx-day';
-
-                    if (
-                        day === selected.getDate() &&
-                        viewMonth === selected.getMonth() &&
-                        viewYear === selected.getFullYear()
-                    ) {
-                        button.classList.add('ubx-selected');
-                    }
-
-                    const today = new Date();
-
-                    if (
-                        day === today.getDate() &&
-                        viewMonth === today.getMonth() &&
-                        viewYear === today.getFullYear()
-                    ) {
-                        button.classList.add('ubx-today');
-                    }
-
-                    button.addEventListener('click', function () {
-
-                        selected.setFullYear(
-                            viewYear,
-                            viewMonth,
-                            day
-                        );
-
-                        renderCalendar();
-                    });
-
-                    calendar.appendChild(button);
-                }
-            }
-
-            function updateTimeControls() {
-
-                const hours = selected.getHours();
-
-                isPM = hours >= 12;
-
-                hourInput.value = pad(hours);
-                minuteInput.value = pad(selected.getMinutes());
-                secondInput.value = pad(selected.getSeconds());
-
-                amButton.classList.toggle('ubx-active', !isPM);
-                pmButton.classList.toggle('ubx-active', isPM);
-            }
-
-            function openPicker() {
-
-                ubxPicker.classList.add('ubx-picker-visible');
-
-                positionUbxPicker();
-            }
-
-            function closePicker() {
-
-                ubxPicker.classList.remove('ubx-picker-visible');
-            }
-
-            function changeMonth(amount) {
-
-                const date = new Date(
-                    viewYear,
-                    viewMonth + amount,
-                    1
-                );
-
-                viewYear = date.getFullYear();
-                viewMonth = date.getMonth();
-
-                renderCalendar();
-            }
-            function updateActiveNav() {
-
-                const scrollPos = $(window).scrollTop() + 200;
-
-                $(".section-block").each(function () {
-
-                    const id = $(this).attr("id");
-
-                    const top = $(this).offset().top;
-                    const bottom = top + $(this).outerHeight();
-
-                    if (scrollPos >= top && scrollPos < bottom) {
-
-                        $(".nav-link").removeClass("active");
-
-                        $('.nav-link[href="#' + id + '"]')
-                            .addClass("active");
-                    }
-                });
-            }
-            window.addEventListener('scroll', function () {
-
-                if (ubxPicker.classList.contains('ubx-picker-visible')) {
-                    positionUbxPicker();
-                }
-
-            }, true);
-
-            window.addEventListener('resize', function () {
-
-                if (ubxPicker.classList.contains('ubx-picker-visible')) {
-                    positionUbxPicker();
-                }
-
-            });
-
-            $(".nav-link").on("click", function (e) {
-
-                e.preventDefault();
-
-                const target = $(this).attr("href");
-
-                const headerHeight = $(".sticky-bar").outerHeight() || 90;
-
-                $("html, body").animate({
-
-                    scrollTop: $(target).offset().top - headerHeight - 70
-
-                }, 500);
-            });
-            
-            // ==========================================
-            // LOAD SAVED AND AVAILABLE COUPONS
-            // ==========================================
-
-            function loadSavedCoupons() {
-
-                
-                const couponsToLoad = Array.isArray(savedCoupons) ? savedCoupons : [];
-
-                // ==========================================
-                // CONTAINER 1: DISPLAY SAVED COUPONS
-                // ==========================================
-
-                const $savedContainer = $('#couponPassengerContainer1');
-
-                if ($savedContainer.length) {
-
-                    let $display = $savedContainer.find('.saved-coupon-display').first();
-
-                    if (!$display.length) {
-                        $display = $('<div class="saved-coupon-display"></div>');
-                        $savedContainer.prepend($display);
-                    }
-
-                    $display.empty();
-
-                    couponsToLoad.forEach(function (coupon) {
-
-                        const couponCode = String(coupon.code || '').trim();
-
-                        if (!couponCode) {
-                            return;
-                        }
-
-                        const passenger = String(coupon.passenger || 'Coupon');
-                        const amount = Number(coupon.amount) || 0;
-
-                        const $row = $(`
-                            <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
-                                <div class="d-flex gap-3 largeDisplay">
-                                    <p class="fontSize10 align-content-end mb-0 coupon-passenger"></p>
-                                    <p class="mb-0">
-                                        <select class="form-select fontSize10 selectPadding coupon-select">
-                                            <option value="">Select Coupon</option>
-                                        </select>
-                                    </p>
-                                </div>
-
-                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 coupon-discount"></p>
-                            </div>
-                        `);
-
-                        $row.attr({
-                            'data-coupon-code': couponCode,
-                            'data-passenger': passenger
-                        });
-
-                        $row.find('.coupon-passenger').text(passenger);
-
-                        const $select = $row.find('.coupon-select');
-
-                        $select.append(
-                            $('<option>', {
-                                value: couponCode,
-                                text: couponCode
-                            }).attr('data-amount', amount)
-                        );
-
-                        $select.val(couponCode);
-
-                        $row.find('.coupon-discount').text(
-                            '- ₹ ' + amount.toLocaleString('en-IN')
-                        );
-
-                        $display.append($row);
-                    });
-                }
-
-
-                // ==========================================
-                // CONTAINER 0: AVAILABLE COUPONS
-                // ==========================================
-
-                const $availableSelect = $('#availableCouponsSelect');
-
-                if ($availableSelect.length) {
-
-                    const previouslySelected = [].concat($availableSelect.val() || []);
-
-                    $availableSelect.empty();
-
-                    // Already applied coupon codes.
-                    const appliedCouponCodes = new Set();
-
-                    couponsToLoad.forEach(function (coupon) {
-
-                        const code = String(coupon.code || '').trim().toUpperCase();
-
-                        if (code) {
-                            appliedCouponCodes.add(code);
-                        }
-                    });
-
-                    // Prevent duplicates between customer and loyalty coupons.
-                    const addedAvailableCodes = new Set();
-
-
-                    // ==========================================
-                    // CUSTOMER COUPONS
-                    // ==========================================
-
-                    const $customerGroup = $('<optgroup>', {
-                        label: 'Customer Coupons'
-                    });
-
-                    if (Array.isArray(availableCuCoupons)) {
-
-                        availableCuCoupons.forEach(function (coupon) {
-
-                            // Actual PHP fields.
-                            const couponId = coupon.id;
-                            const couponCode = String(coupon.code || '').trim();
-                            const amount = Number(coupon.coupon_amt) || 0;
-
-                            if (!couponId || !couponCode) {
-                                return;
-                            }
-
-                            const normalizedCode = couponCode.toUpperCase();
-
-                            if (
-                                appliedCouponCodes.has(normalizedCode) ||
-                                addedAvailableCodes.has(normalizedCode)
-                            ) {
-                                return;
-                            }
-
-                            addedAvailableCodes.add(normalizedCode);
-
-                            $customerGroup.append(
-                                $('<option>', {
-                                    value: 'CU_' + couponId,
-                                    text: couponCode + ' - Save ₹ ' +
-                                        amount.toLocaleString('en-IN')
-                                }).attr({
-                                    'data-code': couponCode,
-                                    'data-amount': amount,
-                                    'data-type': 'CU',
-                                    'data-id': couponId
-                                })
-                            );
-                        });
-                    }
-
-                    if ($customerGroup.children().length) {
-                        $availableSelect.append($customerGroup);
-                    }
-
-
-                    // ==========================================
-                    // LOYALTY COUPONS
-                    // ==========================================
-
-                    const $loyaltyGroup = $('<optgroup>', {
-                        label: 'Loyalty Coupons'
-                    });
-
-                    if (Array.isArray(availableLoyaltyCoupons)) {
-
-                        availableLoyaltyCoupons.forEach(function (coupon) {
-
-                            // Actual PHP fields.
-                            const couponId = coupon.id;
-                            const couponCode = String(coupon.code || '').trim();
-                            const amount = Number(coupon.coupon_amt) || 0;
-
-                            if (!couponId || !couponCode) {
-                                return;
-                            }
-
-                            const normalizedCode = couponCode.toUpperCase();
-
-                            if (
-                                appliedCouponCodes.has(normalizedCode) ||
-                                addedAvailableCodes.has(normalizedCode)
-                            ) {
-                                return;
-                            }
-
-                            addedAvailableCodes.add(normalizedCode);
-
-                            $loyaltyGroup.append(
-                                $('<option>', {
-                                    value: 'LOYALTY_' + couponId,
-                                    text: couponCode + ' - Save ₹ ' +
-                                        amount.toLocaleString('en-IN')
-                                }).attr({
-                                    'data-code': couponCode,
-                                    'data-amount': amount,
-                                    'data-type': 'LOYALTY',
-                                    'data-id': couponId
-                                })
-                            );
-                        });
-                    }
-
-                    if ($loyaltyGroup.children().length) {
-                        $availableSelect.append($loyaltyGroup);
-                    }
-
-
-                    // ==========================================
-                    // RESTORE PREVIOUS SELECTIONS
-                    // ==========================================
-
-                    const validSelections = previouslySelected.filter(function (value) {
-
-                        return $availableSelect.find('option').filter(function () {
-                            return this.value === value;
-                        }).length > 0;
-
-                    });
-
-                    $availableSelect.val([...new Set(validSelections)]);
-
-
-                    // ==========================================
-                    // INITIALIZE SELECT2
-                    // ==========================================
-
-                    if (typeof $.fn.select2 === 'function') {
-
-                        if (!$availableSelect.hasClass('select2-hidden-accessible')) {
-
-                            $availableSelect.select2({
-                                width: '100%',
-                                placeholder: 'Search and select coupons',
-                                closeOnSelect: false,
-                                allowClear: true
-                            });
-
-                        } else {
-
-                            $availableSelect.trigger('change.select2');
-                        }
-                    }
-
-                    // updateAvailableCouponDiscount();
-                }
-
-
-                // ==========================================
-                // UPDATE COMBINED TOTAL
-                // ==========================================
-
-                updateAvailableCouponDiscount();
-
-                updateTotalCouponDiscountApplied(1);
-
-                updateCustomerDiscountedSubtotal();
-            }
-
-
-            // ==========================================
-            // CALCULATE AVAILABLE COUPON DISCOUNT
-            // ==========================================
-
-            function updateAvailableCouponDiscount() {
-
-                let total = 0;
-
-                $('#availableCouponsSelect option:selected').each(function () {
-
-                    total += Number($(this).attr('data-amount')) || 0;
-
-                });
-
-                $('#availableCouponDiscount').text(
-                    '- ₹ ' + total.toLocaleString('en-IN')
-                );
-
-                return total;
-            }
-            // ==========================================
-            // GET NUMERIC AMOUNT
-            // ==========================================
-
-            function getNumericAmount(selector) {
-
-                const $element = $(selector);
-
-                if (!$element.length) {
-                    return 0;
-                }
-
-                const value = $element.is('input, select, textarea')
-                    ? $element.val()
-                    : $element.text();
-
-                return Math.abs(
-                    parseFloat(String(value || '0').replace(/[^0-9.-]/g, ''))
-                ) || 0;
-            }
-
-
-            // ==========================================
-            // UPDATE CUSTOMER DISCOUNT DETAILS
-            // ==========================================
-
-            function updateCustomerDiscountedSubtotal() {
-
-                // ==========================================
-                // 1. GET TOTAL COUPON DISCOUNT
-                // Saved coupons + newly selected coupons
-                // ==========================================
-
-                const couponDetails = updateTotalCouponDiscountApplied(1);
-
-                const couponDiscount = couponDetails
-                    ? Number(couponDetails.totalCouponDiscount) || 0
-                    : 0;
-
-
-                // ==========================================
-                // 2. GET REFERENCE WALLET
-                // ==========================================
-
-                const referenceWallet = getNumericAmount(
-                    '#CustReferenceWallet'
-                );
-
-
-                // ==========================================
-                // 3. GET DISCOUNT WALLET
-                // ==========================================
-
-                const discountWallet = getNumericAmount(
-                    '#CustDiscountWallet'
-                );
-
-
-                // ==========================================
-                // 4. UPDATE INDIVIDUAL DISCOUNT DETAILS
-                // ==========================================
-
-                $('#CustCouponDiscount').text(
-                    '- ₹ ' + couponDiscount.toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    })
-                );
-
-
-                // ==========================================
-                // 5. CALCULATE CUSTOMER DISCOUNT SUBTOTAL
-                // ==========================================
-
-                const totalCustomerDiscount =
-                    couponDiscount +
-                    referenceWallet +
-                    discountWallet;
-
-
-                // ==========================================
-                // 6. UPDATE SUBTOTAL DISPLAY
-                // ==========================================
-
-                $('#CustDiscountedPriceSubTotal').text(
-                    '₹ ' + totalCustomerDiscount.toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    })
-                );
-
-                return totalCustomerDiscount;
-            }
-
-
-            
-            // ==========================================
-            // AVAILABLE COUPON SELECTION EVENT
-            // ==========================================
-
-            $(document).on('change', '#availableCouponsSelect', function () {
-
-                updateAvailableCouponDiscount();
-
-                updateTotalCouponDiscountApplied(1);
-
-                updateCustomerDiscountedSubtotal();
-
-                // renderPricingChanges();
-
-            });
-            // ==========================================
-            // SAVED COUPON SELECTION / DESELECTION EVENT
-            // ==========================================
-
-            // ==========================================
-            // COUPON SELECTION / DESELECTION EVENTS
-            // ==========================================
-
-            $(document).on(
-                'change',
-                '#couponPassengerContainer1 .saved-coupon-display .coupon-select, #availableCouponsSelect',
-                function () {
-
-                    // Update individual saved coupon display, if applicable.
-                    if ($(this).closest('.saved-coupon-display').length) {
-
-                        const $row = $(this).closest('.coupon-passenger-row');
-
-                        const amount = Number(
-                            $(this).find('option:selected').attr('data-amount')
-                        ) || 0;
-
-                        $row.find('.coupon-discount').text(
-                            '- ₹ ' + amount.toLocaleString('en-IN')
-                        );
-                    }
-
-                    // Update available coupon total.
-                    updateAvailableCouponDiscount();
-
-                    // Update combined coupon total.
-                    updateTotalCouponDiscountApplied(1);
-
-                    // Update complete customer discount section.
-                    updateCustomerDiscountedSubtotal();
-
-                    // Update quotation calculations.
-                    if (typeof renderPricingChanges === 'function') {
-                        renderPricingChanges();
-                    }
-                }
-            );
-            // ==========================================
-            // WATCH CUSTOMER WALLET AMOUNT CHANGES
-            // ==========================================
-
-            function watchCustomerWalletChanges() {
-
-                const walletElements = document.querySelectorAll(
-                    '#CustReferenceWallet, #CustDiscountWallet','#CustExtendedtWallet'
-                );
-
-                if (!walletElements.length) {
-                    return;
-                }
-
-                const observer = new MutationObserver(function () {
-
-                    updateCustomerDiscountedSubtotal();
-
-                    if (typeof renderPricingChanges === 'function') {
-                        renderPricingChanges();
-                    }
-
-                });
-
-                walletElements.forEach(function (element) {
-
-                    observer.observe(element, {
-                        childList: true,
-                        characterData: true,
-                        subtree: true
-                    });
-
-                });
-            }
-            $(document).on(
-                'input change',
-                '#appliedReferralWallet, #appliedDiscountWallet','#appliedExtendedWallet',
-                function () {
-
-                    updateCustomerDiscountedSubtotal();
-
-                    if (typeof renderPricingChanges === 'function') {
-                        renderPricingChanges();
-                    }
-                }
-            );
-            // ==========================================
-            // UPDATE TOTAL COUPON DISCOUNT APPLIED
-            // ==========================================
-
-            function updateTotalCouponDiscountApplied(index) {
-
-                if (String(index) !== '1') {
-                    return {
-                        totalCouponDiscount: 0,
-                        totalCoupons: 0
-                    };
-                }
-
-                const $container = $('#couponPassengerContainer1');
-
-                if (!$container.length) {
-                    return {
-                        totalCouponDiscount: 0,
-                        totalCoupons: 0
-                    };
-                }
-
-                let totalCouponDiscount = 0;
-                let totalCoupons = 0;
-
-                // ==========================================
-                // 1. SAVED COUPONS
-                // ==========================================
-
-                $container.find(
-                    '.saved-coupon-display .coupon-passenger-row'
-                ).each(function () {
-
-                    const amount = Number(
-                        $(this)
-                            .find('.coupon-select option:selected')
-                            .attr('data-amount')
-                    ) || 0;
-
-                    if (amount > 0) {
-                        totalCouponDiscount += amount;
-                        totalCoupons++;
-                    }
-                });
-
-
-                // ==========================================
-                // 2. NEWLY SELECTED AVAILABLE COUPONS
-                // ==========================================
-
-                $('#availableCouponsSelect option:selected').each(function () {
-
-                    const amount = Number($(this).attr('data-amount')) || 0;
-
-                    if (amount > 0) {
-                        totalCouponDiscount += amount;
-                        totalCoupons++;
-                    }
-                });
-
-
-                // ==========================================
-                // 3. UPDATE DISPLAY
-                // ==========================================
-
-                $('#totalCouponDiscount1').text(
-                    '- ₹ ' + totalCouponDiscount.toLocaleString('en-IN')
-                );
-
-                return {
-                    totalCouponDiscount: totalCouponDiscount,
-                    totalCoupons: totalCoupons
-                };
-            }
-
-        </script>
-        <script>
             
             const dropZone = document.getElementById("dropZone");
             const fileInput = document.getElementById("fileInput");
@@ -3454,6 +2396,47 @@
             const documentTitle = document.getElementById("documentTitle");
             const otherPolicyList = document.getElementById("otherPolicyList");
             const otherPolicyError = document.getElementById("otherPolicy_error");
+            const hasReply = <?= json_encode($hasReply) ?>;
+
+            const originalAdultPrice = <?= json_encode(
+                $hasReply ? (float) ($requestDetailsMarkup['original_adult_price'] ?? 0) : (float) ($packagePricing['net_price_adult'] ?? 0)
+            ) ?>;
+
+            const originalChildPrice = <?= json_encode(
+                $hasReply ? (float) ($requestDetailsMarkup['original_child_price'] ?? 0) : (float) ($packagePricing['net_price_child'] ?? 0)
+            ) ?>;
+            // =====================================================
+            // ORIGINAL PHP VALUES
+            // =====================================================
+            const originalSubtotal = <?= json_encode(
+                $hasReply
+                    ? (float) ($requestDetailsRevisedQuote['final_quot_price'] ?? 0)
+                    : (float) ($requestData['subtotal'] ?? 0)
+            ) ?>;
+
+            const adultCount = <?= json_encode(
+                (int) ($requestData['adult_count'] ?? 0)
+            ) ?>;
+
+            const childCount = <?= json_encode(
+                (int) ($requestData['child_count'] ?? 0)
+            ) ?>;
+
+
+            // =====================================================
+            // INPUT LABELS
+            // =====================================================
+
+            const inputLabels = {
+                couponAdjustment: 'Coupon Adjustment',
+                companyAmount: 'Company',
+                suspenseAmount: 'Suspense',
+                customer1Amount: 'L1 Customer',
+                customer2Amount: 'L2 Customer',
+                customer3Amount: 'L3 Customer',
+                netPriceAdult: 'Net Price - Adult',
+                netPriceChild: 'Net Price - Child'
+            };
 
             let selectedFile = null;
 
@@ -3674,47 +2657,193 @@
                 updateEmptyPolicyMessage();
             });
             $(document).ready(function () {
-                const hasReply = <?= json_encode($hasReply) ?>;
-
-                const originalAdultPrice = <?= json_encode(
-                    $hasReply ? (float) ($requestDetailsMarkup['original_adult_price'] ?? 0) : (float) ($packagePricing['net_price_adult'] ?? 0)
-                ) ?>;
-
-                const originalChildPrice = <?= json_encode(
-                    $hasReply ? (float) ($requestDetailsMarkup['original_child_price'] ?? 0) : (float) ($packagePricing['net_price_child'] ?? 0)
-                ) ?>;
-                // =====================================================
-                // ORIGINAL PHP VALUES
-                // =====================================================
-                const originalSubtotal = <?= json_encode(
-                    $hasReply
-                        ? (float) ($requestDetailsRevisedQuote['final_quot_price'] ?? 0)
-                        : (float) ($requestData['subtotal'] ?? 0)
-                ) ?>;
-
-                const adultCount = <?= json_encode(
-                    (int) ($requestData['adult_count'] ?? 0)
-                ) ?>;
-
-                const childCount = <?= json_encode(
-                    (int) ($requestData['child_count'] ?? 0)
-                ) ?>;
+                // ==========================================
+                // LOAD SAVED AND AVAILABLE COUPONS
+                // ==========================================
 
 
-                // =====================================================
-                // INPUT LABELS
-                // =====================================================
+                loadSavedCoupons();
 
-                const inputLabels = {
-                    couponAdjustment: 'Coupon Adjustment',
-                    companyAmount: 'Company',
-                    suspenseAmount: 'Suspense',
-                    customer1Amount: 'L1 Customer',
-                    customer2Amount: 'L2 Customer',
-                    customer3Amount: 'L3 Customer',
-                    netPriceAdult: 'Net Price - Adult',
-                    netPriceChild: 'Net Price - Child'
-                };
+
+                // ==========================================
+                // STICKY NAVIGATION
+                // ==========================================
+
+                $(".sticky-nav-wrapper").each(function () {
+
+                    const $wrapper = $(this);
+                    const $nav = $wrapper.find(".borderColor1").first();
+                    const $placeholder = $wrapper.next(".nav-placeholder");
+                    const $content = $placeholder.next(".content-sections");
+
+                    if (!$nav.length || !$placeholder.length || !$content.length) {
+                        return;
+                    }
+
+                    let navTop = 0;
+
+                    function updateStickyNav() {
+
+                        if ($(window).width() < 992) {
+
+                            $nav.removeClass("nav-fixed").css({
+                                width: ""
+                            });
+
+                            $placeholder.hide().height(0);
+                            return;
+                        }
+
+                        const headerHeight = $(".sticky-bar").outerHeight() || 90;
+
+                        const contentTop = $content.offset().top;
+                        const contentBottom = contentTop + $content.outerHeight();
+
+                        const scrollTop = $(window).scrollTop();
+                        const navHeight = $nav.outerHeight();
+
+                        if (
+                            scrollTop >= navTop - headerHeight &&
+                            scrollTop <= contentBottom - navHeight - headerHeight
+                        ) {
+
+                            $placeholder.height(navHeight).show();
+
+                            $nav.addClass("nav-fixed").css({
+                                width: $wrapper.outerWidth() + "px"
+                            });
+
+                        } else {
+
+                            $placeholder.hide().height(0);
+
+                            $nav.removeClass("nav-fixed").css({
+                                width: ""
+                            });
+                        }
+                    }
+
+                    function refreshNavPosition() {
+
+                        if (!$nav.hasClass("nav-fixed")) {
+                            navTop = $wrapper.offset().top;
+                        }
+
+                        updateStickyNav();
+                    }
+
+                    $(window).on("scroll resize", function () {
+
+                        refreshNavPosition();
+
+                        if (typeof updateActiveNav === "function") {
+                            updateActiveNav();
+                        }
+                    });
+
+                    $(window).on("load", refreshNavPosition);
+
+                    refreshNavPosition();
+
+                });
+                
+
+                if (!picker || !input || !calendar) {
+                    return;
+                }
+
+                document.getElementById('ubxPrev').addEventListener('click', function () {
+                    changeMonth(-1);
+                });
+
+                document.getElementById('ubxNext').addEventListener('click', function () {
+                    changeMonth(1);
+                });
+
+                input.addEventListener('click', openPicker);
+
+                document.getElementById('ubxCancel').addEventListener('click', function () {
+
+                    selected = new Date(previousSelection);
+
+                    closePicker();
+                });
+
+                document.getElementById('ubxApply').addEventListener('click', function () {
+
+                    let hours = Number(hourInput.value);
+                    let minutes = Number(minuteInput.value);
+                    let seconds = Number(secondInput.value);
+
+                    if (
+                        !Number.isInteger(hours) ||
+                        !Number.isInteger(minutes) ||
+                        !Number.isInteger(seconds) ||
+                        hours < 0 || hours > 23 ||
+                        minutes < 0 || minutes > 59 ||
+                        seconds < 0 || seconds > 59
+                    ) {
+
+                        if (typeof Swal !== 'undefined') {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Invalid Time',
+                                text: 'Please enter valid hours, minutes and seconds.'
+                            });
+                        } else {
+                            alert('Please enter valid hours, minutes and seconds.');
+                        }
+
+                        return;
+                    }
+
+                    selected.setHours(hours, minutes, seconds, 0);
+
+                    const year = selected.getFullYear();
+                    const month = pad(selected.getMonth() + 1);
+                    const day = pad(selected.getDate());
+
+                    const mysqlValue =
+                        `${year}-${month}-${day} ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+                    const displayValue = selected.toLocaleString('en-IN', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: true
+                    });
+
+                    input.value = displayValue;
+
+                    if (mysqlInput) {
+                        mysqlInput.value = mysqlValue;
+                    }
+
+                    closePicker();
+
+                    // Trigger change event for existing form logic
+                    input.dispatchEvent(new Event('change', {
+                        bubbles: true
+                    }));
+
+                    if (mysqlInput) {
+                        mysqlInput.dispatchEvent(new Event('change', {
+                            bubbles: true
+                        }));
+                    }
+
+                });
+
+                // Initialize calendar
+                renderCalendar();
+                restrictTimeInput(document.getElementById('ubxHour'), 0, 23);
+                restrictTimeInput(document.getElementById('ubxMinute'), 0, 59);
+                restrictTimeInput(document.getElementById('ubxSecond'), 0, 59);
+
+                
 
 
                 // =====================================================
@@ -4205,65 +3334,8 @@
                     // Update Total Estimated Price
                     $('#estimatedFinalPackagePrice').text(formatAmount(totalEstimatedPrice));
 
-                    // console.log('Final Quoted Price:', finalPrice);
-                    // console.log('Convenience Fee (1%):', convenienceFee);
-                    // console.log('GST:', gstAmount);
-                    // console.log('Total Estimated Price:', totalEstimatedPrice);
-
                 }
-                // =====================================================
-                // ORIGINAL PRICE AND PRICE DIFFERENCE
-                // =====================================================
-
-                // function updateReferencePriceDifference(inputId) {
-
-                //     const $input = $('#' + inputId);
-
-                //     if (!$input.length) {
-                //         console.warn('Input not found:', inputId);
-                //         return;
-                //     }
-
-                //     const originalPrice = getOriginalValue($input[0]);
-                //     const currentPrice = parseFloat($input.val()) || 0;
-
-                //     // Show per-person price difference, irrespective of traveller count
-                //     const difference = currentPrice - originalPrice;
-
-                //     const $originalText = $('#' + inputId + '_original');
-                //     const $differenceText = $('#' + inputId + '_difference');
-
-                //     $originalText.text(
-                //         'Original Price: ' + formatAmount(originalPrice)
-                //     );
-
-                //     if (!$differenceText.length) {
-                //         console.warn('Difference display element not found:', inputId + '_difference');
-                //         return;
-                //     }
-
-                //     if (Math.abs(difference) < 0.005) {
-
-                //         $differenceText
-                //             .removeClass('text-success text-danger')
-                //             .addClass('text-muted')
-                //             .text('No Price Change');
-
-                //     } else if (difference < 0) {
-
-                //         $differenceText
-                //             .removeClass('text-danger text-muted')
-                //             .addClass('text-success')
-                //             .text('Decreased by ' + formatAmount(Math.abs(difference)));
-
-                //     } else {
-
-                //         $differenceText
-                //             .removeClass('text-success text-muted')
-                //             .addClass('text-danger')
-                //             .text('Increased by ' + formatAmount(difference));
-                //     }
-                // }
+                
                 function updateReferencePriceDifference(inputId) {
 
                     const $input = $('#' + inputId);
@@ -4579,7 +3651,7 @@
                         $('#couponPassengerContainer1 .saved-coupon-display .coupon-passenger-row').each(function () {
 
                             const $row = $(this);
-                            const $selected = $row.find('.coupon-select option:selected');
+                            const $selected = $row.find('.coupon-select1 option:selected');
 
                             const code = $selected.val();
                             const amount = Number($selected.attr('data-amount')) || 0;
@@ -5109,6 +4181,986 @@
 
                 });
             });
+            updateAfterWalletDeduction();
+            function updateAfterWalletDeduction() {
+
+                const totalAfterCouponDiscount = parseFloat(
+                    $('#totalAfterCouponDiscount').text().replace(/[^\d.-]/g, '')
+                ) || 0;
+
+                const appliedReferralWallet = parseFloat($('#appliedReferralWallet').val()) || 0;
+                const appliedDiscountWallet = parseFloat($('#appliedDiscountWallet').val()) || 0;
+                const appliedExtendedWallet = parseFloat($('#appliedExtendedWallet').val()) || 0;
+
+                const totalWalletDeduction =
+                    appliedReferralWallet +
+                    appliedDiscountWallet +
+                    appliedExtendedWallet;
+
+                const afterWalletDeduction = Math.trunc(
+                    Math.max(0, totalAfterCouponDiscount - totalWalletDeduction) * 100
+                ) / 100;
+
+                $('#afterWalletDeduction').text(
+                    '₹ ' + afterWalletDeduction.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+                $('#finalQuotedPrice').text(
+                    '₹ ' + afterWalletDeduction.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+                
+            }
+
+            // Listen for changes
+            $('#appliedReferralWallet, #appliedDiscountWallet, #appliedExtendedWallet, #totalAfterCouponDiscount')
+                .on('input change', updateAfterWalletDeduction);
         </script>
+        <script>
+            const savedCoupons = [
+                ...(
+                    <?= json_encode(
+                        json_decode($requestData['coupons'] ?? '[]', true) ?: [],
+                        JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+                    ) ?>
+                ),
+                ...(
+                    <?= json_encode(
+                        json_decode(
+                            ($hasReply
+                                ? ($latestReply['admin_coupons'] ?? '[]')
+                                : ($requestData['admin_coupons'] ?? '[]')
+                            ),
+                            true
+                        ) ?: [],
+                        JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+                    ) ?>
+                ).map(coupon => ({
+                    code: coupon.code,
+                    amount: coupon.amount,
+                    passenger: ''
+                }))
+            ];
+
+            const availableCuCoupons = <?= json_encode(
+                $cuCoupons,
+                JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+            ) ?>;
+
+            const availableLoyaltyCoupons = <?= json_encode(
+                $loyaltyCoupons,
+                JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+            ) ?>;
+            const picker = document.getElementById('ubxPicker');
+            const input = document.getElementById('ubxDatetime');
+            const ubxInput = document.getElementById('ubxDatetime');
+            const ubxPicker = document.getElementById('ubxPicker');
+            const mysqlInput = document.getElementById('ubxMysqlDatetime');
+
+            const calendar = document.getElementById('ubxCalendar');
+            const monthTitle = document.getElementById('ubxMonthTitle');
+
+            const hourInput = document.getElementById('ubxHour');
+            const minuteInput = document.getElementById('ubxMinute');
+            const secondInput = document.getElementById('ubxSecond');
+            let selected = new Date();
+            selected.setMilliseconds(0);
+
+            let viewYear = selected.getFullYear();
+            let viewMonth = selected.getMonth();
+
+            let isPM = selected.getHours() >= 12;
+
+            let previousSelection = new Date(selected);
+            //coupon row
+            function createCouponRow(type, number) {
+
+                return `
+                    <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+
+                        <div class="d-flex gap-3 largeDisplay">
+
+                            <p class="fontSize10 align-content-end mb-0">
+                                ${type} ${number}
+                            </p>
+
+                            <p class="mb-0">
+
+                                <select
+                                    class="form-select fontSize10 selectPadding coupon-select">
+
+                                    <option value="">
+                                        Select Coupon
+                                    </option>
+
+                                    <?php if (!empty($cuCoupons)): ?>
+
+                                        <optgroup label="Primary Coupons">
+
+                                            <?php foreach ($cuCoupons as $coupon): ?>
+
+                                                <option
+                                                    value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                    data-type="primary"
+                                                    data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+
+                                                    <?= htmlspecialchars($coupon['code']) ?>
+
+                                                </option>
+
+                                            <?php endforeach; ?>
+
+                                        </optgroup>
+
+                                    <?php endif; ?>
+
+
+                                    <?php if (!empty($loyaltyCoupons)): ?>
+
+                                        <optgroup label="Loyalty Coupons">
+
+                                            <?php foreach ($loyaltyCoupons as $coupon): ?>
+
+                                                <option
+                                                    value="<?= htmlspecialchars($coupon['code']) ?>"
+                                                    data-type="loyalty"
+                                                    data-amount="<?= htmlspecialchars($coupon['coupon_amt']) ?>">
+
+                                                    <?= htmlspecialchars($coupon['code']) ?>
+
+                                                </option>
+
+                                            <?php endforeach; ?>
+
+                                        </optgroup>
+
+                                    <?php endif; ?>
+
+                                </select>
+
+                            </p>
+
+                        </div>
+
+
+                        <p class="fontSize10 discountGreen fw-bold text-end align-content-end coupon-discount mb-0">
+                            - ₹ 0
+                        </p>
+
+                    </div>
+                `;
+            }
+
+            function restrictTimeInput(input, min, max) {
+
+                input.addEventListener('input', function () {
+
+                    // Remove negative signs, decimals and non-numeric characters
+                    this.value = this.value.replace(/[^0-9]/g, '');
+
+                    if (this.value.length > 2) {
+                        this.value = this.value.slice(0, 2);
+                    }
+
+                    if (this.value !== '') {
+
+                        let value = parseInt(this.value, 10);
+
+                        if (value > max) {
+                            this.value = max;
+                        }
+                    }
+                });
+
+                input.addEventListener('blur', function () {
+
+                    if (this.value === '' || parseInt(this.value, 10) < min) {
+                        this.value = String(min).padStart(2, '0');
+                    } else {
+                        this.value = String(
+                            Math.min(parseInt(this.value, 10), max)
+                        ).padStart(2, '0');
+                    }
+                });
+            }
+            function positionUbxPicker() {
+
+                const rect = ubxInput.getBoundingClientRect();
+
+                const pickerWidth = ubxPicker.offsetWidth || 320;
+                const pickerHeight = ubxPicker.offsetHeight;
+
+                const viewportHeight = window.innerHeight;
+                const viewportWidth = window.innerWidth;
+
+                // Horizontal positioning
+                let left = rect.left;
+
+                if (left + pickerWidth > viewportWidth - 10) {
+                    left = viewportWidth - pickerWidth - 10;
+                }
+
+                left = Math.max(10, left);
+
+                // Vertical positioning
+                let top = rect.bottom + 8;
+
+                // If insufficient space below, open above
+                if (top + pickerHeight > viewportHeight - 10) {
+
+                    const spaceAbove = rect.top - 10;
+
+                    if (spaceAbove > pickerHeight) {
+                        top = rect.top - pickerHeight - 8;
+                    } else {
+                        top = Math.max(10, viewportHeight - pickerHeight - 10);
+                    }
+                }
+
+                ubxPicker.style.left = left + 'px';
+                ubxPicker.style.top = top + 'px';
+            }
+            function pad(value) {
+                return String(value).padStart(2, '0');
+            }
+
+            function renderCalendar() {
+
+                calendar.innerHTML = '';
+
+                const firstDay = new Date(
+                    viewYear,
+                    viewMonth,
+                    1
+                ).getDay();
+
+                const totalDays = new Date(
+                    viewYear,
+                    viewMonth + 1,
+                    0
+                ).getDate();
+
+                monthTitle.textContent = new Date(
+                    viewYear,
+                    viewMonth
+                ).toLocaleDateString('en-IN', {
+                    month: 'long',
+                    year: 'numeric'
+                });
+
+                for (let i = 0; i < firstDay; i++) {
+
+                    const empty = document.createElement('span');
+
+                    empty.className = 'ubx-day ubx-empty';
+
+                    calendar.appendChild(empty);
+                }
+
+                for (let day = 1; day <= totalDays; day++) {
+
+                    const button = document.createElement('button');
+
+                    button.type = 'button';
+                    button.textContent = day;
+                    button.className = 'ubx-day';
+
+                    if (
+                        day === selected.getDate() &&
+                        viewMonth === selected.getMonth() &&
+                        viewYear === selected.getFullYear()
+                    ) {
+                        button.classList.add('ubx-selected');
+                    }
+
+                    const today = new Date();
+
+                    if (
+                        day === today.getDate() &&
+                        viewMonth === today.getMonth() &&
+                        viewYear === today.getFullYear()
+                    ) {
+                        button.classList.add('ubx-today');
+                    }
+
+                    button.addEventListener('click', function () {
+
+                        selected.setFullYear(
+                            viewYear,
+                            viewMonth,
+                            day
+                        );
+
+                        renderCalendar();
+                    });
+
+                    calendar.appendChild(button);
+                }
+            }
+
+            function updateTimeControls() {
+
+                const hours = selected.getHours();
+
+                isPM = hours >= 12;
+
+                hourInput.value = pad(hours);
+                minuteInput.value = pad(selected.getMinutes());
+                secondInput.value = pad(selected.getSeconds());
+
+                amButton.classList.toggle('ubx-active', !isPM);
+                pmButton.classList.toggle('ubx-active', isPM);
+            }
+
+            function openPicker() {
+
+                ubxPicker.classList.add('ubx-picker-visible');
+
+                positionUbxPicker();
+            }
+
+            function closePicker() {
+
+                ubxPicker.classList.remove('ubx-picker-visible');
+            }
+
+            function changeMonth(amount) {
+
+                const date = new Date(
+                    viewYear,
+                    viewMonth + amount,
+                    1
+                );
+
+                viewYear = date.getFullYear();
+                viewMonth = date.getMonth();
+
+                renderCalendar();
+            }
+            function updateActiveNav() {
+
+                const scrollPos = $(window).scrollTop() + 200;
+
+                $(".section-block").each(function () {
+
+                    const id = $(this).attr("id");
+
+                    const top = $(this).offset().top;
+                    const bottom = top + $(this).outerHeight();
+
+                    if (scrollPos >= top && scrollPos < bottom) {
+
+                        $(".nav-link").removeClass("active");
+
+                        $('.nav-link[href="#' + id + '"]')
+                            .addClass("active");
+                    }
+                });
+            }
+            window.addEventListener('scroll', function () {
+
+                if (ubxPicker.classList.contains('ubx-picker-visible')) {
+                    positionUbxPicker();
+                }
+
+            }, true);
+
+            window.addEventListener('resize', function () {
+
+                if (ubxPicker.classList.contains('ubx-picker-visible')) {
+                    positionUbxPicker();
+                }
+
+            });
+
+            $(".nav-link").on("click", function (e) {
+
+                e.preventDefault();
+
+                const target = $(this).attr("href");
+
+                const headerHeight = $(".sticky-bar").outerHeight() || 90;
+
+                $("html, body").animate({
+
+                    scrollTop: $(target).offset().top - headerHeight - 70
+
+                }, 500);
+            });
+            
+            // ==========================================
+            // LOAD SAVED AND AVAILABLE COUPONS
+            // ==========================================
+
+            function loadSavedCoupons() {
+
+                
+                const couponsToLoad = Array.isArray(savedCoupons) ? savedCoupons : [];
+
+                // ==========================================
+                // CONTAINER 1: DISPLAY SAVED COUPONS
+                // ==========================================
+
+                const $savedContainer = $('#couponPassengerContainer1');
+
+                if ($savedContainer.length) {
+
+                    let $display = $savedContainer.find('.saved-coupon-display').first();
+
+                    if (!$display.length) {
+                        $display = $('<div class="saved-coupon-display"></div>');
+                        $savedContainer.prepend($display);
+                    }
+
+                    $display.empty();
+
+                    couponsToLoad.forEach(function (coupon) {
+
+                        const couponCode = String(coupon.code || '').trim();
+
+                        if (!couponCode) {
+                            return;
+                        }
+
+                        const passenger = String(coupon.passenger || 'Coupon');
+                        const amount = Number(coupon.amount) || 0;
+
+                        const $row = $(`
+                            <div class="d-flex justify-content-between mb-2 coupon-passenger-row">
+                                <div class="d-flex gap-3 largeDisplay">
+                                    <p class="fontSize10 align-content-end mb-0 coupon-passenger"></p>
+                                    <p class="mb-0">
+                                        <select class="form-select fontSize10 selectPadding coupon-select1">
+                                            <option value="">Select Coupon</option>
+                                        </select>
+                                    </p>
+                                </div>
+
+                                <p class="fontSize10 discountGreen fw-bold text-end align-content-end mb-0 coupon-discount"></p>
+                            </div>
+                        `);
+
+                        $row.attr({
+                            'data-coupon-code': couponCode,
+                            'data-passenger': passenger
+                        });
+
+                        $row.find('.coupon-passenger').text(passenger);
+
+                        const $select = $row.find('.coupon-select1');
+
+                        $select.append(
+                            $('<option>', {
+                                value: couponCode,
+                                text: couponCode
+                            }).attr('data-amount', amount)
+                        );
+
+                        $select.val(couponCode);
+
+                        $row.find('.coupon-discount').text(
+                            '- ₹ ' + amount.toLocaleString('en-IN')
+                        );
+
+                        $display.append($row);
+                    });
+                }
+
+
+                // ==========================================
+                // CONTAINER 0: AVAILABLE COUPONS
+                // ==========================================
+
+                const $availableSelect = $('#availableCouponsSelect');
+
+                if ($availableSelect.length) {
+
+                    const previouslySelected = [].concat($availableSelect.val() || []);
+
+                    $availableSelect.empty();
+
+                    // Already applied coupon codes.
+                    const appliedCouponCodes = new Set();
+
+                    couponsToLoad.forEach(function (coupon) {
+
+                        const code = String(coupon.code || '').trim().toUpperCase();
+
+                        if (code) {
+                            appliedCouponCodes.add(code);
+                        }
+                    });
+
+                    // Prevent duplicates between customer and loyalty coupons.
+                    const addedAvailableCodes = new Set();
+
+
+                    // ==========================================
+                    // CUSTOMER COUPONS
+                    // ==========================================
+
+                    const $customerGroup = $('<optgroup>', {
+                        label: 'Customer Coupons'
+                    });
+
+                    if (Array.isArray(availableCuCoupons)) {
+
+                        availableCuCoupons.forEach(function (coupon) {
+
+                            // Actual PHP fields.
+                            const couponId = coupon.id;
+                            const couponCode = String(coupon.code || '').trim();
+                            const amount = Number(coupon.coupon_amt) || 0;
+
+                            if (!couponId || !couponCode) {
+                                return;
+                            }
+
+                            const normalizedCode = couponCode.toUpperCase();
+
+                            if (
+                                appliedCouponCodes.has(normalizedCode) ||
+                                addedAvailableCodes.has(normalizedCode)
+                            ) {
+                                return;
+                            }
+
+                            addedAvailableCodes.add(normalizedCode);
+
+                            $customerGroup.append(
+                                $('<option>', {
+                                    value: 'CU_' + couponId,
+                                    text: couponCode + ' - Save ₹ ' +
+                                        amount.toLocaleString('en-IN')
+                                }).attr({
+                                    'data-code': couponCode,
+                                    'data-amount': amount,
+                                    'data-type': 'CU',
+                                    'data-id': couponId
+                                })
+                            );
+                        });
+                    }
+
+                    if ($customerGroup.children().length) {
+                        $availableSelect.append($customerGroup);
+                    }
+
+
+                    // ==========================================
+                    // LOYALTY COUPONS
+                    // ==========================================
+
+                    const $loyaltyGroup = $('<optgroup>', {
+                        label: 'Loyalty Coupons'
+                    });
+
+                    if (Array.isArray(availableLoyaltyCoupons)) {
+
+                        availableLoyaltyCoupons.forEach(function (coupon) {
+
+                            // Actual PHP fields.
+                            const couponId = coupon.id;
+                            const couponCode = String(coupon.code || '').trim();
+                            const amount = Number(coupon.coupon_amt) || 0;
+
+                            if (!couponId || !couponCode) {
+                                return;
+                            }
+
+                            const normalizedCode = couponCode.toUpperCase();
+
+                            if (
+                                appliedCouponCodes.has(normalizedCode) ||
+                                addedAvailableCodes.has(normalizedCode)
+                            ) {
+                                return;
+                            }
+
+                            addedAvailableCodes.add(normalizedCode);
+
+                            $loyaltyGroup.append(
+                                $('<option>', {
+                                    value: 'LOYALTY_' + couponId,
+                                    text: couponCode + ' - Save ₹ ' +
+                                        amount.toLocaleString('en-IN')
+                                }).attr({
+                                    'data-code': couponCode,
+                                    'data-amount': amount,
+                                    'data-type': 'LOYALTY',
+                                    'data-id': couponId
+                                })
+                            );
+                        });
+                    }
+
+                    if ($loyaltyGroup.children().length) {
+                        $availableSelect.append($loyaltyGroup);
+                    }
+
+
+                    // ==========================================
+                    // RESTORE PREVIOUS SELECTIONS
+                    // ==========================================
+
+                    const validSelections = previouslySelected.filter(function (value) {
+
+                        return $availableSelect.find('option').filter(function () {
+                            return this.value === value;
+                        }).length > 0;
+
+                    });
+
+                    $availableSelect.val([...new Set(validSelections)]);
+
+
+                    // ==========================================
+                    // INITIALIZE SELECT2
+                    // ==========================================
+
+                    if (typeof $.fn.select2 === 'function') {
+
+                        if (!$availableSelect.hasClass('select2-hidden-accessible')) {
+
+                            $availableSelect.select2({
+                                width: '100%',
+                                placeholder: 'Search and select coupons',
+                                closeOnSelect: false,
+                                allowClear: true
+                            });
+
+                        } else {
+
+                            $availableSelect.trigger('change.select2');
+                        }
+                    }
+
+                    // updateAvailableCouponDiscount();
+                }
+
+
+                // ==========================================
+                // UPDATE COMBINED TOTAL
+                // ==========================================
+
+                updateAvailableCouponDiscount();
+
+                updateTotalCouponDiscountApplied(1);
+
+                updateCustomerDiscountedSubtotal();
+            }
+
+
+            // ==========================================
+            // CALCULATE AVAILABLE COUPON DISCOUNT
+            // ==========================================
+
+            function updateAvailableCouponDiscount() {
+
+                let total = 0;
+
+                $('#availableCouponsSelect option:selected').each(function () {
+
+                    total += Number($(this).attr('data-amount')) || 0;
+
+                });
+
+                $('#availableCouponDiscount').text(
+                    '- ₹ ' + total.toLocaleString('en-IN')
+                );
+
+                return total;
+            }
+            // ==========================================
+            // GET NUMERIC AMOUNT
+            // ==========================================
+
+            function getNumericAmount(selector) {
+
+                const $element = $(selector);
+
+                if (!$element.length) {
+                    return 0;
+                }
+
+                const value = $element.is('input, select, textarea')
+                    ? $element.val()
+                    : $element.text();
+
+                return Math.abs(
+                    parseFloat(String(value || '0').replace(/[^0-9.-]/g, ''))
+                ) || 0;
+            }
+
+
+            // ==========================================
+            // UPDATE CUSTOMER DISCOUNT DETAILS
+            // ==========================================
+
+            function updateCustomerDiscountedSubtotal() {
+
+                // ==========================================
+                // 1. GET TOTAL COUPON DISCOUNT
+                // Saved coupons + newly selected coupons
+                // ==========================================
+
+                const couponDetails = updateTotalCouponDiscountApplied(1);
+
+                const couponDiscount = couponDetails
+                    ? Number(couponDetails.totalCouponDiscount) || 0
+                    : 0;
+
+
+                // ==========================================
+                // 2. GET REFERENCE WALLET
+                // ==========================================
+
+                const referenceWallet = getNumericAmount(
+                    '#CustReferenceWallet'
+                );
+
+
+                // ==========================================
+                // 3. GET DISCOUNT WALLET
+                // ==========================================
+
+                const discountWallet = getNumericAmount(
+                    '#CustDiscountWallet'
+                );
+
+
+                // ==========================================
+                // 4. UPDATE INDIVIDUAL DISCOUNT DETAILS
+                // ==========================================
+
+                $('#CustCouponDiscount').text(
+                    '- ₹ ' + couponDiscount.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+
+                // ==========================================
+                // 5. CALCULATE CUSTOMER DISCOUNT SUBTOTAL
+                // ==========================================
+
+                const totalCustomerDiscount =
+                    couponDiscount +
+                    referenceWallet +
+                    discountWallet;
+
+
+                // ==========================================
+                // 6. UPDATE SUBTOTAL DISPLAY
+                // ==========================================
+
+                $('#CustDiscountedPriceSubTotal').text(
+                    '₹ ' + totalCustomerDiscount.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+                return totalCustomerDiscount;
+            }
+
+
+            
+            // ==========================================
+            // AVAILABLE COUPON SELECTION EVENT
+            // ==========================================
+
+            $(document).on('change', '#availableCouponsSelect', function () {
+
+                updateAvailableCouponDiscount();
+
+                updateTotalCouponDiscountApplied(1);
+
+                updateCustomerDiscountedSubtotal();
+
+                // renderPricingChanges();
+
+            });
+            // ==========================================
+            // SAVED COUPON SELECTION / DESELECTION EVENT
+            // ==========================================
+
+            // ==========================================
+            // COUPON SELECTION / DESELECTION EVENTS
+            // ==========================================
+
+            $(document).on(
+                'change',
+                '#couponPassengerContainer1 .saved-coupon-display .coupon-select1, #availableCouponsSelect',
+                function () {
+
+                    // Update individual saved coupon display, if applicable.
+                    if ($(this).closest('.saved-coupon-display').length) {
+
+                        const $row = $(this).closest('.coupon-passenger-row');
+
+                        const amount = Number(
+                            $(this).find('option:selected').attr('data-amount')
+                        ) || 0;
+
+                        $row.find('.coupon-discount').text(
+                            '- ₹ ' + amount.toLocaleString('en-IN')
+                        );
+                    }
+
+                    // Update available coupon total.
+                    updateAvailableCouponDiscount();
+
+                    // Update combined coupon total.
+                    updateTotalCouponDiscountApplied(1);
+
+                    // Update complete customer discount section.
+                    updateCustomerDiscountedSubtotal();
+
+                    // Update quotation calculations.
+                    if (typeof renderPricingChanges === 'function') {
+                        renderPricingChanges();
+                    }
+                }
+            );
+            // ==========================================
+            // WATCH CUSTOMER WALLET AMOUNT CHANGES
+            // ==========================================
+
+            function watchCustomerWalletChanges() {
+
+                const walletElements = document.querySelectorAll(
+                    '#CustReferenceWallet, #CustDiscountWallet','#CustExtendedtWallet'
+                );
+
+                if (!walletElements.length) {
+                    return;
+                }
+
+                const observer = new MutationObserver(function () {
+
+                    updateCustomerDiscountedSubtotal();
+
+                    if (typeof renderPricingChanges === 'function') {
+                        renderPricingChanges();
+                    }
+
+                });
+
+                walletElements.forEach(function (element) {
+
+                    observer.observe(element, {
+                        childList: true,
+                        characterData: true,
+                        subtree: true
+                    });
+
+                });
+            }
+            $(document).on(
+                'input change',
+                '#appliedReferralWallet, #appliedDiscountWallet','#appliedExtendedWallet',
+                function () {
+
+                    updateCustomerDiscountedSubtotal();
+
+                    if (typeof renderPricingChanges === 'function') {
+                        renderPricingChanges();
+                    }
+                }
+            );
+            // ==========================================
+            // UPDATE TOTAL COUPON DISCOUNT APPLIED
+            // ==========================================
+
+            function updateTotalCouponDiscountApplied(index) {
+
+                if (String(index) !== '1') {
+                    return {
+                        totalCouponDiscount: 0,
+                        totalCoupons: 0
+                    };
+                }
+
+                const $container = $('#couponPassengerContainer1');
+
+                if (!$container.length) {
+                    return {
+                        totalCouponDiscount: 0,
+                        totalCoupons: 0
+                    };
+                }
+
+                let totalCouponDiscount = 0;
+                let totalCoupons = 0;
+
+                // ==========================================
+                // 1. SAVED COUPONS
+                // ==========================================
+
+                $container.find(
+                    '.saved-coupon-display .coupon-passenger-row'
+                ).each(function () {
+
+                    const amount = Number(
+                        $(this)
+                            .find('.coupon-select1 option:selected')
+                            .attr('data-amount')
+                    ) || 0;
+
+                    if (amount > 0) {
+                        totalCouponDiscount += amount;
+                        totalCoupons++;
+                    }
+                });
+
+
+                // ==========================================
+                // 2. NEWLY SELECTED AVAILABLE COUPONS
+                // ==========================================
+
+                $('#availableCouponsSelect option:selected').each(function () {
+
+                    const amount = Number($(this).attr('data-amount')) || 0;
+
+                    if (amount > 0) {
+                        totalCouponDiscount += amount;
+                        totalCoupons++;
+                    }
+                });
+
+
+                // ==========================================
+                // 3. UPDATE DISPLAY
+                // ==========================================
+
+                $('#totalCouponDiscount1').text(
+                    '- ₹ ' + totalCouponDiscount.toLocaleString('en-IN')
+                );
+                
+                const totalAfterCouponDiscount = Math.trunc(
+                    (originalSubtotal - totalCouponDiscount) * 100
+                ) / 100;
+
+                $('#totalAfterCouponDiscount').text(
+                    '₹ ' + totalAfterCouponDiscount.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+                updateAfterWalletDeduction();
+                return {
+                    totalCouponDiscount: totalCouponDiscount,
+                    totalCoupons: totalCoupons
+                };
+            }
+
+        </script>
+        
     </body>
 </html>

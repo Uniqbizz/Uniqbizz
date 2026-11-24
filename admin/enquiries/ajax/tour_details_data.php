@@ -1362,35 +1362,27 @@ $adultDisplayPrice = $adultPrice;
 $childDisplayPrice = $childPrice;
 $adultDisplayPriceRD = $adultPriceRD;
 $childDisplayPriceRD = $childPriceRD;
+$guestAmount = (float)($pricing['guest_amount'] ?? 0);
+$guestPercentage = (float)($pricing['guest_percentage'] ?? 0);
+if ($guestAmount > 0) {
 
-if ($showGuestPrice) {
+    // Add fixed guest amount
+    $adultDisplayPrice = $adultPrice + $guestAmount;
+    $childDisplayPrice = $childPrice + $guestAmount;
 
-    if (!empty($pricing['guest_amount'])) {
+    $adultDisplayPriceRD = $adultPriceRD + $guestAmount;
+    $childDisplayPriceRD = $childPriceRD + $guestAmount;
 
-        $guestAmount = (float)$pricing['guest_amount'];
+} elseif ($guestPercentage > 0) {
 
-        // Remove guest fixed amount
-        $adultDisplayPrice = $adultPrice - $guestAmount;
-        $childDisplayPrice = $childPrice - $guestAmount;
-        $adultDisplayPriceRD = $adultPriceRD - $guestAmount;
-        $childDisplayPriceRD = $childPriceRD - $guestAmount;
+    // Add guest percentage
+    $percentageMultiplier = 1 + ($guestPercentage / 100);
 
-    } elseif (!empty($pricing['guest_percentage'])) {
+    $adultDisplayPrice = $adultPrice * $percentageMultiplier;
+    $childDisplayPrice = $childPrice * $percentageMultiplier;
 
-        $percentage = (float)$pricing['guest_percentage'];
-
-        // Remove guest percentage
-        $adultDisplayPrice =
-            $adultPrice / (1 + ($percentage / 100));
-
-        $childDisplayPrice =
-            $childPrice / (1 + ($percentage / 100));
-        $adultDisplayPriceRD =
-            $adultPriceRD / (1 + ($percentage / 100));
-
-        $childDisplayPriceRD =
-            $childPriceRD / (1 + ($percentage / 100));
-    }
+    $adultDisplayPriceRD = $adultPriceRD * $percentageMultiplier;
+    $childDisplayPriceRD = $childPriceRD * $percentageMultiplier;
 }
 $stmt = $conn->prepare("
     SELECT image
