@@ -706,7 +706,7 @@ include 'assets/submit/tour_details_data.php';
                                                             <?php endif; ?>
 
                                                             <h5 class="fw-bold text-white mb-0">
-                                                                &#8377; <?= ($showGuestPrice && $adultDisplayPrice > $adultPrice)?number_format($adultPrice, 2):number_format($adultDisplayPrice, 2) ?>
+                                                                &#8377; <?= (!$showGuestPrice)?number_format($adultDisplayPrice, 2):number_format($adultPrice, 2) ?>
                                                             </h5>
 
                                                             <p class="text-white">
@@ -728,14 +728,14 @@ include 'assets/submit/tour_details_data.php';
                                                                 <div class="text-white text-decoration-line-through"
                                                                     style="font-size: 16px; opacity: .8;">
 
-                                                                    &#8377; <?= number_format($childPrice, 2) ?>
+                                                                    &#8377; <?= number_format($childDisplayPrice, 2) ?>
 
                                                                 </div>
 
                                                             <?php endif; ?>
 
                                                             <h5 class="fw-bold text-white mb-0">
-                                                                &#8377; <?= number_format($childDisplayPrice, 2) ?>
+                                                                &#8377; <?= (!$showGuestPrice)?number_format($childDisplayPrice, 2):number_format($childPrice, 2) ?>
                                                             </h5>
 
                                                             <p class="text-white">

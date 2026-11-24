@@ -367,10 +367,9 @@ $total_package_count=$totalRecords;
 ?>
 
 <div class="all-tour-list pt-0 <?=$viewType == 1?'':'d-none'?> " id="all-tour-list">
-    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount"><?= $total_package_count ?></span> Packages </p>
+    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount"><?= $total_package_count??0 ?></span> Packages </p>
     <div class="row g-4">
         <?php
-            require '../../connect.php';
 
             // $user_id = 0;
             $ta_id = 0;
@@ -391,7 +390,6 @@ $total_package_count=$totalRecords;
             // print_r($stmt);
             // exit;
             $stmt->SetFetchMode(PDO::FETCH_ASSOC);
-            $total_package_count=$stmt->rowCount();
             if ($stmt->rowCount() > 0) {
                 foreach (($stmt->fetchAll()) as $key => $row) {
                     // $name = $row['name'].''.$row['unique_code'];
@@ -585,9 +583,8 @@ $total_package_count=$totalRecords;
 
 </div>
 <div class="all-tour-grid <?=$viewType == 2?'':'d-none'?>" id="all-tour-grid">
-    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount"><?= $total_package_count ?></span> Packages </p>
+    <p class="fw-bolder pb-3">Showing <span id="totalNumberOfPackageCount"><?= $total_package_count??0 ?></span> Packages </p>
     <?php
-            require '../../connect.php';
 
             // $user_id = 0;
             $ta_id = 0;
@@ -606,7 +603,6 @@ $total_package_count=$totalRecords;
             $stmt = $conn->prepare($orderByQuery);
             $stmt->execute();
             $stmt->SetFetchMode(PDO::FETCH_ASSOC);
-            $total_package_count=$stmt->rowCount();
             if ($stmt->rowCount() > 0) {
                 foreach (($stmt->fetchAll()) as $key => $row) {
                     // $name = $row['name'].''.$row['unique_code'];
