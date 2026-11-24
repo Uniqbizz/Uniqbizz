@@ -207,12 +207,12 @@ $vehicleOptions = [
                                             <div class="p-2 priceGreenBtn">
                                                 <div class="d-flex justify-content-center align-items-end">Starting from 
                                                     <div class="d-block mx-2">
-                                                        <?php if ($showGuestPrice && $adultDisplayPriceRD < $adultPriceRD): ?>
+                                                        <?php if ($showGuestPrice && $adultDisplayPriceRD > $adultPriceRD): ?>
                                                             <p class="priceTextGreen1 fontSize10 text-center d-block">
-                                                                &#8377; <?= number_format($adultPriceRD, 2) ?> /-
+                                                                &#8377; <?= number_format($adultDisplayPriceRD, 2) ?> /-
                                                             </p>
                                                         <?php endif; ?>
-                                                        <p class="priceTextGreen">&#8377;<?= number_format($adultDisplayPriceRD, 2) ?> /-</p>
+                                                        <p class="priceTextGreen">&#8377;<?= (!$showGuestPrice)?number_format($adultDisplayPriceRD, 2):number_format($adultPriceRD, 2) ?> /-</p>
                                                     </div>
                                                      per adult
                                                 </div>
@@ -527,8 +527,8 @@ $vehicleOptions = [
                                                 <p class="fontSize10">Infant</p>
                                             </div>
                                             <div>
-                                                <p class="fontSize10 text-end">&#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
-                                                <p class="fontSize10 text-end">&#8377; <?= number_format($childDisplayPriceRD, 2) ?></p>
+                                                <p class="fontSize10 text-end">&#8377; <?= (!$showGuestPrice)?number_format($adultDisplayPriceRD, 2):number_format($adultPriceRD, 2) ?></p>
+                                                <p class="fontSize10 text-end">&#8377; <?= (!$showGuestPrice)?number_format($childDisplayPriceRD, 2):number_format($childPriceRD, 2) ?></p>
                                                 <p class="fontSize10 text-end">FREE</p>
                                             </div>
                                         </div>
@@ -538,19 +538,19 @@ $vehicleOptions = [
                                         <p class="fw-bold">Price Based on Travelers</p>
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <p class="fontSize10">Adult: <span class="" id="totalAdultCount">1</span> x &#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
-                                                <p class="fontSize10">Children: <span class="" id="totalChildrenCount">0</span> x &#8377; <?= number_format($childDisplayPriceRD, 2) ?></p>
+                                                <p class="fontSize10">Adult: <span class="" id="totalAdultCount">1</span> x &#8377; <?= (!$showGuestPrice)?number_format($adultDisplayPriceRD, 2):number_format($adultPriceRD, 2) ?></p>
+                                                <p class="fontSize10">Children: <span class="" id="totalChildrenCount">0</span> x &#8377; <?= (!$showGuestPrice)?number_format($childDisplayPriceRD, 2):number_format($childPriceRD, 2) ?></p>
                                                 <p class="fontSize10">Infant: <span class="" id="totalInfantCount">0</span> x FREE</p>
                                             </div>
                                             <div>
-                                                <p class="fontSize10 text-end" id="adultTotal">&#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
+                                                <p class="fontSize10 text-end" id="adultTotal">&#8377; <?= (!$showGuestPrice)?number_format($adultDisplayPriceRD, 2):number_format($adultPriceRD, 2) ?></p>
                                                 <p class="fontSize10 text-end" id="childrenTotal">&#8377; 0</p>
                                                 <p class="fontSize10 text-end">&#8377; 0</p>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <p class="fw-bold">Subtotal</p>
-                                            <p class="fontSize13 fw-bold" id="subTotal">&#8377; <?= number_format($adultDisplayPriceRD, 2) ?></p>
+                                            <p class="fontSize13 fw-bold" id="subTotal">&#8377; <?= (!$showGuestPrice)?number_format($adultDisplayPriceRD, 2):number_format($adultPriceRD, 2) ?></p>
                                         </div>
                                     </div>
                                     <hr class="my-1 border border-2 mx-3">
