@@ -2883,6 +2883,7 @@
                 updateReferencePriceDifference('netPriceChild');
                 const $discountContainer = $('#discountedAdjustmentRows');
                 const $additionalContainer = $('#additionalAdjustmentRows');
+                
 
                 $discountContainer.empty();
                 $additionalContainer.empty();
@@ -3050,98 +3051,66 @@
                 //     changes.totalDiscount +
                 //     changes.totalIncrease
                 // );
+                
                 // -------------------------------------------------
                 // E. UPDATE FINAL QUOTED PRICE
                 // -------------------------------------------------
 
-                // ==========================================
-                // FINAL QUOTED PRICE
-                // ==========================================
-
-                // Start with the sum of the currently entered pricing values.
-                // Subtract all discounts and add all increases.
                 const finalPrice = hasReply
                     ? originalSubtotal - changes.totalDiscount + changes.totalIncrease
                     : originalSubtotal - totalCustomerDiscount
                         - changes.totalDiscount + changes.totalIncrease;
 
-                // If you have a separate base package price calculated from
-                // the pricing input fields, add it here.
-
-                // Calculate total adjustment including saved reply adjustments
-                const netAdjustment = additionalSubtotal - discountedSubtotal;
-
-                let adjustmentLabel = '';
-                let adjustmentClass = '';
-
-                const isSameAdjustment =
-                    Math.abs(discountedSubtotal - additionalSubtotal) < 0.005;
-
-                if (isSameAdjustment) {
-
-                    if (
-                        discountedSubtotal < 0.005 &&
-                        additionalSubtotal < 0.005
-                    ) {
-                        adjustmentLabel = 'No Adjustments';
-                    } else {
-                        adjustmentLabel = 'No Net Price Change';
-                    }
-
-                    adjustmentClass = 'text-dark';
-
-                } else if (netAdjustment < 0) {
-
-                    adjustmentLabel = 'Discounted Amount';
-                    adjustmentClass = 'text-success';
-
-                } else {
-
-                    adjustmentLabel = 'Additional Amount';
-                    adjustmentClass = 'text-danger';
-                }
-
-                // Update label
-                $('#netPriceAdjustmentLabel')
-                    .text(adjustmentLabel)
-                    .removeClass('text-success text-danger text-dark')
-                    .addClass(adjustmentClass);
-
-                // Update adjustment amount
-                $('#netPriceAdjustment')
-                    .text(
-                        (netAdjustment > 0.005 ? '+ ' : netAdjustment < -0.005 ? '- ' : '') +
-                        formatAmount(Math.abs(netAdjustment))
-                    )
-                    .removeClass('text-success text-danger text-dark')
-                    .addClass(adjustmentClass);
-
                 // Update final quoted price
                 $('#finalQuotedPrice').text(formatAmount(finalPrice));
-                
+
                 // -------------------------------------------------
-                // F. UPDATE TOTAL ESTIMATED PRICE
+                // F. APPLY WALLET DEDUCTIONS AFTER FINAL PRICE
                 // -------------------------------------------------
 
-                // Convenience Fee = 1% of Final Quoted Price
-                let convenienceFee = finalPrice * 0.01;
+                const appliedReferralWallet =
+                    getVisibleWalletValue('appliedReferralWallet');
+
+                const appliedDiscountWallet =
+                    getVisibleWalletValue('appliedDiscountWallet');
+
+                const appliedExtendedWallet =
+                    getVisibleWalletValue('appliedExtendedWallet');
+
+                const totalWalletDeduction =
+                    Math.abs(appliedReferralWallet) +
+                    Math.abs(appliedDiscountWallet) +
+                    Math.abs(appliedExtendedWallet);
+
+                const priceAfterWalletDeduction = Math.trunc(
+                    Math.max(0, finalPrice - totalWalletDeduction) * 100
+                ) / 100;
+
+                // Update price after wallet deduction
+                $('#afterWalletDeduction').text(
+                    '₹ ' + priceAfterWalletDeduction.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+                // -------------------------------------------------
+                // G. UPDATE TOTAL ESTIMATED PRICE
+                // -------------------------------------------------
+
+                // Convenience Fee = 1% of price after wallet deduction
+                const convenienceFee = priceAfterWalletDeduction * 0.01;
 
                 // GST percentage from PHP
                 const gstPercentage = <?= json_encode((float)($requestData['gst_percentage'] ?? 0)) ?>;
 
-                // GST calculation (1%? Use the actual GST percentage)
-                let gstAmount = finalPrice * (gstPercentage / 100);
+                // GST on price after wallet deduction
+                const gstAmount = priceAfterWalletDeduction * (gstPercentage / 100);
 
                 // Total Estimated Price
-                let totalEstimatedPrice = finalPrice + convenienceFee + gstAmount;
-                // Debug logs
-                console.log("========== PRICE CALCULATION ==========");
-                console.log("Final Price:", finalPrice);
-                console.log("GST Percentage:", gstPercentage);
-                console.log("GST Amount:", gstAmount);
-                console.log("Convenience Fee:", convenienceFee);
-                console.log("Total Estimated Price:", totalEstimatedPrice);
-                console.log("=======================================");
+                const totalEstimatedPrice =
+                    priceAfterWalletDeduction + convenienceFee + gstAmount;
+
                 // Update Convenience Fee
                 $('#quoteConvenienceFee').text(formatAmount(convenienceFee));
 
@@ -3222,32 +3191,69 @@
             // =====================================================
 
             function updateCustomerDiscountedSubtotal() {
-                function getDiscountAmount(selector) {
-                    const $element = $(selector);
 
-                    if (!$element.length) {
-                        return 0;
-                    }
+                // Get the latest saved + newly selected coupon discount
+                const couponDetails = updateTotalCouponDiscountApplied(1);
 
-                    return parseFloat($element.text().replace(/[^\d.]/g, '')) || 0;
-                }
+                const couponDiscount = couponDetails
+                    ? Number(couponDetails.totalCouponDiscount) || 0
+                    : 0;
 
-                const couponDiscount = getDiscountAmount('#CustCouponDiscount');
-                const referenceWallet = getDiscountAmount('#CustReferenceWallet');
-                const discountWallet = getDiscountAmount('#CustDiscountWallet');
+                // Always read the current editable wallet inputs
+                const referralWallet = Math.abs(
+                    getVisibleWalletValue('appliedReferralWallet')
+                );
 
+                const discountWallet = Math.abs(
+                    getVisibleWalletValue('appliedDiscountWallet')
+                );
+
+                // Update Coupon Discount
+                $('#CustCouponDiscount').text(
+                    '- ₹ ' + couponDiscount.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+                // Update Reference Wallet
+                $('#CustReferenceWallet').text(
+                    '- ₹ ' + referralWallet.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+                $('#CustReferenceWalletRow').toggle(referralWallet > 0);
+
+                // Update Discount Wallet
+                $('#CustDiscountWallet').text(
+                    '- ₹ ' + discountWallet.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+                $('#CustDiscountWalletRow').toggle(discountWallet > 0);
+
+                // Customer discount display subtotal
                 const totalCustomerDiscount =
-                    couponDiscount + referenceWallet + discountWallet;
+                    couponDiscount +
+                    referralWallet +
+                    discountWallet;
 
                 $('#CustDiscountedPriceSubTotal').text(
-                    formatAmount(totalCustomerDiscount)
-                );
-                $('#CustCouponDiscount').text(
-                    formatAmount(totalCustomerDiscount)
+                    '₹ ' + totalCustomerDiscount.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
                 );
 
-                return totalCustomerDiscount;
+                // Only coupon discount is deducted before wallet deductions.
+                return couponDiscount;
             }
+
+
             function updateCancellationCharges() {
                 cancellationCharges = {
                     percentage_1: parseFloat($('#cancellationPercentage1').val()) || 0,
@@ -3527,675 +3533,30 @@
 
                 // Get initial PHP values
                 updateCancellationCharges();
-
-                
-
-                console.log(
-                    'Discount container:',
-                    $('#discountedAdjustmentRows').html()
-                );
-
-                console.log(
-                    'Additional container:',
-                    $('#additionalAdjustmentRows').html()
-                );
+                updateAfterWalletDeduction();
             });
 
-            $('#submitQuoteBtn').on('click', function (e) {
-                e.preventDefault();
+            
+            function getVisibleWalletValue(elementId) {
+                const $input = $('[id="' + elementId + '"]:visible').last();
+                return parseFloat($input.val()) || 0;
+            }
 
-                Swal.fire({
-                    title: 'Submit Quote?',
-                    text: 'Are you sure you want to submit this quotation to the customer?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, Submit',
-                    cancelButtonText: 'Cancel',
-                    confirmButtonColor: '#0d6efd',
-                    cancelButtonColor: '#6c757d',
-                    reverseButtons: true
-                }).then((result) => {
-
-                    if (result.isConfirmed) {
-
-                        
-                        // ==========================================
-                        // 1. BASIC REQUEST DETAILS
-                        // ==========================================
-
-                        const requestId = <?= json_encode($request_id) ?>;
-                        const guestUserId = <?= json_encode($requestData['userId'] != 'null' ? $requestData['userId'] : null) ?>;
-                        const guestFullName = <?= json_encode($requestData['guestFullName']) ?>;
-                        const guestMobile = <?= json_encode($requestData['guestPhone']) ?>;
-                        const guestEmail = <?= json_encode($requestData['guestEmail']) ?>;
-                        const packageId = <?= json_encode($id) ?>;
-                        const validityDatetime =$('#ubxMysqlDatetime').val();
-
-                        // ==========================================
-                        // 2. TRIP REQUEST
-                        // ==========================================
-
-                        const tripRequest = {
-                            travel_start_date: $('#exampleFormControlInput11').val(),
-                            travel_end_date: $('#exampleFormControlInput21').val(),
-                            duration: $('#exampleFormControlInput31').val(),
-                            pickup: $('#exampleFormControlInput41').val(),
-                            old_pickup: <?= $oldPickup !== '' ? "$('#pickupOldValue1').text()" : "''" ?>,
-                            drop: $('#exampleFormControlInput51').val(),
-                            old_drop: <?= $olddrop !== '' ? "$('#dropOldValue1').text()" : "''" ?>,
-                            adult_count: $('#adultCount1').val(),
-                            child_count: $('#childCount1').val(),
-                            infant_count: $('#infantCount1').val(),
-                            total_count: $('#exampleFormControlInput91').val(),
-                            // Latest modified room configuration
-                            rooms: getModifiedRooms()
-                        };
-
-                        // ==========================================
-                        // 3. CUSTOMER PREFERENCES
-                        // ==========================================
-
-                        const customerPreferences = {
-                            hotel: $('#hotelCategory').val(),
-                            meal: $('#mealPreference').val(),
-                            transport: $('#transportPreference').val(),
-                            old_hotel: $('#oldHotelCategory').text(),
-                            old_meal: $('#oldMealPreference').text(),
-                            old_transport: $('#oldTransportPreference').text(),
-                            special_requirement: $('#specialRequirement').text()
-                        };
-
-                        // ==========================================
-                        // 4. QUICK ACTION / PRICE BREAKDOWN
-                        // ==========================================
-
-                        const quickAction = {
-                            per_adult_amount: getAmount('#perAdultAmt'),
-                            per_child_amount: getAmount('#perChildAmt'),
-                            total_adult_count: getAmount('#totalAdultCount'),
-                            total_children_count: getAmount('#totalChildrenCount'),
-                            total_infant_count: getAmount('#totalInfantCount'),
-                            extra_mattress: getAmount('#extraMatress'),
-                            adult_total: getAmount('#adultTotal'),
-                            children_total: getAmount('#childrenTotal'),
-                            extra_mattress_total: getAmount('#extraMatressTotal'),
-                            subtotal: getAmount('#subTotal'),
-                            selected_vehicle: $('#selectedVehicleText').text()
-                        };
-
-                        // ==========================================
-                        // 5. COUPONS AND WALLETS
-                        // ==========================================
-
-                        let couponWalletDetails = {
-                            coupons: [],
-                            admin_coupons: [],
-                            total_coupon_discount: '',
-                            admin_coupon_total: '',
-                            referral_wallet_balance: '',
-                            applied_referral_wallet: '',
-                            discount_wallet_balance: '',
-                            applied_discount_wallet: '',
-                            extended_wallet_balance: '',
-                            applied_extended_wallet: ''
-                        };
-
-                        <?php
-                        if (in_array($Requester_type, [
-                            'Prime',
-                            'Premium',
-                            'Premium Plus',
-                            'Premium Select',
-                            'Premium Select Lite',
-                            'Neo Select',
-                            'Neo Select Ultra'
-                        ], true)) {
-                        ?>
-
-                        $('#couponPassengerContainer1 .saved-coupon-display .coupon-passenger-row').each(function () {
-
-                            const $row = $(this);
-                            const $selected = $row.find('.coupon-select1 option:selected');
-
-                            const code = $selected.val();
-                            const amount = Number($selected.attr('data-amount')) || 0;
-                            const passenger = $row.attr('data-passenger') || '';
-
-                            if (code && amount > 0) {
-
-                                couponWalletDetails.coupons.push({
-                                    code: code,
-                                    amount: amount,
-                                    passenger: passenger
-                                });
-                            }
-                        });
-                        $('#availableCouponsSelect option:selected').each(function () {
-
-                            const $option = $(this);
-
-                            const code = $option.attr('data-code');
-                            const amount = Number($option.attr('data-amount')) || 0;
-                            const type = $option.attr('data-type');
-                            const couponId = $option.attr('data-id');
-
-                            if (code && amount > 0) {
-
-                                couponWalletDetails.admin_coupons.push({
-                                    id: couponId,
-                                    code: code,
-                                    amount: amount,
-                                    type: type
-                                });
-                            }
-                        });
-                        couponWalletDetails.admin_coupon_total = couponWalletDetails.admin_coupons.reduce(
-                            (total, coupon) => total + (Number(coupon.amount) || 0),
-                            0
-                        );
-                        couponWalletDetails.total_coupon_discount = Math.abs(getAmount('#totalCouponDiscount1'));
-                        couponWalletDetails.referral_wallet_balance = getAmount('#referralWalletBalance');
-                        couponWalletDetails.applied_referral_wallet = getAmount('#appliedReferralWallet');
-
-                        <?php if ($Requester_type === 'Neo Select') { ?>
-
-                        couponWalletDetails.discount_wallet_balance = getAmount('#discountWalletBalance');
-                        couponWalletDetails.applied_discount_wallet = getAmount('#appliedDiscountWallet');
-                        couponWalletDetails.extended_wallet_balance = getAmount('#extendedWalletBalance');
-                        couponWalletDetails.applied_extended_wallet = getAmount('#appliedExtendedWallet');
-
-                        <?php } ?>
-
-                        <?php } ?>
-
-                        // ==========================================
-                        // 6. GST AND CONVENIENCE FEE
-                        // ==========================================
-
-                        const priceAdjustments = {
-                            gst_percentage: getAmount('#gstPercentage'),
-                            convenience_fee: getAmount('#convenienceFee'),
-                            gst_amount: getAmount('#gstAmount')
-                        };
-
-                        // ==========================================
-                        // 7. FINAL PACKAGE PRICE
-                        // ==========================================
-
-                        const finalPackageDetails = {
-                            final_package_price: getAmount('#finalPackagePrice')
-                        };
-
-                        // ==========================================
-                        // 8. ITINERARY
-                        // ==========================================
-
-                        let itinerary = [];
-                        let dayCounter = 1;
-
-                        $('#accordionItinerary .accordion-item').each(function () {
-
-                            const $item = $(this);
-
-                            const fieldName = $item.find('[name*="[day_details]"]').attr('name');
-
-                            if (!fieldName) return;
-
-                            const match = fieldName.match(/itinerary\[(\d+)\]/);
-
-                            if (!match) return;
-
-                            const dayId = match[1];
-
-                            itinerary.push({
-                                day_id: 'Day: '+dayCounter++,
-
-                                title: $item.find('.accordion-button')
-                                    .text()
-                                    .trim()
-                                    .replace(/\s+/g, ' ')
-                                    .replace(/^Day\s*\d+\s*-\s*/, ''),
-
-                                day_details: $item.find(`[name="itinerary[${dayId}][day_details]"]`).val() || '',
-                                day_transport: $item.find(`[name="itinerary[${dayId}][day_tansport]"]`).val() || '',
-                                meal_plan: $item.find(`[name="itinerary[${dayId}][meal_plan]"]`).val() || '',
-                                stay: $item.find(`[name="itinerary[${dayId}][stay]"]`).val() || ''
-                            });
-
-                        });
-
-                        // console.log('Itinerary:', itinerary);
-
-                        // ==========================================
-                        // 9. PACKAGE INCLUSIONS AND EXCLUSIONS
-                        // ==========================================
-
-                        let packageInclusionExclusion = {
-                            inclusion: [],
-                            exclusion: []
-                        };
-
-                        $('textarea[name="inclusions[]"]').each(function () {
-                            const value = $(this).val().trim();
-
-                            if (value !== '') {
-                                packageInclusionExclusion.inclusion.push(value);
-                            }
-                        });
-
-                        $('textarea[name="exclusions[]"]').each(function () {
-                            const value = $(this).val().trim();
-
-                            if (value !== '') {
-                                packageInclusionExclusion.exclusion.push(value);
-                            }
-                        });
-
-                        // ==========================================
-                        // 10. NEW POLICY DOCUMENTS
-                        // ==========================================
-
-                        // ==========================================
-                        // 1. COLLECT NEW FILES FOR UPLOAD
-                        // ==========================================
-                        const newAttachmentItems = (window.attachments || []).filter(item =>
-                            item.existing !== true && item.file && item.file.name
-                        );
-
-                        // ==========================================
-                        // 2. COLLECT EXISTING FILE DETAILS FROM DOM
-                        // ==========================================
-                        const existingDocuments = [];
-
-                        document.querySelectorAll('.policyItem[data-existing="1"]').forEach(item => {
-
-                            const id = item.dataset.id;
-                            const title = item.querySelector('.fw-semibold')?.textContent.trim() || '';
-                            const fileName = item.querySelector('.text-muted')?.textContent.trim() || '';
-
-                            // Skip documents marked for deletion
-                            if (
-                                !id ||
-                                !fileName ||
-                                (window.deletedDocuments || []).includes(Number(id))
-                            ) {
-                                return;
-                            }
-
-                            existingDocuments.push({
-                                id: Number(id),
-                                title: title,
-                                name: fileName,
-                                size: '',
-                                type: fileName.split('.').pop().toUpperCase()
-                            });
-
-                        });
-
-                        // ==========================================
-                        // 3. COLLECT NEW FILE METADATA
-                        // ==========================================
-                        const newDocuments = newAttachmentItems.map((item, index) => ({
-                            index: index,
-                            title: item.title,
-                            name: item.file.name,
-                            size: (item.file.size / (1024 * 1024)).toFixed(2) + ' MB',
-                            type: item.file.type
-                        }));
-
-                        
-
-                        // ==========================================
-                        // 12. COMMISSION AND INCENTIVE DETAILS
-                        // ==========================================
-
-                        let commissionIncentive = [];
-
-                        $('.commission-incentive-table tbody tr').each(function () {
-
-                            const columns = $(this).find('> td');
-
-                            const commissionInput = columns.eq(3).find('input');
-                            const incentiveInput = columns.eq(4).find('input');
-
-                            commissionIncentive.push({
-                                designation: columns.eq(0).text().trim(),
-                                name: columns.eq(1).text().trim(),
-                                id: columns.eq(2).text().trim(),
-
-                                commission: commissionInput.length
-                                    ? (parseFloat(commissionInput.val()) || 0)
-                                    : 0,
-
-                                incentive: incentiveInput.length
-                                    ? (parseFloat(incentiveInput.val()) || 0)
-                                    : 0
-                            });
-
-                        });
-
-                        // ==========================================
-                        // 13. MARKUP CALCULATION
-                        // ==========================================
-
-                        const markupCalculation = {
-                            coupon_adjustment: getAmount('#couponAdjustment'),
-                            company_amount: getAmount('#companyAmount'),
-                            suspense_amount: getAmount('#suspenseAmount'),
-                            customer_1_amount: getAmount('#customer1Amount'),
-                            customer_2_amount: getAmount('#customer2Amount'),
-                            customer_3_amount: getAmount('#customer3Amount'),
-
-                            net_price_adult: getAmount('#netPriceAdult'),
-                            net_price_adult_original: getAmount('#netPriceAdult_original'),
-                            net_price_adult_difference: getAmount('#netPriceAdult_difference'),
-
-                            net_price_child: getAmount('#netPriceChild'),
-                            net_price_child_original: getAmount('#netPriceChild_original'),
-                            net_price_child_difference: getAmount('#netPriceChild_difference')
-                        };
-
-                        // ==========================================
-                        // 14. CUSTOMER APPLIED DISCOUNT DETAILS
-                        // ==========================================
-
-                        let customerDiscountDetails = [];
-
-                        const couponDiscount = getAmount('#CustCouponDiscount')|| 0;
-
-                        customerDiscountDetails.push({
-                            type: 'Coupon Discount',
-                            amount: Math.abs(couponDiscount)
-                        });
-
-                        if ($('#CustReferenceWallet').length) {
-
-                            const referenceWallet = getAmount('#CustReferenceWallet')|| 0;
-
-                            customerDiscountDetails.push({
-                                type: 'Reference Wallet',
-                                amount: Math.abs(referenceWallet)
-                            });
-                        }
-
-                        if ($('#CustDiscountWallet').length) {
-
-                            const discountWallet = getAmount('#CustDiscountWallet')|| 0;
-
-                            customerDiscountDetails.push({
-                                type: 'Discount Wallet',
-                                amount: Math.abs(discountWallet)
-                            });
-                        }
-
-                        const customerDiscountPriceDetails = {
-                            details: customerDiscountDetails,
-                            subtotal: getAmount('#CustDiscountedPriceSubTotal')
-                        };
-
-                        // ==========================================
-                        // 15. DISCOUNTED PRICE DETAILS
-                        // ==========================================
-
-                        let discountedPriceDetails = [];
-
-                        $('#discountedAdjustmentRows > div').each(function () {
-
-                            const $row = $(this);
-
-                            const label = $row.find('p').eq(0).text().trim();
-                            const amountText = $row.find('p').eq(1).text().trim();
-
-                            const amount = parseFloat(
-                                amountText.replace(/[^\d.-]/g, '')
-                            ) || 0;
-
-                            discountedPriceDetails.push({
-                                title: label,
-                                amount: Math.abs(amount)
-                            });
-
-                        });
-
-                        const discountedPriceData = {
-                            details: discountedPriceDetails,
-                            subtotal: getAmount('#discountedSubTotal')
-                        };
-
-                        // ==========================================
-                        // 16. ADDITIONAL PRICE DETAILS
-                        // ==========================================
-
-                        let additionalPriceDetails = [];
-
-                        $('#additionalAdjustmentRows > div').each(function () {
-
-                            const $row = $(this);
-
-                            const label = $row.find('p').eq(0).text().trim();
-                            const amountText = $row.find('p').eq(1).text().trim();
-
-                            const amount = parseFloat(
-                                amountText.replace(/[^\d.-]/g, '')
-                            ) || 0;
-
-                            additionalPriceDetails.push({
-                                title: label,
-                                amount: Math.abs(amount)
-                            });
-
-                        });
-
-                        const additionalPriceData = {
-                            details: additionalPriceDetails,
-                            subtotal: getAmount('#additionalSubTotal')
-                        };
-
-                        // ==========================================
-                        // 17. FINAL QUOTATION DETAILS
-                        // ==========================================
-
-                        const finalQuotationDetails = {
-                            net_price_adjustment: {
-                                label: $('#netPriceAdjustmentLabel').text().trim(),
-                                amount: Math.abs(getAmount('#netPriceAdjustment'))
-                            },
-                            final_quoted_price: getAmount('#finalQuotedPrice'),
-                            gst_percentage: getAmount('#quoteGst'),
-                            convenience_fee: getAmount('#quoteConvenienceFee'),
-                            gst_amount: getAmount('#quoteGstAmount'),
-                            estimated_final_package_price: getAmount('#estimatedFinalPackagePrice')
-                        };
-
-                        // ==========================================
-                        // 18. COMPLETE QUOTATION PAYLOAD
-                        // ==========================================
-
-                        const quotationPayload = {
-
-                            request_id: requestId,
-                            package_id: packageId,
-
-                            guest_details: {
-                                user_id: guestUserId,
-                                full_name: guestFullName,
-                                mobile: guestMobile,
-                                email: guestEmail
-                            },
-
-                            trip_request: tripRequest,
-
-                            customer_preferences: customerPreferences,
-
-                            quick_action: quickAction,
-
-                            coupon_wallet_details: couponWalletDetails,
-
-                            price_adjustments: priceAdjustments,
-
-                            final_package_details: finalPackageDetails,
-
-                            itinerary: itinerary,
-
-                            package_inclusion_exclusion: packageInclusionExclusion,
-
-                            // All existing + newly added policy documents
-                            new_policy_documents: [
-                                ...existingDocuments,
-                                ...newDocuments
-                            ],
-
-                            // Only newly added documents (for file uploads)
-                            new_upload_documents: newDocuments,
-
-                            cancellation_charges: cancellationCharges,
-
-                            commission_incentive: commissionIncentive,
-
-                            markup_calculation: markupCalculation,
-
-                            customer_discount_price_details: customerDiscountPriceDetails,
-
-                            discounted_price_details: discountedPriceData,
-
-                            additional_price_details: additionalPriceData,
-
-                            final_quotation_details: finalQuotationDetails,
-                            
-                            validity_datetime: validityDatetime
-
-                        };
-
-                        // ==========================================
-                        // 19. CONSOLE OUTPUT
-                        // ==========================================
-
-                        console.log('COMPLETE QUOTATION PAYLOAD:', quotationPayload);
-
-                        console.log(
-                            'QUOTATION PAYLOAD JSON:',
-                            JSON.stringify(quotationPayload, null, 4)
-                        );
-                        
-                        // ==========================================
-                        // 20. SUBMIT QUOTATION USING AJAX
-                        // ==========================================
-
-                        const formData = new FormData();
-
-                        // Complete quotation JSON
-                        formData.append('quotationPayload', JSON.stringify(quotationPayload));
-
-                        // ==========================================
-                        // 6. APPEND ONLY NEW FILES
-                        // ==========================================
-                        newAttachmentItems.forEach((item, index) => {
-
-                            console.log('Appending file:', {
-                                index: index,
-                                title: item.title,
-                                name: item.file.name,
-                                size: item.file.size,
-                                type: item.file.type
-                            });
-
-                            formData.append(
-                                'policy_files[]',
-                                item.file,
-                                item.file.name
-                            );
-
-                        });
-
-                        // Prevent multiple submissions
-                        const $submitButton = $('#submitQuoteBtn');
-
-                        $.ajax({
-                            url: 'ajax/submit_admin_quote.php',
-                            type: 'POST',
-                            data: formData,
-
-                            processData: false,
-                            contentType: false,
-                            dataType: 'json',
-
-                            beforeSend: function () {
-                                $submitButton.prop('disabled', true);
-
-                                Swal.fire({
-                                    title: 'Submitting Quotation...',
-                                    text: 'Please wait while we save the quotation.',
-                                    allowOutsideClick: false,
-                                    allowEscapeKey: false,
-                                    didOpen: function () {
-                                        Swal.showLoading();
-                                    }
-                                });
-                            },
-
-                            success: function (response) {
-
-                                if (response.success) {
-
-                                    Swal.fire({
-                                        title: 'Success!',
-                                        text: response.message || 'Quotation submitted successfully.',
-                                        icon: 'success',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#0d6efd'
-                                    }).then(() => {
-
-                                        // Add your redirect here if required.
-                                        // window.location.href = 'enquires.php';
-
-                                    });
-
-                                } else {
-
-                                    Swal.fire({
-                                        title: 'Unable to Submit',
-                                        text: response.message || 'Something went wrong while submitting the quotation.',
-                                        icon: 'error',
-                                        confirmButtonColor: '#dc3545'
-                                    });
-
-                                }
-                            },
-
-                            error: function (xhr, status, error) {
-
-                                console.error('AJAX Error:', error);
-                                console.error('Response:', xhr.responseText);
-
-                                Swal.fire({
-                                    title: 'Server Error',
-                                    text: 'Unable to submit the quotation. Please try again.',
-                                    icon: 'error',
-                                    confirmButtonColor: '#dc3545'
-                                });
-
-                            },
-
-                            complete: function () {
-                                $submitButton.prop('disabled', false);
-                            }
-                        });
-
-                    }
-
-                });
-            });
-            updateAfterWalletDeduction();
             function updateAfterWalletDeduction() {
 
                 const totalAfterCouponDiscount = parseFloat(
                     $('#totalAfterCouponDiscount').text().replace(/[^\d.-]/g, '')
                 ) || 0;
 
-                const appliedReferralWallet = parseFloat($('#appliedReferralWallet').val()) || 0;
-                const appliedDiscountWallet = parseFloat($('#appliedDiscountWallet').val()) || 0;
-                const appliedExtendedWallet = parseFloat($('#appliedExtendedWallet').val()) || 0;
-                
+                const appliedReferralWallet =
+                    getVisibleWalletValue('appliedReferralWallet');
+
+                const appliedDiscountWallet =
+                    getVisibleWalletValue('appliedDiscountWallet');
+
+                const appliedExtendedWallet =
+                    getVisibleWalletValue('appliedExtendedWallet');
+
                 const totalWalletDeduction =
                     Math.abs(appliedReferralWallet) +
                     Math.abs(appliedDiscountWallet) +
@@ -4211,24 +3572,12 @@
                         maximumFractionDigits: 2
                     })
                 );
-                // renderPricingChanges();
-                // $('#finalQuotedPrice').text(
-                //     '₹ ' + afterWalletDeduction.toLocaleString('en-IN', {
-                //         minimumFractionDigits: 2,
-                //         maximumFractionDigits: 2
-                //     })
-                // );
-                
             }
 
-            // Listen for changes
             $(document).on(
                 'input change',
                 '#appliedReferralWallet, #appliedDiscountWallet, #appliedExtendedWallet',
                 function () {
-
-                    updateCustomerDiscountedSubtotal();
-
                     renderPricingChanges();
                 }
             );
@@ -4907,96 +4256,6 @@
                 ) || 0;
             }
 
-
-            // ==========================================
-            // UPDATE CUSTOMER DISCOUNT DETAILS
-            // ==========================================
-
-            function updateCustomerDiscountedSubtotal() {
-
-                // ==========================================
-                // 1. GET TOTAL COUPON DISCOUNT
-                // Saved coupons + newly selected coupons
-                // ==========================================
-
-                const couponDetails = updateTotalCouponDiscountApplied(1);
-
-                const couponDiscount = couponDetails
-                    ? Number(couponDetails.totalCouponDiscount) || 0
-                    : 0;
-
-
-                // ==========================================
-                // 2. GET REFERENCE WALLET
-                // ==========================================
-
-                const referenceWallet = getNumericAmount(
-                    '#CustReferenceWallet'
-                );
-
-
-                // ==========================================
-                // 3. GET DISCOUNT WALLET
-                // ==========================================
-
-                const discountWallet = getNumericAmount(
-                    '#CustDiscountWallet'
-                );
-
-
-                // ==========================================
-                // 4. UPDATE INDIVIDUAL DISCOUNT DETAILS
-                // ==========================================
-
-                $('#CustCouponDiscount').text(
-                    '- ₹ ' + couponDiscount.toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    })
-                );
-
-
-                // ==========================================
-                // 5. CALCULATE CUSTOMER DISCOUNT SUBTOTAL
-                // ==========================================
-
-                const totalCustomerDiscount =
-                    couponDiscount +
-                    referenceWallet +
-                    discountWallet;
-
-
-                // ==========================================
-                // 6. UPDATE SUBTOTAL DISPLAY
-                // ==========================================
-
-                $('#CustDiscountedPriceSubTotal').text(
-                    '₹ ' + totalCustomerDiscount.toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    })
-                );
-
-                return totalCustomerDiscount;
-            }
-
-
-            
-            // ==========================================
-            // AVAILABLE COUPON SELECTION EVENT
-            // ==========================================
-
-            $(document).on('change', '#availableCouponsSelect', function () {
-
-                updateAvailableCouponDiscount();
-
-                updateTotalCouponDiscountApplied(1);
-
-                updateCustomerDiscountedSubtotal();
-
-                renderPricingChanges();
-
-            });
             // ==========================================
             // SAVED COUPON SELECTION / DESELECTION EVENT
             // ==========================================
@@ -5170,7 +4429,685 @@
                     totalCoupons: totalCoupons
                 };
             }
+            //==============================================
+            // sUBMIT QOUTATION
+            //==============================================
+            $('#submitQuoteBtn').on('click', function (e) {
+                e.preventDefault();
+                // ==========================================
+                // QUOTATION VALIDITY DATE & TIME VALIDATION
+                // ==========================================
 
+                const validityDatetime = $('#ubxMysqlDatetime').val();
+
+                if (!validityDatetime || validityDatetime.trim() === '') {
+
+                    Swal.fire({
+                        title: 'Required!',
+                        text: 'Please select Quotation Validity Date & Time.',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#0d6efd'
+                    }).then(() => {
+                        $('#ubxMysqlDatetime').trigger('focus');
+                    });
+
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Submit Quotation?',
+                    text: 'Are you sure you want to submit this quotation to the customer?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Submit',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonColor: '#0d6efd',
+                    cancelButtonColor: '#6c757d',
+                    reverseButtons: true
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+
+                        
+                        // ==========================================
+                        // 1. BASIC REQUEST DETAILS
+                        // ==========================================
+
+                        const requestId = <?= json_encode($request_id) ?>;
+                        const guestUserId = <?= json_encode($requestData['userId'] != 'null' ? $requestData['userId'] : null) ?>;
+                        const guestFullName = <?= json_encode($requestData['guestFullName']) ?>;
+                        const guestMobile = <?= json_encode($requestData['guestPhone']) ?>;
+                        const guestEmail = <?= json_encode($requestData['guestEmail']) ?>;
+                        const packageId = <?= json_encode($id) ?>;
+                        const validityDatetime =$('#ubxMysqlDatetime').val();
+
+                        // ==========================================
+                        // 2. TRIP REQUEST
+                        // ==========================================
+
+                        const tripRequest = {
+                            travel_start_date: $('#exampleFormControlInput11').val(),
+                            travel_end_date: $('#exampleFormControlInput21').val(),
+                            duration: $('#exampleFormControlInput31').val(),
+                            pickup: $('#exampleFormControlInput41').val(),
+                            old_pickup: <?= $oldPickup !== '' ? "$('#pickupOldValue1').text()" : "''" ?>,
+                            drop: $('#exampleFormControlInput51').val(),
+                            old_drop: <?= $olddrop !== '' ? "$('#dropOldValue1').text()" : "''" ?>,
+                            adult_count: $('#adultCount1').val(),
+                            child_count: $('#childCount1').val(),
+                            infant_count: $('#infantCount1').val(),
+                            total_count: $('#exampleFormControlInput91').val(),
+                            // Latest modified room configuration
+                            rooms: getModifiedRooms()
+                        };
+
+                        // ==========================================
+                        // 3. CUSTOMER PREFERENCES
+                        // ==========================================
+
+                        const customerPreferences = {
+                            hotel: $('#hotelCategory').val(),
+                            meal: $('#mealPreference').val(),
+                            transport: $('#transportPreference').val(),
+                            old_hotel: $('#oldHotelCategory').text(),
+                            old_meal: $('#oldMealPreference').text(),
+                            old_transport: $('#oldTransportPreference').text(),
+                            special_requirement: $('#specialRequirement').text()
+                        };
+
+                        // ==========================================
+                        // 4. QUICK ACTION / PRICE BREAKDOWN
+                        // ==========================================
+
+                        const quickAction = {
+                            per_adult_amount: getAmount('#perAdultAmt'),
+                            per_child_amount: getAmount('#perChildAmt'),
+                            total_adult_count: getAmount('#totalAdultCount'),
+                            total_children_count: getAmount('#totalChildrenCount'),
+                            total_infant_count: getAmount('#totalInfantCount'),
+                            extra_mattress: getAmount('#extraMatress'),
+                            adult_total: getAmount('#adultTotal'),
+                            children_total: getAmount('#childrenTotal'),
+                            extra_mattress_total: getAmount('#extraMatressTotal'),
+                            subtotal: getAmount('#subTotal'),
+                            selected_vehicle: $('#selectedVehicleText').text()
+                        };
+
+                        // ==========================================
+                        // 5. COUPONS AND WALLETS
+                        // ==========================================
+
+                        let couponWalletDetails = {
+                            coupons: [],
+                            admin_coupons: [],
+                            total_coupon_discount: '',
+                            admin_coupon_total: '',
+                            referral_wallet_balance: '',
+                            applied_referral_wallet: '',
+                            discount_wallet_balance: '',
+                            applied_discount_wallet: '',
+                            extended_wallet_balance: '',
+                            applied_extended_wallet: ''
+                        };
+
+                        <?php
+                        if (in_array($Requester_type, [
+                            'Prime',
+                            'Premium',
+                            'Premium Plus',
+                            'Premium Select',
+                            'Premium Select Lite',
+                            'Neo Select',
+                            'Neo Select Ultra'
+                        ], true)) {
+                        ?>
+
+                        $('#couponPassengerContainer1 .saved-coupon-display .coupon-passenger-row').each(function () {
+
+                            const $row = $(this);
+                            const $selected = $row.find('.coupon-select1 option:selected');
+
+                            const code = $selected.val();
+                            const amount = Number($selected.attr('data-amount')) || 0;
+                            const passenger = $row.attr('data-passenger') || '';
+
+                            if (code && amount > 0) {
+
+                                couponWalletDetails.coupons.push({
+                                    code: code,
+                                    amount: amount,
+                                    passenger: passenger
+                                });
+                            }
+                        });
+                        $('#availableCouponsSelect option:selected').each(function () {
+
+                            const $option = $(this);
+
+                            const code = $option.attr('data-code');
+                            const amount = Number($option.attr('data-amount')) || 0;
+                            const type = $option.attr('data-type');
+                            const couponId = $option.attr('data-id');
+
+                            if (code && amount > 0) {
+
+                                couponWalletDetails.admin_coupons.push({
+                                    id: couponId,
+                                    code: code,
+                                    amount: amount,
+                                    type: type
+                                });
+                            }
+                        });
+                        couponWalletDetails.admin_coupon_total = couponWalletDetails.admin_coupons.reduce(
+                            (total, coupon) => total + (Number(coupon.amount) || 0),
+                            0
+                        );
+                        couponWalletDetails.total_coupon_discount =
+                            Math.abs(getAmount('#totalCouponDiscount1'));
+
+                        couponWalletDetails.referral_wallet_balance =
+                            getAmount('#referralWalletBalance');
+
+                        couponWalletDetails.applied_referral_wallet =
+                            getVisibleWalletValue('appliedReferralWallet');
+
+                        <?php if ($Requester_type === 'Neo Select') { ?>
+
+                            couponWalletDetails.discount_wallet_balance =
+                                getAmount('#discountWalletBalance');
+
+                            couponWalletDetails.applied_discount_wallet =
+                                getVisibleWalletValue('appliedDiscountWallet');
+
+                            couponWalletDetails.extended_wallet_balance =
+                                getAmount('#extendedWalletBalance');
+
+                            couponWalletDetails.applied_extended_wallet =
+                                getVisibleWalletValue('appliedExtendedWallet');
+
+                        <?php } ?>
+
+                        <?php } ?>
+
+                        // ==========================================
+                        // 6. GST AND CONVENIENCE FEE
+                        // ==========================================
+
+                        const priceAdjustments = {
+                            gst_percentage: getAmount('#gstPercentage'),
+                            convenience_fee: getAmount('#convenienceFee'),
+                            gst_amount: getAmount('#gstAmount')
+                        };
+
+                        // ==========================================
+                        // 7. FINAL PACKAGE PRICE
+                        // ==========================================
+
+                        const finalPackageDetails = {
+                            final_package_price: getAmount('#finalPackagePrice')
+                        };
+
+                        // ==========================================
+                        // 8. ITINERARY
+                        // ==========================================
+
+                        let itinerary = [];
+                        let dayCounter = 1;
+
+                        $('#accordionItinerary .accordion-item').each(function () {
+
+                            const $item = $(this);
+
+                            const fieldName = $item.find('[name*="[day_details]"]').attr('name');
+
+                            if (!fieldName) return;
+
+                            const match = fieldName.match(/itinerary\[(\d+)\]/);
+
+                            if (!match) return;
+
+                            const dayId = match[1];
+
+                            itinerary.push({
+                                day_id: 'Day: '+dayCounter++,
+
+                                title: $item.find('.accordion-button')
+                                    .text()
+                                    .trim()
+                                    .replace(/\s+/g, ' ')
+                                    .replace(/^Day\s*\d+\s*-\s*/, ''),
+
+                                day_details: $item.find(`[name="itinerary[${dayId}][day_details]"]`).val() || '',
+                                day_transport: $item.find(`[name="itinerary[${dayId}][day_tansport]"]`).val() || '',
+                                meal_plan: $item.find(`[name="itinerary[${dayId}][meal_plan]"]`).val() || '',
+                                stay: $item.find(`[name="itinerary[${dayId}][stay]"]`).val() || ''
+                            });
+
+                        });
+
+                        // console.log('Itinerary:', itinerary);
+
+                        // ==========================================
+                        // 9. PACKAGE INCLUSIONS AND EXCLUSIONS
+                        // ==========================================
+
+                        let packageInclusionExclusion = {
+                            inclusion: [],
+                            exclusion: []
+                        };
+
+                        $('textarea[name="inclusions[]"]').each(function () {
+                            const value = $(this).val().trim();
+
+                            if (value !== '') {
+                                packageInclusionExclusion.inclusion.push(value);
+                            }
+                        });
+
+                        $('textarea[name="exclusions[]"]').each(function () {
+                            const value = $(this).val().trim();
+
+                            if (value !== '') {
+                                packageInclusionExclusion.exclusion.push(value);
+                            }
+                        });
+
+                        // ==========================================
+                        // 10. NEW POLICY DOCUMENTS
+                        // ==========================================
+
+                        // ==========================================
+                        // 1. COLLECT NEW FILES FOR UPLOAD
+                        // ==========================================
+                        const newAttachmentItems = (window.attachments || []).filter(item =>
+                            item.existing !== true && item.file && item.file.name
+                        );
+
+                        // ==========================================
+                        // 2. COLLECT EXISTING FILE DETAILS FROM DOM
+                        // ==========================================
+                        const existingDocuments = [];
+
+                        document.querySelectorAll('.policyItem[data-existing="1"]').forEach(item => {
+
+                            const id = item.dataset.id;
+                            const title = item.querySelector('.fw-semibold')?.textContent.trim() || '';
+                            const fileName = item.querySelector('.text-muted')?.textContent.trim() || '';
+
+                            // Skip documents marked for deletion
+                            if (
+                                !id ||
+                                !fileName ||
+                                (window.deletedDocuments || []).includes(Number(id))
+                            ) {
+                                return;
+                            }
+
+                            existingDocuments.push({
+                                id: Number(id),
+                                title: title,
+                                name: fileName,
+                                size: '',
+                                type: fileName.split('.').pop().toUpperCase()
+                            });
+
+                        });
+
+                        // ==========================================
+                        // 3. COLLECT NEW FILE METADATA
+                        // ==========================================
+                        const newDocuments = newAttachmentItems.map((item, index) => ({
+                            index: index,
+                            title: item.title,
+                            name: item.file.name,
+                            size: (item.file.size / (1024 * 1024)).toFixed(2) + ' MB',
+                            type: item.file.type
+                        }));
+
+                        
+
+                        // ==========================================
+                        // 12. COMMISSION AND INCENTIVE DETAILS
+                        // ==========================================
+
+                        let commissionIncentive = [];
+
+                        $('.commission-incentive-table tbody tr').each(function () {
+
+                            const columns = $(this).find('> td');
+
+                            const commissionInput = columns.eq(3).find('input');
+                            const incentiveInput = columns.eq(4).find('input');
+
+                            commissionIncentive.push({
+                                designation: columns.eq(0).text().trim(),
+                                name: columns.eq(1).text().trim(),
+                                id: columns.eq(2).text().trim(),
+
+                                commission: commissionInput.length
+                                    ? (parseFloat(commissionInput.val()) || 0)
+                                    : 0,
+
+                                incentive: incentiveInput.length
+                                    ? (parseFloat(incentiveInput.val()) || 0)
+                                    : 0
+                            });
+
+                        });
+
+                        // ==========================================
+                        // 13. MARKUP CALCULATION
+                        // ==========================================
+
+                        const markupCalculation = {
+                            coupon_adjustment: getAmount('#couponAdjustment'),
+                            company_amount: getAmount('#companyAmount'),
+                            suspense_amount: getAmount('#suspenseAmount'),
+                            customer_1_amount: getAmount('#customer1Amount'),
+                            customer_2_amount: getAmount('#customer2Amount'),
+                            customer_3_amount: getAmount('#customer3Amount'),
+
+                            net_price_adult: getAmount('#netPriceAdult'),
+                            net_price_adult_original: getAmount('#netPriceAdult_original'),
+                            net_price_adult_difference: getAmount('#netPriceAdult_difference'),
+
+                            net_price_child: getAmount('#netPriceChild'),
+                            net_price_child_original: getAmount('#netPriceChild_original'),
+                            net_price_child_difference: getAmount('#netPriceChild_difference')
+                        };
+
+                        // ==========================================
+                        // 14. CUSTOMER APPLIED DISCOUNT DETAILS
+                        // ==========================================
+
+                        let customerDiscountDetails = [];
+
+                        const couponDiscount = getAmount('#CustCouponDiscount')|| 0;
+
+                        customerDiscountDetails.push({
+                            type: 'Coupon Discount',
+                            amount: Math.abs(couponDiscount)
+                        });
+
+                        if ($('#CustReferenceWallet').length) {
+
+                            const referenceWallet = getAmount('#CustReferenceWallet')|| 0;
+
+                            customerDiscountDetails.push({
+                                type: 'Reference Wallet',
+                                amount: Math.abs(referenceWallet)
+                            });
+                        }
+
+                        if ($('#CustDiscountWallet').length) {
+
+                            const discountWallet = getAmount('#CustDiscountWallet')|| 0;
+
+                            customerDiscountDetails.push({
+                                type: 'Discount Wallet',
+                                amount: Math.abs(discountWallet)
+                            });
+                        }
+
+                        const customerDiscountPriceDetails = {
+                            details: customerDiscountDetails,
+                            subtotal: getAmount('#CustDiscountedPriceSubTotal')
+                        };
+
+                        // ==========================================
+                        // 15. DISCOUNTED PRICE DETAILS
+                        // ==========================================
+
+                        let discountedPriceDetails = [];
+
+                        $('#discountedAdjustmentRows > div').each(function () {
+
+                            const $row = $(this);
+
+                            const label = $row.find('p').eq(0).text().trim();
+                            const amountText = $row.find('p').eq(1).text().trim();
+
+                            const amount = parseFloat(
+                                amountText.replace(/[^\d.-]/g, '')
+                            ) || 0;
+
+                            discountedPriceDetails.push({
+                                title: label,
+                                amount: Math.abs(amount)
+                            });
+
+                        });
+
+                        const discountedPriceData = {
+                            details: discountedPriceDetails,
+                            subtotal: getAmount('#discountedSubTotal')
+                        };
+
+                        // ==========================================
+                        // 16. ADDITIONAL PRICE DETAILS
+                        // ==========================================
+
+                        let additionalPriceDetails = [];
+
+                        $('#additionalAdjustmentRows > div').each(function () {
+
+                            const $row = $(this);
+
+                            const label = $row.find('p').eq(0).text().trim();
+                            const amountText = $row.find('p').eq(1).text().trim();
+
+                            const amount = parseFloat(
+                                amountText.replace(/[^\d.-]/g, '')
+                            ) || 0;
+
+                            additionalPriceDetails.push({
+                                title: label,
+                                amount: Math.abs(amount)
+                            });
+
+                        });
+
+                        const additionalPriceData = {
+                            details: additionalPriceDetails,
+                            subtotal: getAmount('#additionalSubTotal')
+                        };
+
+                        // ==========================================
+                        // 17. FINAL QUOTATION DETAILS
+                        // ==========================================
+
+                        const finalQuotationDetails = {
+                            net_price_adjustment: {
+                                label: $('#netPriceAdjustmentLabel').text().trim(),
+                                amount: Math.abs(getAmount('#netPriceAdjustment'))
+                            },
+                            final_quoted_price: getAmount('#finalQuotedPrice'),
+                            gst_percentage: getAmount('#quoteGst'),
+                            convenience_fee: getAmount('#quoteConvenienceFee'),
+                            gst_amount: getAmount('#quoteGstAmount'),
+                            estimated_final_package_price: getAmount('#estimatedFinalPackagePrice')
+                        };
+
+                        // ==========================================
+                        // 18. COMPLETE QUOTATION PAYLOAD
+                        // ==========================================
+
+                        const quotationPayload = {
+
+                            request_id: requestId,
+                            package_id: packageId,
+
+                            guest_details: {
+                                user_id: guestUserId,
+                                full_name: guestFullName,
+                                mobile: guestMobile,
+                                email: guestEmail
+                            },
+
+                            trip_request: tripRequest,
+
+                            customer_preferences: customerPreferences,
+
+                            quick_action: quickAction,
+
+                            coupon_wallet_details: couponWalletDetails,
+
+                            price_adjustments: priceAdjustments,
+
+                            final_package_details: finalPackageDetails,
+
+                            itinerary: itinerary,
+
+                            package_inclusion_exclusion: packageInclusionExclusion,
+
+                            // All existing + newly added policy documents
+                            new_policy_documents: [
+                                ...existingDocuments,
+                                ...newDocuments
+                            ],
+
+                            // Only newly added documents (for file uploads)
+                            new_upload_documents: newDocuments,
+
+                            cancellation_charges: cancellationCharges,
+
+                            commission_incentive: commissionIncentive,
+
+                            markup_calculation: markupCalculation,
+
+                            customer_discount_price_details: customerDiscountPriceDetails,
+
+                            discounted_price_details: discountedPriceData,
+
+                            additional_price_details: additionalPriceData,
+
+                            final_quotation_details: finalQuotationDetails,
+                            
+                            validity_datetime: validityDatetime
+
+                        };
+
+                        // ==========================================
+                        // 19. CONSOLE OUTPUT
+                        // ==========================================
+
+                        console.log('COMPLETE QUOTATION PAYLOAD:', quotationPayload);
+
+                        console.log(
+                            'QUOTATION PAYLOAD JSON:',
+                            JSON.stringify(quotationPayload, null, 4)
+                        );
+                        
+                        // ==========================================
+                        // 20. SUBMIT QUOTATION USING AJAX
+                        // ==========================================
+
+                        const formData = new FormData();
+
+                        // Complete quotation JSON
+                        formData.append('quotationPayload', JSON.stringify(quotationPayload));
+
+                        // ==========================================
+                        // 6. APPEND ONLY NEW FILES
+                        // ==========================================
+                        newAttachmentItems.forEach((item, index) => {
+
+                            console.log('Appending file:', {
+                                index: index,
+                                title: item.title,
+                                name: item.file.name,
+                                size: item.file.size,
+                                type: item.file.type
+                            });
+
+                            formData.append(
+                                'policy_files[]',
+                                item.file,
+                                item.file.name
+                            );
+
+                        });
+
+                        // Prevent multiple submissions
+                        const $submitButton = $('#submitQuoteBtn');
+
+                        $.ajax({
+                            url: 'ajax/submit_admin_quote.php',
+                            type: 'POST',
+                            data: formData,
+
+                            processData: false,
+                            contentType: false,
+                            dataType: 'json',
+
+                            beforeSend: function () {
+                                $submitButton.prop('disabled', true);
+
+                                Swal.fire({
+                                    title: 'Submitting Quotation...',
+                                    text: 'Please wait while we save the quotation.',
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                    didOpen: function () {
+                                        Swal.showLoading();
+                                    }
+                                });
+                            },
+
+                            success: function (response) {
+
+                                if (response.success) {
+
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: response.message || 'Quotation submitted successfully.',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#0d6efd'
+                                    }).then(() => {
+
+                                        // Add your redirect here if required.
+                                        // window.location.href = 'enquires.php';
+
+                                    });
+
+                                } else {
+
+                                    Swal.fire({
+                                        title: 'Unable to Submit',
+                                        text: response.message || 'Something went wrong while submitting the quotation.',
+                                        icon: 'error',
+                                        confirmButtonColor: '#dc3545'
+                                    });
+
+                                }
+                            },
+
+                            error: function (xhr, status, error) {
+
+                                console.error('AJAX Error:', error);
+                                console.error('Response:', xhr.responseText);
+
+                                Swal.fire({
+                                    title: 'Server Error',
+                                    text: 'Unable to submit the quotation. Please try again.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#dc3545'
+                                });
+
+                            },
+
+                            complete: function () {
+                                $submitButton.prop('disabled', false);
+                            }
+                        });
+
+                    }
+
+                });
+            });
         </script>
         
     </body>

@@ -5934,68 +5934,82 @@
 
                                     $requestDetailsRevisedQuote = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
                                     ?>
-                                        <div class="p-3 pb-0" id="CustDiscountedPriceDetails">
-                                            <?php
-                                                $customerDiscountDetails = json_decode(
-                                                    $requestDetailsRevisedQuote['cust_dis_details'] ?? '{}',
-                                                    true
-                                                );
+                                    
+                                    <div class="p-3 pb-0" id="CustDiscountedPriceDetails">
 
-                                                if (!is_array($customerDiscountDetails)) {
-                                                    $customerDiscountDetails = [];
-                                                }
+                                        <?php
+                                            $customerDiscountDetails = json_decode(
+                                                $requestDetailsRevisedQuote['cust_dis_details'] ?? '{}',
+                                                true
+                                            );
 
-                                                $discountSubtotal = $requestDetailsRevisedQuote['cust_dis_details_total'] ?? 0
-                                            ?>
-                                            <p class="mb-2 fw-bold blueDiv">
-                                                Customer Applied Discount Details
+                                            if (!is_array($customerDiscountDetails)) {
+                                                $customerDiscountDetails = [];
+                                            }
+
+                                            $discountSubtotal = (float)($requestDetailsRevisedQuote['cust_dis_details_total'] ?? 0);
+
+                                            $referralWallet = (float)($requestData['referral_wallet_amount'] ?? 0);
+                                            $discountWallet = (float)($requestData['discount_wallet_amount'] ?? 0);
+                                        ?>
+
+                                        <p class="mb-2 fw-bold blueDiv">
+                                            Customer Applied Discount Details
+                                        </p>
+
+                                        <div class="d-flex justify-content-between align-items-center px-3 pb-2">
+                                            <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                <i class="ri-price-tag-3-line"></i>
+                                                Discounts (Coupon)
                                             </p>
-                                            
-                                            <div class="d-flex justify-content-between align-items-center px-3 pb-2">
-                                                <p class="fontSize10 discountGreen fw-bold mb-0">
-                                                    <i class="ri-price-tag-3-line"></i>
-                                                    Discounts (Coupon)
-                                                </p>
 
-                                                <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustCouponDiscount">
-                                                    - ₹ <?= number_format((float)$requestData['coupon_discount'], 2) ?>
-                                                </p>
-                                            </div>
+                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustCouponDiscount">
+                                                - ₹ <?= number_format((float)($requestData['coupon_discount'] ?? 0), 2) ?>
+                                            </p>
+                                        </div>
 
-                                            <?php if ((float)$requestData['referral_wallet_amount'] != 0) { ?>
-                                                <div class="d-flex justify-content-between align-items-center px-3 pb-2">
-                                                    <p class="fontSize10 discountGreen fw-bold mb-0">
-                                                        <i class="ri-wallet-3-line"></i>
-                                                        Reference Wallet
-                                                    </p>
+                                        <div
+                                            class="d-flex justify-content-between align-items-center px-3 pb-2"
+                                            id="CustReferenceWalletRow"
+                                            style="<?= $referralWallet == 0 ? 'display:none !important;' : '' ?>"
+                                        >
+                                            <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                <i class="ri-wallet-3-line"></i>
+                                                Reference Wallet
+                                            </p>
 
-                                                    <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustReferenceWallet">
-                                                        - ₹ <?= number_format((float)$requestData['referral_wallet_amount'], 2) ?>
-                                                    </p>
-                                                </div>
-                                            <?php } ?>
+                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustReferenceWallet">
+                                                - ₹ <?= number_format($referralWallet, 2) ?>
+                                            </p>
+                                        </div>
 
-                                            <?php if ((float)$requestData['discount_wallet_amount'] != 0) { ?>
-                                                <div class="d-flex justify-content-between align-items-center px-3 pb-2">
-                                                    <p class="fontSize10 discountGreen fw-bold mb-0">
-                                                        <i class="ri-wallet-3-line"></i>
-                                                        Discount Wallet
-                                                    </p>
+                                        <div
+                                            class="d-flex justify-content-between align-items-center px-3 pb-2"
+                                            id="CustDiscountWalletRow"
+                                            style="<?= $discountWallet == 0 ? 'display:none !important;' : '' ?>"
+                                        >
+                                            <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                <i class="ri-wallet-3-line"></i>
+                                                Discount Wallet
+                                            </p>
 
-                                                    <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustDiscountWallet">
-                                                        - ₹ <?= number_format((float)$requestData['discount_wallet_amount'], 2) ?>
-                                                    </p>
-                                                </div>
-                                            <?php } ?>
+                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustDiscountWallet">
+                                                - ₹ <?= number_format($discountWallet, 2) ?>
+                                            </p>
+                                        </div>
+
                                         <hr class="my-1 border border-2 mx-0">
 
                                         <div class="d-flex justify-content-between">
                                             <p class="fw-bold fs-5 textDarkBlue mb-0">Subtotal</p>
+
                                             <p class="fontSize13 fs-5 fw-bold textDarkBlue mb-0" id="CustDiscountedPriceSubTotal">
-                                                &#8377; <?= number_format($discountSubtotal,2) ?>
+                                                ₹ <?= number_format($discountSubtotal, 2) ?>
                                             </p>
                                         </div>
+
                                     </div>
+
                                     <?php
                                         $discountedPriceDetails = json_decode(
                                             $requestDetailsRevisedQuote['dis_details'] ?? '{}',
