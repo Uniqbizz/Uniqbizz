@@ -1529,7 +1529,7 @@
                                                                     <span class="fontSize10 discountGreen fw-bold me-1">
                                                                         - ₹ <?= number_format($requestData['referral_wallet_amount']) ?>
                                                                     </span>
-                                                                    <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="<?= $requestData['referral_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
+                                                                    <input type="number" class="form-control form-control-sm walletInput" value="<?= $requestData['referral_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
                                                                 </div>
                                                             </div>
                                                             <hr class="my-1 border border-2 mx-3">
@@ -1545,7 +1545,7 @@
                                                                     <span class="fontSize10 discountGreen fw-bold me-1">
                                                                         - ₹ <?= number_format($requestData['discount_wallet_amount']) ?>
                                                                     </span>
-                                                                    <input type="number" class="form-control form-control-sm walletInput" id="appliedDiscountWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                                                    <input type="number" class="form-control form-control-sm walletInput" value="0" min="0" step="1" disabled style="width: 80px;">
                                                                 </div>
                                                             </div>
                                                             <?php } elseif ($Requester_type != 'Neo Select') {?>
@@ -1649,7 +1649,7 @@
                                                                     <span class="fontSize10 discountGreen fw-bold me-1">
                                                                         - ₹ <?= number_format($requestData['referral_wallet_amount']) ?>
                                                                     </span>
-                                                                    <input type="number" class="form-control form-control-sm walletInput" id="appliedReferralWallet" value="0" min="0" step="1" disabled style="width: 80px;">
+                                                                    <input type="number" class="form-control form-control-sm walletInput" value="0" min="0" step="1" disabled style="width: 80px;">
                                                                 </div>
                                                             </div>
                                                             <?php } ?>

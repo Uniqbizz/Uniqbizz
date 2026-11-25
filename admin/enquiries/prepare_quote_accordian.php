@@ -89,11 +89,122 @@
             ]
         ];
 
+
+        try {
+
+            // ==========================================
+            // FETCH LATEST CUSTOMER RESPONSE
+            // ==========================================
+
+            $stmt = $conn->prepare("
+                SELECT
+                    id,
+                    request_id,
+                    reply_id,
+                    title,
+                    message,
+                    status,
+                    uploaded_on
+                FROM request_details_customer_reply
+                WHERE request_id = :request_id
+                AND reply_id = :reply_id
+                ORDER BY id DESC
+                LIMIT 1
+            ");
+
+            $stmt->execute([
+                ':request_id' => $request_id,
+                ':reply_id'   => $replyData['id']
+            ]);
+
+            $customerReply = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+            if ($customerReply) {
+
+                // ==========================================
+                // MAP DATABASE STATUS
+                // ==========================================
+
+                $statusMap = [
+                    1 => 'approved',
+                    0 => 'rejected',
+                    2 => 'change_request'
+                ];
+
+                $customerResponseStatus =
+                    $statusMap[(int)$customerReply['status']] ?? 'change_request';
+
+
+                // ==========================================
+                // FETCH ACTUAL TRAVELLER DETAILS
+                // ==========================================
+
+                if ($customerResponseStatus === 'approved') {
+
+                    $memberStmt = $conn->prepare("
+                        SELECT
+                            id,
+                            member_type,
+                            name,
+                            age,
+                            gender
+                        FROM request_details_member_details
+                        WHERE request_id = :request_id
+                        AND reply_id = :customer_reply_id
+                        ORDER BY id ASC
+                    ");
+
+                    $memberStmt->execute([
+                        ':request_id'       => $request_id,
+                        ':customer_reply_id' => $customerReply['id']
+                    ]);
+
+                    $customerMembers = $memberStmt->fetchAll(PDO::FETCH_ASSOC);
+                }
+            }
+
+        } catch (PDOException $e) {
+
+            error_log('Customer response fetch error: ' . $e->getMessage());
+
+        }
         $currentStatus = $statusConfig[$customerResponseStatus] ?? [
             'icon'  => 'fa-solid fa-circle-info',
             'class' => 'customer-status-unknown',
             'label' => 'Unknown'
         ];
+
+        $responseConfig = [
+            'approved' => [
+                'label' => 'Approved',
+                'icon' => 'ri-checkbox-circle-fill',
+                'class' => 'response-approved',
+                'message' => 'The customer has approved the quotation.'
+            ],
+            'rejected' => [
+                'label' => 'Rejected',
+                'icon' => 'ri-close-circle-fill',
+                'class' => 'response-rejected',
+                'message' => 'The customer has rejected the quotation.'
+            ],
+            'change_request' => [
+                'label' => 'Change Requested',
+                'icon' => 'ri-edit-circle-fill',
+                'class' => 'response-change-request',
+                'message' => 'The customer has requested changes to the quotation.'
+            ],
+            'pending' => [
+                'label' => 'Awaiting Response',
+                'icon' => 'ri-time-line',
+                'class' => 'response-pending',
+                'message' => 'Your quotation has been submitted and is awaiting the customer\'s response.'
+            ],
+        ];
+
+        $response = $responseConfig[$customerResponseStatus];
+
+        $totalMembers = count($customerMembers);
 
     ?>
     <div class="accordion-item">
@@ -152,129 +263,6 @@
                 <!-- Card Section 1 Start -->
                 <div class="row rowAlignment">
                     <div class="col-12">
-                        <?php
-
-                            // $customerReply = null;
-                            // $customerMembers = [];
-
-                            // $customerResponseStatus = 'pending';
-
-                            try {
-
-                                // ==========================================
-                                // FETCH LATEST CUSTOMER RESPONSE
-                                // ==========================================
-
-                                $stmt = $conn->prepare("
-                                    SELECT
-                                        id,
-                                        request_id,
-                                        reply_id,
-                                        title,
-                                        message,
-                                        status,
-                                        uploaded_on
-                                    FROM request_details_customer_reply
-                                    WHERE request_id = :request_id
-                                    AND reply_id = :reply_id
-                                    ORDER BY id DESC
-                                    LIMIT 1
-                                ");
-
-                                $stmt->execute([
-                                    ':request_id' => $request_id,
-                                    ':reply_id'   => $replyData['id']
-                                ]);
-
-                                $customerReply = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-                                if ($customerReply) {
-
-                                    // ==========================================
-                                    // MAP DATABASE STATUS
-                                    // ==========================================
-
-                                    $statusMap = [
-                                        1 => 'approved',
-                                        0 => 'rejected',
-                                        2 => 'change_request'
-                                    ];
-
-                                    $customerResponseStatus =
-                                        $statusMap[(int)$customerReply['status']] ?? 'change_request';
-
-
-                                    // ==========================================
-                                    // FETCH ACTUAL TRAVELLER DETAILS
-                                    // ==========================================
-
-                                    if ($customerResponseStatus === 'approved') {
-
-                                        $memberStmt = $conn->prepare("
-                                            SELECT
-                                                id,
-                                                member_type,
-                                                name,
-                                                age,
-                                                gender
-                                            FROM request_details_member_details
-                                            WHERE request_id = :request_id
-                                            AND reply_id = :customer_reply_id
-                                            ORDER BY id ASC
-                                        ");
-
-                                        $memberStmt->execute([
-                                            ':request_id'       => $request_id,
-                                            ':customer_reply_id' => $customerReply['id']
-                                        ]);
-
-                                        $customerMembers = $memberStmt->fetchAll(PDO::FETCH_ASSOC);
-                                    }
-                                }
-
-                            } catch (PDOException $e) {
-
-                                error_log('Customer response fetch error: ' . $e->getMessage());
-
-                            }
-
-                        ?>
-                        <?php
-
-                            $responseConfig = [
-                                'approved' => [
-                                    'label' => 'Approved',
-                                    'icon' => 'ri-checkbox-circle-fill',
-                                    'class' => 'response-approved',
-                                    'message' => 'The customer has approved the quotation.'
-                                ],
-                                'rejected' => [
-                                    'label' => 'Rejected',
-                                    'icon' => 'ri-close-circle-fill',
-                                    'class' => 'response-rejected',
-                                    'message' => 'The customer has rejected the quotation.'
-                                ],
-                                'change_request' => [
-                                    'label' => 'Change Requested',
-                                    'icon' => 'ri-edit-circle-fill',
-                                    'class' => 'response-change-request',
-                                    'message' => 'The customer has requested changes to the quotation.'
-                                ],
-                                'pending' => [
-                                    'label' => 'Awaiting Response',
-                                    'icon' => 'ri-time-line',
-                                    'class' => 'response-pending',
-                                    'message' => 'Your quotation has been submitted and is awaiting the customer\'s response.'
-                                ],
-                            ];
-
-                            $response = $responseConfig[$customerResponseStatus];
-
-                            $totalMembers = count($customerMembers);
-
-                        ?>
-
                         <div id="customerRply" class="section-block mb-4 ">
 
                             <div class="card cardBackgroundColor rounded-3 p-3 p-md-4 cardShadow mb-0">
@@ -2680,8 +2668,57 @@
                                                 $originalChildPrice = (float) ($requestDetailsMarkup['original_child_price'] ?? 0);
                                                 $altChildPrice = (float) ($requestDetailsMarkup['alt_child_price'] ?? 0);
 
-                                                $adultDifference = $replyData['adult_price'] - $originalAdultPrice;
-                                                $childDifference = $replyData['child_price'] - $originalChildPrice;
+                                                
+                                            
+                                                $totalCommissionIncentive = 0;
+
+                                                // Commission and incentive fields
+                                                $commissionFields = [
+                                                    ['commission' => 'cte_bcm_commi', 'incentive' => 'cte_bcm_incen', 'id' => 'cte_bcm_id'],
+                                                    ['commission' => 'ete_bdm_commi', 'incentive' => 'ete_bdm_incen', 'id' => 'ete_bdm_id'],
+                                                    ['commission' => 'ste_bm_mf_sf_commi', 'incentive' => 'ste_bm_mf_sf_incen', 'id' => 'ste_bm_mf_sf_id'],
+                                                    ['commission' => 'te_f_i_commi', 'incentive' => 'te_f_i_incen', 'id' => 'te_f_i_id'],
+                                                    ['commission' => 'tc_ibr', 'incentive' => null, 'id' => 'tc_ibr_id']
+                                                ];
+
+                                                foreach ($commissionFields as $field) {
+
+                                                    $personId = trim($requestDetailsMarkup[$field['id']] ?? '');
+
+                                                    if ($personId !== '' && strtoupper($personId) !== 'NA') {
+
+                                                        $totalCommissionIncentive +=
+                                                            abs((float)($requestDetailsMarkup[$field['commission']] ?? 0));
+
+                                                        if ($field['incentive'] !== null) {
+                                                            $totalCommissionIncentive +=
+                                                                abs((float)($requestDetailsMarkup[$field['incentive']] ?? 0));
+                                                        }
+                                                    }
+                                                }
+
+                                                // Total adjustments
+                                                $totalAdjustments =
+                                                    abs((float)($requestDetailsMarkup['company_commission'] ?? 0)) +
+                                                    abs((float)($requestDetailsMarkup['coupon_adjustment'] ?? 0)) +
+                                                    abs((float)($requestDetailsMarkup['l1_customer'] ?? 0)) +
+                                                    abs((float)($requestDetailsMarkup['l2_customer'] ?? 0)) +
+                                                    abs((float)($requestDetailsMarkup['l3_customer'] ?? 0)) +
+                                                    abs((float)($requestDetailsMarkup['suspense'] ?? 0));
+
+                                                // Calculate final adult and child prices
+                                                $adultPrice =
+                                                    (float)($replyData['adult_price'] ?? 0)
+                                                    - $totalAdjustments
+                                                    - $totalCommissionIncentive;
+
+                                                $childPrice =
+                                                    (float)($replyData['child_price'] ?? 0)
+                                                    - $totalAdjustments
+                                                    - $totalCommissionIncentive;
+                                                $adultDifference = $adultPrice - $originalAdultPrice;
+                                                $childDifference = $childPrice - $originalChildPrice;
+
                                             ?>
                                             <!-- NET PRICE -->
                                             <div class="row g-3">
@@ -2697,7 +2734,7 @@
                                                         type="number"
                                                         class="form-control"
                                                         name="net_price_adult"
-                                                        value="<?= htmlspecialchars($replyData['adult_price'] ?? 0) ?>"
+                                                        value="<?= htmlspecialchars(number_format($adultPrice, 2, '.', ''), ENT_QUOTES, 'UTF-8') ?>"
                                                         min="0"
                                                         step="1"
                                                         readonly
@@ -2740,7 +2777,7 @@
                                                         type="number"
                                                         class="form-control"
                                                         name="net_price_child"
-                                                        value="<?= htmlspecialchars($replyData['child_price'] ?? 0) ?>"
+                                                        value="<?= htmlspecialchars(number_format($childPrice, 2, '.', ''), ENT_QUOTES, 'UTF-8') ?>"
                                                         min="0"
                                                         step="1"
                                                         readonly
@@ -5762,9 +5799,54 @@
                                                     $originalAdultPrice = (float) ($requestDetailsMarkup['original_adult_price'] ?? 0);
                                                     $originalChildPrice = (float) ($requestDetailsMarkup['original_child_price'] ?? 0);
 
-                                                    // Price differences
-                                                    $adultDifference = (float) $packagePricing['net_price_adult'] - $originalAdultPrice;
-                                                    $childDifference = (float) $packagePricing['net_price_child'] - $originalChildPrice;
+                                                    $totalCommissionIncentive = 0;
+
+                                                    // Commission and incentive fields
+                                                    $commissionFields = [
+                                                        ['commission' => 'cte_bcm_commi', 'incentive' => 'cte_bcm_incen', 'id' => 'cte_bcm_id'],
+                                                        ['commission' => 'ete_bdm_commi', 'incentive' => 'ete_bdm_incen', 'id' => 'ete_bdm_id'],
+                                                        ['commission' => 'ste_bm_mf_sf_commi', 'incentive' => 'ste_bm_mf_sf_incen', 'id' => 'ste_bm_mf_sf_id'],
+                                                        ['commission' => 'te_f_i_commi', 'incentive' => 'te_f_i_incen', 'id' => 'te_f_i_id'],
+                                                        ['commission' => 'tc_ibr', 'incentive' => null, 'id' => 'tc_ibr_id']
+                                                    ];
+
+                                                    foreach ($commissionFields as $field) {
+
+                                                        $personId = trim($requestDetailsMarkup[$field['id']] ?? '');
+
+                                                        if ($personId !== '' && strtoupper($personId) !== 'NA') {
+
+                                                            $totalCommissionIncentive +=
+                                                                abs((float)($requestDetailsMarkup[$field['commission']] ?? 0));
+
+                                                            if ($field['incentive'] !== null) {
+                                                                $totalCommissionIncentive +=
+                                                                    abs((float)($requestDetailsMarkup[$field['incentive']] ?? 0));
+                                                            }
+                                                        }
+                                                    }
+
+                                                    // Total adjustments
+                                                    $totalAdjustments =
+                                                        abs((float)($requestDetailsMarkup['company_commission'] ?? 0)) +
+                                                        abs((float)($requestDetailsMarkup['coupon_adjustment'] ?? 0)) +
+                                                        abs((float)($requestDetailsMarkup['l1_customer'] ?? 0)) +
+                                                        abs((float)($requestDetailsMarkup['l2_customer'] ?? 0)) +
+                                                        abs((float)($requestDetailsMarkup['l3_customer'] ?? 0)) +
+                                                        abs((float)($requestDetailsMarkup['suspense'] ?? 0));
+
+                                                    // Calculate final adult and child prices
+                                                    $adultPrice =
+                                                        (float)($replyData['adult_price'] ?? 0)
+                                                        - $totalAdjustments
+                                                        - $totalCommissionIncentive;
+
+                                                    $childPrice =
+                                                        (float)($replyData['child_price'] ?? 0)
+                                                        - $totalAdjustments
+                                                        - $totalCommissionIncentive;
+                                                    $adultDifference = $adultPrice - $originalAdultPrice;
+                                                    $childDifference = $childPrice - $originalChildPrice;
                                                 }
 
                                             ?>
@@ -5782,7 +5864,7 @@
                                                         class="form-control"
                                                         id="netPriceAdult"
                                                         name="net_price_adult"
-                                                        value="<?= htmlspecialchars($packagePricing['net_price_adult'] ?? 0) ?>"
+                                                        value="<?= $hasReply ? htmlspecialchars($adultPrice ?? 0) : htmlspecialchars($packagePricing['net_price_adult'] ?? 0) ?>"
                                                         min="0"
                                                         step="1"
                                                     >
@@ -5790,6 +5872,8 @@
                                                     <small class="text-muted d-block" id="netPriceAdult_original">
                                                         <?php if ($hasReply): ?>
                                                             Original Price: ₹ <?= number_format($originalAdultPrice, 2) ?>
+                                                        <?php else: ?>
+                                                            Original Price: ₹ <?= number_format($packagePricing['net_price_adult'], 2) ?>
                                                         <?php endif; ?>
                                                     </small>
 
@@ -5824,7 +5908,7 @@
                                                         class="form-control"
                                                         id="netPriceChild"
                                                         name="net_price_child"
-                                                        value="<?= htmlspecialchars($packagePricing['net_price_child'] ?? 0) ?>"
+                                                        value="<?= $hasReply ? htmlspecialchars($childPrice?? 0) : htmlspecialchars($packagePricing['net_price_child'] ?? 0) ?>"
                                                         min="0"
                                                         step="1"
                                                     >
@@ -5832,6 +5916,8 @@
                                                     <small class="text-muted d-block" id="netPriceChild_original">
                                                         <?php if ($hasReply): ?>
                                                             Original Price: ₹ <?= number_format($originalChildPrice, 2) ?>
+                                                        <?php else: ?>
+                                                            Original Price: ₹ <?= number_format($packagePricing['net_price_child'], 2) ?>
                                                         <?php endif; ?>
                                                     </small>
 

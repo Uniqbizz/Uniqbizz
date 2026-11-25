@@ -1115,8 +1115,8 @@ $package_type = $package['package_type'] ?? '';
 $category_vehicle_id = $package['category_vehicle_id'] ?? '';
 
 $tour_days_total = $package['tour_days'] - 1  ?? 0;
-$tour_days = $tour_days_total - 1;
-$tour_nights = $tour_days_total - 2;
+$tour_days = $tour_days_total;
+$tour_nights = $tour_days_total - 1;
 
 // itinery 
 $data2 = $conn->prepare("SELECT * FROM package_itinerary_details WHERE package_id = $id");
