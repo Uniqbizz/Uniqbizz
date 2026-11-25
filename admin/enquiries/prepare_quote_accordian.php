@@ -2820,7 +2820,7 @@
                                                     ?>
                                                     <div class="ubx-datetime-wrapper">
 
-                                                        <label for="ubxDatetime" class="form-label fw-semibold">
+                                                        <label class="form-label fw-semibold">
                                                             Quotation Validity Date & Time
                                                         </label>
 
@@ -2828,7 +2828,6 @@
 
                                                             <input
                                                                 type="text"
-                                                                id="ubxDatetime"
                                                                 name="datetime"
                                                                 class="ubx-datetime-input"
                                                                 placeholder="DD/MM/YYYY HH:MM:SS"
@@ -5944,7 +5943,17 @@
 
                                             </div>
                                             <div class="ubx-datetime-wrapper">
-
+                                                <?php
+                                                        if ($hasReply) {
+                                                            $quotValidity = $replyData['quot_validity'] ?? '';
+    
+                                                            $displayValidity = '';
+    
+                                                            if (!empty($quotValidity) && $quotValidity !== '0000-00-00 00:00:00') {
+                                                                $displayValidity = date('d/m/Y h:i:s A', strtotime($quotValidity));
+                                                            }
+                                                        }
+                                                    ?>
                                                 <label for="ubxDatetime" class="form-label fw-semibold">
                                                     Quotation Validity Date & Time
                                                 </label>
@@ -5957,7 +5966,8 @@
                                                         name="datetime"
                                                         class="ubx-datetime-input"
                                                         placeholder="DD/MM/YYYY HH:MM:SS"
-                                                        readonly
+                                                        value="<?= $hasReply ? $displayValidity :'' ?>"
+                                                        
                                                     >
 
                                                     <i class="ri-calendar-event-line ubx-datetime-icon"></i>
