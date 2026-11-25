@@ -704,6 +704,20 @@ body {
     box-shadow: 0 0 0 3px rgba(108, 140, 255, 0.1);
     outline: none;
 }
+.enquiry-view-btn {
+    background-color: #195c87;
+    color: #fff;
+    border: none;
+    padding: 11px 32px;
+    border-radius: 6px;
+    font-weight: 600;
+    margin: 20px 22px 0px;
+    cursor: pointer;
+}
+
+.enquiry-view-btn:hover {
+    background-color: #0543ac;
+}
 @media (max-width: 1199px) and (min-width: 992px) {
     .largeDisplay {
         display: block !important;

@@ -298,6 +298,30 @@
     border-color: #03033e;
     color: #fff;
 }
+/* Approved */
+.customer-status-approved {
+    color: #047857;
+}
+
+/* Rejected */
+.customer-status-rejected {
+    color: #b91c1c;
+}
+
+/* Change Requested */
+.customer-status-change-request {
+    color: #b45309;
+}
+
+/* Awaiting Response */
+.customer-status-pending {
+    color: #1d4ed8;
+}
+
+/* Unknown */
+.customer-status-unknown {
+    color: #475569;
+}
 @media (max-width: 1102px) {
     .laptopDisplay {
         display: block !important;

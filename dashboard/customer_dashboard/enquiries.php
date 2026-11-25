@@ -1316,6 +1316,15 @@
                                                                 - ₹ <?= $requestData['coupon_discount'] ?>
                                                             </p>
                                                         </div>
+                                                        <hr class="my-1 border border-2 mx-3">
+                                                        <div class=" p-1 d-flex justify-content-between px-3">
+                                                            <p class="fontSize10 textDark fw-bold">
+                                                                After Discount
+                                                            </p>
+                                                            <p class="fontSize10 textDark fw-bold text-end">
+                                                                - ₹ <?= number_format($requestData['subtotal']-$requestData['coupon_discount'],2) ?>
+                                                            </p>
+                                                        </div>
                                                         <?php
                                                         $referralWalletBalance = $referralBalance ?? 0;
                                                         $discountWalletBalance = $discountBalance ?? 0;
@@ -1429,8 +1438,38 @@
                                                             </p>
                                                             <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="totalCouponDiscount0">- ₹ <?= $requestData['coupon_discount'] ?></p>
                                                         </div>
+                                                        <hr class="my-1 border border-2 mx-3">
+                                                        <div class=" p-1 d-flex justify-content-between px-3">
+                                                            <p class="fontSize10 textDark fw-bold">
+                                                                After Discount
+                                                            </p>
+                                                            <p class="fontSize10 textDark fw-bold text-end">
+                                                                - ₹ <?= number_format($requestData['subtotal']-$requestData['coupon_discount'],2) ?>
+                                                            </p>
+                                                        </div>
                                                         <?php } ?>
-                                                        
+                                                        <hr class="my-1 border border-2 mx-3">
+                                                        <div class="p-3 py-1">
+                                                            <div class="d-flex justify-content-between">
+                                                                <div>
+                                                                    <p class="fw-bold fontSize10">After Wallet Deductions</p>
+                                                                </div>
+                                                                <?php
+                                                                $finalAmount = (float)$requestData['subtotal']
+                                                                    - (float)$requestData['coupon_discount']
+                                                                    - (float)$requestData['referral_wallet_amount']
+                                                                    - (float)$requestData['discount_wallet_amount'];
+
+                                                                $finalAmount = (int)($finalAmount * 100) / 100;
+                                                                ?>
+
+                                                                <div>
+                                                                    <p class="fontSize10 fw-bold text-end">
+                                                                        &#8377; <?= number_format($finalAmount, 2, '.', ',') ?>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <hr class="my-2 border border-2 mx-3">
                                                         <div class="p-3">
                                                             <p class="fw-bold blueDiv">Adjustments</p>
@@ -1808,6 +1847,38 @@
                             isset($replyData['status']) &&
                             (int) $replyData['status'] === 1
                         ); 
+                        $customerReply = null;
+                        $customerMembers = [];
+
+                        $customerResponseStatus = 'pending';
+                        $statusConfig = [
+                            'approved' => [
+                                'icon'  => 'fa-solid fa-circle-check',
+                                'class' => 'customer-status-approved',
+                                'label' => 'You Accepted'
+                            ],
+                            'rejected' => [
+                                'icon'  => 'fa-solid fa-circle-xmark',
+                                'class' => 'customer-status-rejected',
+                                'label' => 'You Declined'
+                            ],
+                            'change_request' => [
+                                'icon'  => 'fa-solid fa-pen-to-square',
+                                'class' => 'customer-status-change-request',
+                                'label' => 'Changes Requested'
+                            ],
+                            'pending' => [
+                                'icon'  => 'fa-solid fa-clock',
+                                'class' => 'customer-status-pending',
+                                'label' => 'Awaiting Your Response'
+                            ]
+                        ];
+
+                        $currentStatus = $statusConfig[$customerResponseStatus] ?? [
+                            'icon'  => 'fa-solid fa-circle-info',
+                            'class' => 'customer-status-unknown',
+                            'label' => 'Status Unavailable'
+                        ];
                     ?>
                                     <div class="accordion-item">
 
@@ -1827,7 +1898,10 @@
                                                         <i class="fa-solid fa-user-pen"></i>
                                                         Quotation #<?= $accordionNumber ?>
                                                     </div>
-
+                                                    <span class="history-status <?= $currentStatus['class'] ?>">
+                                                        <i class="<?= $currentStatus['icon'] ?>"></i>
+                                                        <?= htmlspecialchars($currentStatus['label'], ENT_QUOTES, 'UTF-8') ?>
+                                                    </span>
                                                     <span class="history-status sent-status">
                                                         <i class="fa-solid fa-circle-check"></i>
                                                         Replied by Admin · <?= !empty($replyData['created'])
@@ -2586,6 +2660,22 @@
                                                                 </p>
 
                                                             </div>
+                                                            <hr class="my-1 border border-2 mx-3">
+                                                            <div class=" p-1 d-flex justify-content-between px-3">
+                                                                <p class="fontSize10 textDark fw-bold">
+                                                                    After Discount
+                                                                </p>
+                                                                <?php
+                                                                $totalAfterCouponDiscount = (float)$replyData['subtotal']
+                                                                    - (float)$totalCouponDiscount;
+
+                                                                $totalAfterCouponDiscount = (int)($totalAfterCouponDiscount * 100) / 100;
+                                                                ?>
+
+                                                                <p class="fontSize10 textDark fw-bold text-end">
+                                                                    - ₹ <?= number_format($totalAfterCouponDiscount, 2, '.', ',') ?>
+                                                                </p>
+                                                            </div>
                                                             <?php
                                                             $referralWalletBalance = $referralBalance ?? 0;
                                                             $discountWalletBalance = $discountBalance ?? 0;
@@ -2647,7 +2737,26 @@
                                                                 </div>
                                                             </div>
                                                             <?php } ?>
-                                                            
+                                                            <hr class="my-1 border border-2 mx-3">
+                                                            <div class="p-3">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>
+                                                                        <p class="fw-bold fontSize10">After Wallet Deductions</p>
+                                                                    </div>
+                                                                    <div>
+                                                                        <?php
+                                                                        $totalAfterWalletDeduction = (float)$replyData['subtotal']
+                                                                            - (float)$totalCouponDiscount
+                                                                            - (float)$replyData['referral_wallet_amount']
+                                                                            - (float)$replyData['discount_wallet_amount']
+                                                                            - (float)$replyData['extended_wallet_amount'];
+
+                                                                        $totalAfterWalletDeduction = (int)($totalAfterWalletDeduction * 100) / 100;
+                                                                        ?>
+                                                                        <p class="fontSize10 text-end">&#8377; <?= number_format($totalAfterWalletDeduction, 2, '.', ',') ?></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                             <hr class="my-2 border border-2 mx-3">
                                                             <div class="p-3">
                                                                 <p class="fw-bold blueDiv">Adjustments</p>

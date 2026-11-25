@@ -1089,6 +1089,7 @@ $vehicleOptions = [
             const gstPercentage = <?= json_encode((float)($gst['gst'] ?? 0)) ?>;
             // validity
             const packValidity = <?= json_encode($validity) ?>;
+            const isCustomerLogin = <?= (int)($_SESSION['user_type_id_value'] ?? 0) === 10 ? 'true' : 'false' ?>;
             
         </script>
         <script src="assets/js/requestDetails.js"></script>

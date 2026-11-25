@@ -1669,7 +1669,7 @@
                                                                     ?>
 
                                                                     <div>
-                                                                        <p class="fontSize10 text-end">
+                                                                        <p class="fontSize10 fw-bold text-end">
                                                                             &#8377; <?= number_format($finalAmount, 2, '.', ',') ?>
                                                                         </p>
                                                                     </div>

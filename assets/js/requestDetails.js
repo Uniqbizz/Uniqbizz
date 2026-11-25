@@ -2433,20 +2433,37 @@ $("#submitRequst").on("click", function (e) {
                             </div>
                         </div>
                     `,
+                    showConfirmButton: true,
+                    showDenyButton: isCustomerLogin,
+
                     confirmButtonText: "Done",
+                    denyButtonText: "View Enquiry",
+
                     customClass: {
                         popup: "enquiry-success-popup",
-                        confirmButton: "enquiry-confirm-btn"
+                        confirmButton: "enquiry-confirm-btn",
+                        denyButton: "enquiry-view-btn"
                     },
+
                     buttonsStyling: false,
                     allowOutsideClick: false,
                     allowEscapeKey: false
-                }).then(function () {
-                    // =====================================
-                    // REFRESH AFTER DONE
-                    // =====================================
-                    window.location.reload();
-                });
+
+                    }).then(function (result) {
+
+                        if (result.isDenied) {
+
+                            if (isCustomerLogin) {
+                                window.location.href = 'dashboard/customer_dashboard/enquiries_list.php';
+                            }
+
+                        } else if (result.isConfirmed) {
+
+                            window.location.reload();
+
+                        }
+
+                    });
             }
             // =============================================
             // SERVER RETURNED STATUS 0

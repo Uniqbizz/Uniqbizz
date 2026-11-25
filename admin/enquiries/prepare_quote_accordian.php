@@ -62,6 +62,38 @@
             isset($replyData['status']) &&
             (int) $replyData['status'] === 1
         );
+        $customerReply = null;
+        $customerMembers = [];
+
+        $customerResponseStatus = 'pending';
+        $statusConfig = [
+            'approved' => [
+                'icon'  => 'fa-solid fa-circle-check',
+                'class' => 'customer-status-approved',
+                'label' => 'Approved'
+            ],
+            'rejected' => [
+                'icon'  => 'fa-solid fa-circle-xmark',
+                'class' => 'customer-status-rejected',
+                'label' => 'Rejected'
+            ],
+            'change_request' => [
+                'icon'  => 'fa-solid fa-pen-to-square',
+                'class' => 'customer-status-change-request',
+                'label' => 'Change Requested'
+            ],
+            'pending' => [
+                'icon'  => 'fa-solid fa-clock',
+                'class' => 'customer-status-pending',
+                'label' => 'Awaiting Response'
+            ]
+        ];
+
+        $currentStatus = $statusConfig[$customerResponseStatus] ?? [
+            'icon'  => 'fa-solid fa-circle-info',
+            'class' => 'customer-status-unknown',
+            'label' => 'Unknown'
+        ];
 
     ?>
     <div class="accordion-item">
@@ -82,6 +114,11 @@
                         <i class="fa-solid fa-user-pen"></i>
                         Quotation #<?= $accordionNumber ?>
                     </div>
+
+                    <span class="history-status <?= $currentStatus['class'] ?>">
+                        <i class="<?= $currentStatus['icon'] ?>"></i>
+                        <?= htmlspecialchars($currentStatus['label'], ENT_QUOTES, 'UTF-8') ?>
+                    </span>
 
                     <span class="history-status sent-status">
                         <i class="fa-solid fa-circle-check"></i>
@@ -115,8 +152,349 @@
                 <!-- Card Section 1 Start -->
                 <div class="row rowAlignment">
                     <div class="col-12">
+                        <?php
+
+                            // $customerReply = null;
+                            // $customerMembers = [];
+
+                            // $customerResponseStatus = 'pending';
+
+                            try {
+
+                                // ==========================================
+                                // FETCH LATEST CUSTOMER RESPONSE
+                                // ==========================================
+
+                                $stmt = $conn->prepare("
+                                    SELECT
+                                        id,
+                                        request_id,
+                                        reply_id,
+                                        title,
+                                        message,
+                                        status,
+                                        uploaded_on
+                                    FROM request_details_customer_reply
+                                    WHERE request_id = :request_id
+                                    AND reply_id = :reply_id
+                                    ORDER BY id DESC
+                                    LIMIT 1
+                                ");
+
+                                $stmt->execute([
+                                    ':request_id' => $request_id,
+                                    ':reply_id'   => $replyData['id']
+                                ]);
+
+                                $customerReply = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+                                if ($customerReply) {
+
+                                    // ==========================================
+                                    // MAP DATABASE STATUS
+                                    // ==========================================
+
+                                    $statusMap = [
+                                        1 => 'approved',
+                                        0 => 'rejected',
+                                        2 => 'change_request'
+                                    ];
+
+                                    $customerResponseStatus =
+                                        $statusMap[(int)$customerReply['status']] ?? 'change_request';
+
+
+                                    // ==========================================
+                                    // FETCH ACTUAL TRAVELLER DETAILS
+                                    // ==========================================
+
+                                    if ($customerResponseStatus === 'approved') {
+
+                                        $memberStmt = $conn->prepare("
+                                            SELECT
+                                                id,
+                                                member_type,
+                                                name,
+                                                age,
+                                                gender
+                                            FROM request_details_member_details
+                                            WHERE request_id = :request_id
+                                            AND reply_id = :customer_reply_id
+                                            ORDER BY id ASC
+                                        ");
+
+                                        $memberStmt->execute([
+                                            ':request_id'       => $request_id,
+                                            ':customer_reply_id' => $customerReply['id']
+                                        ]);
+
+                                        $customerMembers = $memberStmt->fetchAll(PDO::FETCH_ASSOC);
+                                    }
+                                }
+
+                            } catch (PDOException $e) {
+
+                                error_log('Customer response fetch error: ' . $e->getMessage());
+
+                            }
+
+                        ?>
+                        <?php
+
+                            $responseConfig = [
+                                'approved' => [
+                                    'label' => 'Approved',
+                                    'icon' => 'ri-checkbox-circle-fill',
+                                    'class' => 'response-approved',
+                                    'message' => 'The customer has approved the quotation.'
+                                ],
+                                'rejected' => [
+                                    'label' => 'Rejected',
+                                    'icon' => 'ri-close-circle-fill',
+                                    'class' => 'response-rejected',
+                                    'message' => 'The customer has rejected the quotation.'
+                                ],
+                                'change_request' => [
+                                    'label' => 'Change Requested',
+                                    'icon' => 'ri-edit-circle-fill',
+                                    'class' => 'response-change-request',
+                                    'message' => 'The customer has requested changes to the quotation.'
+                                ],
+                                'pending' => [
+                                    'label' => 'Awaiting Response',
+                                    'icon' => 'ri-time-line',
+                                    'class' => 'response-pending',
+                                    'message' => 'Your quotation has been submitted and is awaiting the customer\'s response.'
+                                ],
+                            ];
+
+                            $response = $responseConfig[$customerResponseStatus];
+
+                            $totalMembers = count($customerMembers);
+
+                        ?>
+
+                        <div id="customerRply" class="section-block mb-4 ">
+
+                            <div class="card cardBackgroundColor rounded-3 p-3 p-md-4 cardShadow mb-0">
+
+                                <!-- Header -->
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="customerReplyIcon">
+                                            <i class="ri-chat-3-line"></i>
+                                        </div>
+
+                                        <div>
+                                            <h5 class="fw-bolder textDarkBlue mb-0">
+                                                Customer Response
+                                            </h5>
+
+                                            <small class="text-muted">
+                                                Customer feedback on quotation
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Response Status -->
+                                    <span class="customerResponseBadge <?= $response['class'] ?>">
+                                        <i class="<?= $response['icon'] ?>"></i>
+                                        <?= htmlspecialchars($response['label']) ?>
+                                    </span>
+
+                                </div>
+
+                                <!-- Response Details -->
+                                <div class="customerResponseMessage <?= $response['class'] ?> mb-3">
+
+                                    <div class="d-flex align-items-start gap-2">
+
+                                        <i class="<?= $response['icon'] ?> customerResponseStatusIcon"></i>
+
+                                        <div>
+                                            <p class="fw-bold fontSize12 mb-1">
+                                                <?= htmlspecialchars($response['message']) ?>
+                                            </p>
+
+                                            <p class="fontSize10 text-muted mb-0">
+                                                Review the customer's response and take the appropriate action.
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Customer Comment -->
+                                <div class="customerCommentBox mb-3">
+
+                                    <p class="fontSize10 fw-bold textDarkBlue mb-2">
+                                        <i class="ri-message-2-line me-1"></i>
+                                        Customer Remarks
+                                    </p>
+
+                                    <p class="fontSize11 text-secondary mb-0">
+                                        <?= !empty($customerReply['message'])
+                                            ? nl2br(htmlspecialchars($customerReply['message'], ENT_QUOTES, 'UTF-8'))
+                                            : (
+                                                $customerResponseStatus === 'pending'
+                                                    ? 'Waiting for the customer to review the quotation and submit their response.'
+                                                    : 'No remarks provided by the customer.'
+                                            )
+                                        ?>
+                                    </p>
+
+                                </div>
+                                <!-- Member Details -->
+                                <div class="customerCommentBox mb-3">
+
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                                        <p class="fontSize10 fw-bold textDarkBlue mb-0">
+                                            <i class="ri-group-line me-1"></i>
+                                            Member Details
+                                        </p>
+
+                                        <span class="badge bg-light text-dark">
+                                            <?= $totalMembers ?> Members
+                                        </span>
+
+                                    </div>
+
+                                    <?php if ($totalMembers > 0) { ?>
+
+                                        <div class="table-responsive">
+
+                                            <table class="table table-bordered table-hover align-middle mb-0">
+
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th class="fontSize10 text-center">#</th>
+                                                        <th class="fontSize10">Member Type</th>
+                                                        <th class="fontSize10">Full Name</th>
+                                                        <th class="fontSize10">Age</th>
+                                                        <th class="fontSize10">Gender</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                    <?php foreach ($customerMembers as $index => $member) { ?>
+
+                                                        <?php
+                                                        $memberType = ucfirst(strtolower($member['member_type']));
+
+                                                        if ($memberType === 'Adult') {
+                                                            $badgeClass = 'bg-primary-subtle text-primary';
+                                                        } elseif ($memberType === 'Child') {
+                                                            $badgeClass = 'bg-success-subtle text-success';
+                                                        } else {
+                                                            $badgeClass = 'bg-warning-subtle text-dark';
+                                                        }
+                                                        ?>
+
+                                                        <tr>
+
+                                                            <td class="fontSize11 text-center">
+                                                                <?= $index + 1 ?>
+                                                            </td>
+
+                                                            <td class="fontSize11">
+                                                                <span class="badge <?= $badgeClass ?>">
+                                                                    <?= htmlspecialchars($memberType, ENT_QUOTES, 'UTF-8') ?>
+                                                                </span>
+                                                            </td>
+
+                                                            <td class="fontSize11 fw-semibold textDarkBlue">
+                                                                <?= htmlspecialchars($member['name'], ENT_QUOTES, 'UTF-8') ?>
+                                                            </td>
+
+                                                            <td class="fontSize11">
+                                                                <?= htmlspecialchars($member['age'], ENT_QUOTES, 'UTF-8') ?>
+                                                            </td>
+
+                                                            <td class="fontSize11">
+                                                                <?= htmlspecialchars($member['gender'], ENT_QUOTES, 'UTF-8') ?>
+                                                            </td>
+
+                                                        </tr>
+
+                                                    <?php } ?>
+
+                                                </tbody>
+
+                                            </table>
+
+                                        </div>
+
+                                    <?php } else { ?>
+
+                                        <p class="fontSize11 text-muted text-center mb-0">
+                                            No member details available.
+                                        </p>
+
+                                    <?php } ?>
+
+                                </div>
+
+                                <!-- Admin Actions -->
+                                <div class="d-flex justify-content-end flex-wrap gap-2">
+
+                                    <?php if ($customerResponseStatus === 'approved') { ?>
+
+                                        <button type="button" class="btn btn-outline-secondary btn-sm adminResponseBtn">
+                                            <i class="ri-file-list-3-line me-1"></i>
+                                            View Quotation
+                                        </button>
+
+                                        <button type="button" class="btn btn-success btn-sm adminResponseBtn">
+                                            <i class="ri-check-double-line me-1"></i>
+                                            Proceed Booking
+                                        </button>
+
+                                    <?php } elseif ($customerResponseStatus === 'rejected') { ?>
+
+                                        <button type="button" class="btn btn-outline-secondary btn-sm adminResponseBtn">
+                                            <i class="ri-file-list-3-line me-1"></i>
+                                            View Quotation
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger btn-sm adminResponseBtn">
+                                            <i class="ri-close-circle-line me-1"></i>
+                                            Close Request
+                                        </button>
+                                    <?php } elseif ($customerResponseStatus === 'pending') { ?>
+
+                                        <button type="button" class="btn btn-outline-secondary btn-sm adminResponseBtn">
+                                            <i class="ri-eye-line me-1"></i>
+                                            View Details
+                                        </button>
+
+                                    <?php } else { ?>
+
+                                        <button type="button" class="btn btn-outline-secondary btn-sm adminResponseBtn">
+                                            <i class="ri-eye-line me-1"></i>
+                                            View Details
+                                        </button>
+
+                                        <button type="button" class="btn btn-warning btn-sm adminResponseBtn">
+                                            <i class="ri-edit-2-line me-1"></i>
+                                            Review Changes
+                                        </button>
+
+                                    <?php } ?>
+
+                                </div>
+
+                            </div>
+
+                        </div>
                         <div class="card cardShadow">
+                            
                             <div class="d-flex tabDisplayBlock">
+                                
                                 <div class="p-2 imageWrapper">
                                     <img src="<?= '../../'.$galleryImages[0]['image'] ?>" alt="" class="prepareQuotationImg">
                                 </div>
@@ -2439,328 +2817,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <?php
-
-                                    $customerReply = null;
-                                    $customerMembers = [];
-
-                                    $customerResponseStatus = 'change_request';
-
-                                    try {
-
-                                        // ==========================================
-                                        // FETCH LATEST CUSTOMER RESPONSE
-                                        // ==========================================
-
-                                        $stmt = $conn->prepare("
-                                            SELECT
-                                                id,
-                                                request_id,
-                                                reply_id,
-                                                title,
-                                                message,
-                                                status,
-                                                uploaded_on
-                                            FROM request_details_customer_reply
-                                            WHERE request_id = :request_id
-                                            AND reply_id = :reply_id
-                                            ORDER BY id DESC
-                                            LIMIT 1
-                                        ");
-
-                                        $stmt->execute([
-                                            ':request_id' => $request_id,
-                                            ':reply_id'   => $replyData['id']
-                                        ]);
-
-                                        $customerReply = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-                                        if ($customerReply) {
-
-                                            // ==========================================
-                                            // MAP DATABASE STATUS
-                                            // ==========================================
-
-                                            $statusMap = [
-                                                1 => 'approved',
-                                                0 => 'rejected',
-                                                2 => 'change_request'
-                                            ];
-
-                                            $customerResponseStatus =
-                                                $statusMap[(int)$customerReply['status']] ?? 'change_request';
-
-
-                                            // ==========================================
-                                            // FETCH ACTUAL TRAVELLER DETAILS
-                                            // ==========================================
-
-                                            if ($customerResponseStatus === 'approved') {
-
-                                                $memberStmt = $conn->prepare("
-                                                    SELECT
-                                                        id,
-                                                        member_type,
-                                                        name,
-                                                        age,
-                                                        gender
-                                                    FROM request_details_member_details
-                                                    WHERE request_id = :request_id
-                                                    AND reply_id = :customer_reply_id
-                                                    ORDER BY id ASC
-                                                ");
-
-                                                $memberStmt->execute([
-                                                    ':request_id'       => $request_id,
-                                                    ':customer_reply_id' => $customerReply['id']
-                                                ]);
-
-                                                $customerMembers = $memberStmt->fetchAll(PDO::FETCH_ASSOC);
-                                            }
-                                        }
-
-                                    } catch (PDOException $e) {
-
-                                        error_log('Customer response fetch error: ' . $e->getMessage());
-
-                                    }
-
-                                ?>
-                                <?php
-
-                                    $responseConfig = [
-                                        'approved' => [
-                                            'label' => 'Approved',
-                                            'icon' => 'ri-checkbox-circle-fill',
-                                            'class' => 'response-approved',
-                                            'message' => 'The customer has approved the quotation.'
-                                        ],
-                                        'rejected' => [
-                                            'label' => 'Rejected',
-                                            'icon' => 'ri-close-circle-fill',
-                                            'class' => 'response-rejected',
-                                            'message' => 'The customer has rejected the quotation.'
-                                        ],
-                                        'change_request' => [
-                                            'label' => 'Change Requested',
-                                            'icon' => 'ri-edit-circle-fill',
-                                            'class' => 'response-change-request',
-                                            'message' => 'The customer has requested changes to the quotation.'
-                                        ]
-                                    ];
-
-                                    $response = $responseConfig[$customerResponseStatus];
-
-                                    $totalMembers = count($customerMembers);
-
-                                ?>
-
-                                <div id="customerRply" class="section-block mt-4">
-
-                                    <div class="card cardBackgroundColor rounded-3 p-3 p-md-4 cardShadow mb-0">
-
-                                        <!-- Header -->
-                                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-
-                                            <div class="d-flex align-items-center gap-2">
-                                                <div class="customerReplyIcon">
-                                                    <i class="ri-chat-3-line"></i>
-                                                </div>
-
-                                                <div>
-                                                    <h5 class="fw-bolder textDarkBlue mb-0">
-                                                        Customer Response
-                                                    </h5>
-
-                                                    <small class="text-muted">
-                                                        Customer feedback on quotation
-                                                    </small>
-                                                </div>
-                                            </div>
-
-                                            <!-- Response Status -->
-                                            <span class="customerResponseBadge <?= $response['class'] ?>">
-                                                <i class="<?= $response['icon'] ?>"></i>
-                                                <?= htmlspecialchars($response['label']) ?>
-                                            </span>
-
-                                        </div>
-
-                                        <!-- Response Details -->
-                                        <div class="customerResponseMessage <?= $response['class'] ?> mb-3">
-
-                                            <div class="d-flex align-items-start gap-2">
-
-                                                <i class="<?= $response['icon'] ?> customerResponseStatusIcon"></i>
-
-                                                <div>
-                                                    <p class="fw-bold fontSize12 mb-1">
-                                                        <?= htmlspecialchars($response['message']) ?>
-                                                    </p>
-
-                                                    <p class="fontSize10 text-muted mb-0">
-                                                        Review the customer's response and take the appropriate action.
-                                                    </p>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                        <!-- Customer Comment -->
-                                        <div class="customerCommentBox mb-3">
-
-                                            <p class="fontSize10 fw-bold textDarkBlue mb-2">
-                                                <i class="ri-message-2-line me-1"></i>
-                                                Customer Remarks
-                                            </p>
-
-                                            <p class="fontSize11 text-secondary mb-0">
-                                                <?= !empty($customerReply['message'])
-                                                    ? nl2br(htmlspecialchars($customerReply['message'], ENT_QUOTES, 'UTF-8'))
-                                                    : 'No remarks provided by the customer.' ?>
-                                            </p>
-
-                                        </div>
-                                        <!-- Member Details -->
-                                        <div class="customerCommentBox mb-3">
-
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-
-                                                <p class="fontSize10 fw-bold textDarkBlue mb-0">
-                                                    <i class="ri-group-line me-1"></i>
-                                                    Member Details
-                                                </p>
-
-                                                <span class="badge bg-light text-dark">
-                                                    <?= $totalMembers ?> Members
-                                                </span>
-
-                                            </div>
-
-                                            <?php if ($totalMembers > 0) { ?>
-
-                                                <div class="table-responsive">
-
-                                                    <table class="table table-bordered table-hover align-middle mb-0">
-
-                                                        <thead class="table-light">
-                                                            <tr>
-                                                                <th class="fontSize10 text-center">#</th>
-                                                                <th class="fontSize10">Member Type</th>
-                                                                <th class="fontSize10">Full Name</th>
-                                                                <th class="fontSize10">Age</th>
-                                                                <th class="fontSize10">Gender</th>
-                                                            </tr>
-                                                        </thead>
-
-                                                        <tbody>
-
-                                                            <?php foreach ($customerMembers as $index => $member) { ?>
-
-                                                                <?php
-                                                                $memberType = ucfirst(strtolower($member['member_type']));
-
-                                                                if ($memberType === 'Adult') {
-                                                                    $badgeClass = 'bg-primary-subtle text-primary';
-                                                                } elseif ($memberType === 'Child') {
-                                                                    $badgeClass = 'bg-success-subtle text-success';
-                                                                } else {
-                                                                    $badgeClass = 'bg-warning-subtle text-dark';
-                                                                }
-                                                                ?>
-
-                                                                <tr>
-
-                                                                    <td class="fontSize11 text-center">
-                                                                        <?= $index + 1 ?>
-                                                                    </td>
-
-                                                                    <td class="fontSize11">
-                                                                        <span class="badge <?= $badgeClass ?>">
-                                                                            <?= htmlspecialchars($memberType, ENT_QUOTES, 'UTF-8') ?>
-                                                                        </span>
-                                                                    </td>
-
-                                                                    <td class="fontSize11 fw-semibold textDarkBlue">
-                                                                        <?= htmlspecialchars($member['name'], ENT_QUOTES, 'UTF-8') ?>
-                                                                    </td>
-
-                                                                    <td class="fontSize11">
-                                                                        <?= htmlspecialchars($member['age'], ENT_QUOTES, 'UTF-8') ?>
-                                                                    </td>
-
-                                                                    <td class="fontSize11">
-                                                                        <?= htmlspecialchars($member['gender'], ENT_QUOTES, 'UTF-8') ?>
-                                                                    </td>
-
-                                                                </tr>
-
-                                                            <?php } ?>
-
-                                                        </tbody>
-
-                                                    </table>
-
-                                                </div>
-
-                                            <?php } else { ?>
-
-                                                <p class="fontSize11 text-muted text-center mb-0">
-                                                    No member details available.
-                                                </p>
-
-                                            <?php } ?>
-
-                                        </div>
-
-                                        <!-- Admin Actions -->
-                                        <div class="d-flex justify-content-end flex-wrap gap-2">
-
-                                            <?php if ($customerResponseStatus === 'approved') { ?>
-
-                                                <button type="button" class="btn btn-outline-secondary btn-sm adminResponseBtn">
-                                                    <i class="ri-file-list-3-line me-1"></i>
-                                                    View Quotation
-                                                </button>
-
-                                                <button type="button" class="btn btn-success btn-sm adminResponseBtn">
-                                                    <i class="ri-check-double-line me-1"></i>
-                                                    Proceed Booking
-                                                </button>
-
-                                            <?php } elseif ($customerResponseStatus === 'rejected') { ?>
-
-                                                <button type="button" class="btn btn-outline-secondary btn-sm adminResponseBtn">
-                                                    <i class="ri-file-list-3-line me-1"></i>
-                                                    View Quotation
-                                                </button>
-
-                                                <button type="button" class="btn btn-danger btn-sm adminResponseBtn">
-                                                    <i class="ri-close-circle-line me-1"></i>
-                                                    Close Request
-                                                </button>
-
-                                            <?php } else { ?>
-
-                                                <button type="button" class="btn btn-outline-secondary btn-sm adminResponseBtn">
-                                                    <i class="ri-eye-line me-1"></i>
-                                                    View Details
-                                                </button>
-
-                                                <button type="button" class="btn btn-warning btn-sm adminResponseBtn">
-                                                    <i class="ri-edit-2-line me-1"></i>
-                                                    Review Changes
-                                                </button>
-
-                                            <?php } ?>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
+                                
                             </div>
                             <div class="col-xl-4">
                                 <div class="card cardShadow section-block mt-4">
@@ -4216,7 +4273,7 @@
                                         <p class="fw-bold fontSize10">After Wallet Deductions</p>
                                     </div>
                                     <div>
-                                        <p class="fontSize10 text-end" id="afterWalletDeduction">&#8377; 0</p>
+                                        <p class="fontSize10 fw-bold text-end" id="afterWalletDeduction">&#8377; 0</p>
                                     </div>
                                 </div>
                             </div>
