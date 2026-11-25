@@ -54,32 +54,11 @@ function animatePrice($element, finalValue, duration = 800) {
         }
     );
 }
-function updateSubTotal() {
 
-    const adultCount =
-        parseInt($('#adultCount').val()) || 0;
-
-    const childrenCount =
-        parseInt($('#childrenCount').val()) || 0;
-
-    const adultTotal =
-        adultCount * perAdultPrice;
-
-    const childrenTotal =
-        childrenCount * perChildPrice;
-
-    const subTotal =
-        adultTotal + childrenTotal;
-
-    animatePrice(
-        $('#subTotal'),
-        subTotal
-    );
-}
 //rooom recomendation
 function updateRecommendedRooms() {
-    const adults = parseInt($('#adultCount').val()) || 0;
-    const children = parseInt($('#childrenCount').val()) || 0;
+    const adults = parseInt($('#adultCount1').val()) || 0;
+    const children = parseInt($('#childCount1').val()) || 0;
     const totalPax = adults + children;
     if (totalPax <= 0) { return; }
     /*
@@ -160,7 +139,10 @@ function updateRecommendedRooms() {
     */
     $('#roomRecommendation').html(roomsHTML);
 }
-//load modify rooms
+// =====================================================
+// LOAD MODIFY ROOMS
+// =====================================================
+
 function loadModifyRooms(adults, children, infants) {
 
     const container = $('#modifyRoomsContainer');
@@ -175,160 +157,97 @@ function loadModifyRooms(adults, children, infants) {
     $('#totalChildren').text(children);
     $('#totalInfants').text(infants);
 
+    const totalOccupancy = adults + children;
+
+    if (totalOccupancy <= 0) {
+        return;
+    }
+
     // =====================================================
-    // IF USER ALREADY MODIFIED ROOMS
-    // USE THAT CONFIGURATION
+    // CHECK PREVIOUS MODIFIED CONFIGURATION
     // =====================================================
+
+    let usePreviousConfiguration = false;
 
     if (
         Array.isArray(modifiedRoomConfiguration) &&
         modifiedRoomConfiguration.length > 0
     ) {
 
-        modifiedRoomConfiguration.forEach(function (room, index) {
-
-            const roomNumber = index + 1;
-
-            const occupancy = parseInt(room.occupancy) || 1;
-
-            const extraMattress = room.extraMattress === true;
-
-            const roomHTML = `
-                <div class="modify-room-card mb-3"
-                    data-room="${roomNumber}">
-
-                    <div class="room-content-row">
-
-                        <!-- ROOM TITLE -->
-                        <div class="room-title">
-
-                            <p class="fontSize10 fw-bold mb-0">
-                                Room ${roomNumber}
-                            </p>
-
-                        </div>
-
-
-                        <!-- ROOM OCCUPANCY -->
-                        <div class="occupancy-section">
-
-                            <label class="fontSize10 fw-bold mb-0">
-                                Room Occupancy
-                            </label>
-
-                            <div class="occupancy-control">
-
-                                <button
-                                    type="button"
-                                    class="occupancy-minus">
-                                    -
-                                </button>
-
-                                <input
-                                    type="text"
-                                    class="form-control text-center room-occupancy"
-                                    value="${occupancy}"
-                                    readonly
-                                >
-
-                                <button
-                                    type="button"
-                                    class="occupancy-plus">
-                                    +
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- EXTRA MATTRESS -->
-                        <div class="mattress-section">
-
-                            <div class="form-check mb-0">
-
-                                <input
-                                    class="form-check-input extra-mattress"
-                                    type="checkbox"
-                                    id="extraMattress${roomNumber}"
-                                    ${extraMattress ? 'checked' : ''}
-                                >
-
-                                <label
-                                    class="form-check-label fontSize10"
-                                    for="extraMattress${roomNumber}">
-                                    With Extra Mattress
-                                </label>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- REMOVE ROOM -->
-                        ${roomNumber > 1 ? `
-
-                            <div class="ms-auto">
-
-                                <button
-                                    type="button"
-                                    class="removeModifyRoom">
-
-                                    Remove
-
-                                </button>
-
-                            </div>
-
-                        ` : ''}
-
-                    </div>
-
-                </div>
-            `;
-
-            container.append(roomHTML);
-
-        });
-
-        return;
-    }
-
-
-    // =====================================================
-    // NO PREVIOUS MODIFICATION
-    // CREATE RECOMMENDED ROOMS
-    // =====================================================
-
-    const totalOccupancy = adults + children;
-
-    const rooms = Math.max(
-        1,
-        Math.ceil(totalOccupancy / 3)
-    );
-
-    let remainingOccupancy = totalOccupancy;
-
-
-    // =====================================================
-    // CREATE RECOMMENDED ROOMS
-    // =====================================================
-
-    for (let i = 1; i <= rooms; i++) {
-
-        const occupancy = Math.min(
-            remainingOccupancy,
-            3
+        const previousTotal = modifiedRoomConfiguration.reduce(
+            function (total, room) {
+                return total + (parseInt(room.occupancy, 10) || 0);
+            },
+            0
         );
 
-        remainingOccupancy -= occupancy;
+        const validRooms = modifiedRoomConfiguration.every(
+            function (room) {
+                const occupancy = parseInt(room.occupancy, 10);
 
-        const extraMattress = occupancy === 3;
+                return Number.isInteger(occupancy) && occupancy >= 0;
+            }
+        );
 
+        usePreviousConfiguration =
+            previousTotal === totalOccupancy &&
+            validRooms;
+    }
+
+    // =====================================================
+    // CREATE ROOM CONFIGURATION
+    // =====================================================
+
+    let roomConfiguration = [];
+
+    if (usePreviousConfiguration) {
+
+        roomConfiguration = modifiedRoomConfiguration;
+
+    } else {
+
+        // Maximum 3 people per room
+        const rooms = Math.max(
+            1,
+            Math.ceil(totalOccupancy / 3)
+        );
+
+        let remainingOccupancy = totalOccupancy;
+
+        for (let i = 1; i <= rooms; i++) {
+
+            const occupancy = Math.min(
+                remainingOccupancy,
+                3
+            );
+
+            remainingOccupancy -= occupancy;
+
+            roomConfiguration.push({
+                occupancy: occupancy,
+                extraMattress: occupancy === 3
+            });
+        }
+
+        // Previous configuration is no longer valid
+        modifiedRoomConfiguration = null;
+    }
+
+    // =====================================================
+    // RENDER ROOMS
+    // =====================================================
+
+    roomConfiguration.forEach(function (room, index) {
+
+        const roomNumber = index + 1;
+
+        const occupancy = parseInt(room.occupancy, 10) || 0;
+
+        const extraMattress = room.extraMattress === true;
 
         const roomHTML = `
             <div class="modify-room-card mb-3"
-                data-room="${i}">
+                data-room="${roomNumber}">
 
                 <div class="room-content-row">
 
@@ -336,11 +255,10 @@ function loadModifyRooms(adults, children, infants) {
                     <div class="room-title">
 
                         <p class="fontSize10 fw-bold mb-0">
-                            Room ${i}
+                            Room ${roomNumber}
                         </p>
 
                     </div>
-
 
                     <!-- ROOM OCCUPANCY -->
                     <div class="occupancy-section">
@@ -374,7 +292,6 @@ function loadModifyRooms(adults, children, infants) {
 
                     </div>
 
-
                     <!-- EXTRA MATTRESS -->
                     <div class="mattress-section">
 
@@ -383,13 +300,13 @@ function loadModifyRooms(adults, children, infants) {
                             <input
                                 class="form-check-input extra-mattress"
                                 type="checkbox"
-                                id="extraMattress${i}"
+                                id="extraMattress${roomNumber}"
                                 ${extraMattress ? 'checked' : ''}
                             >
 
                             <label
                                 class="form-check-label fontSize10"
-                                for="extraMattress${i}">
+                                for="extraMattress${roomNumber}">
 
                                 With Extra Mattress
 
@@ -399,9 +316,8 @@ function loadModifyRooms(adults, children, infants) {
 
                     </div>
 
-
                     <!-- REMOVE ROOM -->
-                    ${i > 1 ? `
+                    ${roomNumber > 1 ? `
 
                         <div class="ms-auto">
 
@@ -423,7 +339,9 @@ function loadModifyRooms(adults, children, infants) {
         `;
 
         container.append(roomHTML);
-    }
+
+    });
+
 }
 // =====================================================
 // RENUMBER ROOMS
@@ -469,35 +387,47 @@ function renumberModifyRooms() {
     });
 
 }
-//get room modifications
 function getModifiedRooms() {
-    const modifiedRooms = [];
 
-    $('#modifyRoomsContainer .modify-room-card').each(function (index) {
+    const rooms = [];
+
+    $('#modifyRoomsContainer .modify-room-card').each(function(index) {
 
         const roomCard = $(this);
 
         const occupancy = parseInt(
-            roomCard.find('.room-occupancy').val()
+            roomCard.find('.room-occupancy').val(),
+            10
         ) || 0;
+
+        // Ignore empty rooms
+        if (occupancy <= 0) {
+            return;
+        }
 
         const extraMattress = roomCard.find('.extra-mattress').is(':checked');
 
-        let description = '1 Double Bed';
+        const roomNumber = `Room ${index + 1}`;
 
-        if (extraMattress) {
-            description += ' + 1 Extra Mattress';
-        }
+        const description = extraMattress
+            ? '1 Double Bed + 1 Extra Mattress'
+            : '1 Double Bed';
 
-        modifiedRooms.push({
-            room_number: 'Room ' + (index + 1),
+        const accommodation = extraMattress
+            ? `${occupancy} Pax will be accommodated in 1 room with extra mattress.`
+            : `${occupancy} Pax will be accommodated in 1 room.`;
+
+        rooms.push({
+            room_number: roomNumber,
             description: description,
+            accommodation: accommodation,
             recommendation: 'User Preference',
             occupancy: occupancy
         });
+
     });
 
-    return modifiedRooms;
+    return rooms;
 }
 
 // =====================================================
@@ -506,9 +436,9 @@ function getModifiedRooms() {
 
 function getTotalTravellers() {
     return {
-        adults: parseInt($('#adultCount').val()) || 0,
-        children: parseInt($('#childrenCount').val()) || 0,
-        infants: parseInt($('#infantCount').val()) || 0
+        adults: parseInt($('#adultCount1').val()) || 0,
+        children: parseInt($('#childCount1').val()) || 0,
+        infants: parseInt($('#infantCount1').val()) || 0
     };
 }
 
@@ -723,369 +653,8 @@ function updateRecommendedRoomsFromModification(roomOccupancies, adults, childre
     `);
 
 }
-//coupon drop down
-function updateCouponDropdowns() {
-    const selectedCoupons = [];
-    let selectedPrimaryCoupons = 0;
-    /*
-    |--------------------------------------------------------------------------
-    | Get all currently selected coupons
-    |--------------------------------------------------------------------------
-    */
-    $('.coupon-select').each(function () {
-        const value = $(this).val();
-        if (value !== '') {
-            selectedCoupons.push(value);
-            const type = $(this)
-                .find('option:selected')
-                .data('type');
-            if (type === 'primary') {
-                selectedPrimaryCoupons++;
-            }
-        }
-    });
-    /*
-    |--------------------------------------------------------------------------
-    | Primary coupons are considered exhausted
-    | when all available primary coupons are selected
-    |--------------------------------------------------------------------------
-    */
-    const primaryCouponsExhausted =
-        totalPrimaryCoupons === 0 ||
-        selectedPrimaryCoupons >= totalPrimaryCoupons;
-    /*
-    |--------------------------------------------------------------------------
-    | Update all dropdowns
-    |--------------------------------------------------------------------------
-    */
-    $('.coupon-select').each(function () {
-        const $select = $(this);
-        const currentValue = $select.val();
-        $select.find('option').each(function () {
-            const $option = $(this);
-            const value = $option.val();
-            const type = $option.data('type');
-            // Skip placeholder
-            if (!value) {
-                return;
-            }
-            /*
-            |--------------------------------------------------------------------------
-            | Disable coupon already selected in another dropdown
-            |--------------------------------------------------------------------------
-            */
-            if (
-                selectedCoupons.includes(value) &&
-                value !== currentValue
-            ) {
 
-                $option.prop('disabled', true);
 
-                return;
-            }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Loyalty coupons
-            |--------------------------------------------------------------------------
-            */
-
-            if (type === 'loyalty') {
-
-                /*
-                * Enable loyalty only when all
-                * available primary coupons are selected
-                */
-                if (!primaryCouponsExhausted) {
-
-                    $option.prop('disabled', true);
-
-                } else {
-
-                    $option.prop('disabled', false);
-
-                }
-
-            } else {
-
-                /*
-                * Primary coupon is available
-                */
-                $option.prop('disabled', false);
-
-            }
-
-        });
-
-    });
-
-    // calculate total selected coupon discount
-    let totalDiscount = 0;
-
-    $('.coupon-select').each(function () {
-
-        const selectedOption =
-            $(this).find('option:selected');
-
-        const amount =
-            parseFloat(selectedOption.data('amount')) || 0;
-
-        if ($(this).val() !== '') {
-            totalDiscount += amount;
-        }
-    });
-
-    // Update discount display
-    $('#totalCouponDiscount').text(
-        '- ₹ ' + totalDiscount.toLocaleString('en-IN')
-    );
-
-    // Update final package price
-    updateFinalPackagePrice();
-
-}
-// =====================================================
-// GENERATE COUPON DROPDOWNS
-// =====================================================
-
-function generateCouponDropdowns() {
-
-    const adults =
-        parseInt($('#adultCount').val()) || 0;
-
-    const children =
-        parseInt($('#childrenCount').val()) || 0;
-
-    const container =
-        $('#couponPassengerContainer');
-
-    container.empty();
-
-    // Create Adult rows
-    for (let i = 1; i <= adults; i++) {
-
-        container.append(
-            createCouponRow('Adult', i)
-        );
-
-    }
-
-    // Create Child rows
-    for (let i = 1; i <= children; i++) {
-
-        container.append(
-            createCouponRow('Child', i)
-        );
-
-    }
-
-    updateCouponDropdowns();
-
-    // Reset total coupon discount
-    updateTotalCouponDiscount();
-
-}
-
-// =====================================================
-// UPDATE TOTAL COUPON DISCOUNT
-// =====================================================
-
-function updateTotalCouponDiscount() {
-
-    let totalDiscount = 0;
-
-    $('.coupon-select').each(function () {
-
-        const selectedOption =
-            $(this).find('option:selected');
-
-        const amount =
-            parseFloat(
-                selectedOption.data('amount')
-            ) || 0;
-
-        totalDiscount += amount;
-
-    });
-
-    $('#totalCouponDiscount').text(
-        '- ₹ ' + totalDiscount.toLocaleString('en-IN')
-    );
-
-}
-// =====================================================
-// UPDATE FINAL PACKAGE PRICE
-// =====================================================
-
-function updateFinalPackagePrice() {
-
-    const adults =
-        parseInt($('#adultCount').val()) || 0;
-
-    const children =
-        parseInt($('#childrenCount').val()) || 0;
-
-
-    // =====================================================
-    // ADULT TOTAL
-    // =====================================================
-
-    const adultTotal =
-        adults * perAdultPrice;
-
-    // =====================================================
-    // CHILD TOTAL
-    // =====================================================
-
-    const childrenTotal =
-        children * perChildPrice;
-
-    // =====================================================
-    // COUPON DISCOUNT
-    // =====================================================
-
-    const couponDiscount =
-        Math.abs(getAmount("#totalCouponDiscount"));
-
-    // =====================================================
-    // TOTAL AFTER COUPON
-    // =====================================================
-
-    const totalAfterCoupon =
-        Math.max(
-            0,
-            (adultTotal +
-            childrenTotal) -
-            couponDiscount
-        );
-
-    // =====================================================
-    // APPLIED REFERRAL WALLET
-    // =====================================================
-
-    const referralWallet =
-        getAmount("#appliedReferralWallet") || 0;
-
-
-    // =====================================================
-    // APPLIED DISCOUNT WALLET
-    // =====================================================
-
-    const discountWallet =
-        getAmount("#appliedDiscountWallet") || 0;
-
-    // =====================================================
-    // APPLIED EXTENEDED WALLET
-    // =====================================================
-
-    const extendedWallet =
-        getAmount("#appliedExtendedWallet") || 0;
-
-
-    // =====================================================
-    // TOTAL WALLET DEDUCTION
-    // =====================================================
-
-    const totalWalletDeduction =
-        referralWallet +
-        discountWallet +
-        extendedWallet;
-
-    
-    
-    // =====================================================
-    // AMOUNT AFTER WALLET
-    // =====================================================
-
-    const amountAfterWallet =
-        Math.max(
-            0,
-            totalAfterCoupon -
-            totalWalletDeduction
-        );
-    // =====================================================
-    // GST
-    // CALCULATED ON CONVENIENCE FEE
-    // =====================================================
-
-    const gstValue =
-        amountAfterWallet * (gstPercentage / 100);
-    // =====================================================
-    // AMOUNT AFTER WALLET
-    // =====================================================
-
-    const amountAfterGST =
-        Math.max(
-            0,
-            totalAfterCoupon -
-            totalWalletDeduction +
-            gstValue
-        );
-    // =====================================================
-    // CONVENIENCE FEE - 1%
-    // CALCULATED AFTER WALLET
-    // =====================================================
-
-    const convenienceFee =
-        amountAfterGST * 0.01;
-    // =====================================================
-    // FINAL PAYABLE AMOUNT
-    // =====================================================
-
-    const finalAmount =
-        amountAfterGST +
-        convenienceFee ;
-
-    // =====================================================
-    // FORMAT FINAL AMOUNT
-    // =====================================================
-
-    const formattedFinalAmount =
-        finalAmount.toLocaleString('en-IN', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-    // =====================================================
-    // UPDATE FINAL PACKAGE PRICE
-    // =====================================================
-
-    $('#finalPackagePrice').text(
-        '₹ ' + formattedFinalAmount
-    );
-
-    $('#finalPackagePrice1').text(
-        '₹ ' + formattedFinalAmount
-    );
-
-    $('#finalPackagePrice2').text(
-        '₹ ' + formattedFinalAmount
-    );
-
-
-    // =====================================================
-    // UPDATE CONVENIENCE FEE
-    // =====================================================
-
-    $('#convenienceFeee').text(
-        '₹ ' + convenienceFee.toLocaleString('en-IN', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        })
-    );
-
-
-    // =====================================================
-    // UPDATE GST
-    // =====================================================
-
-    $('#gstValue').text(
-        '₹ ' + gstValue.toLocaleString('en-IN', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        })
-    );
-}
 function getAmount(selector) {
 
     const element = $(selector);
@@ -1118,13 +687,13 @@ function getAmount(selector) {
 function updateSelectedVehicleText() {
 
     const adults =
-        parseInt($('#adultCount').val()) || 0;
+        parseInt($('#adultCount1').val()) || 0;
 
     const children =
-        parseInt($('#childrenCount').val()) || 0;
+        parseInt($('#childCount1').val()) || 0;
 
     const infants =
-        parseInt($('#infantCount').val()) || 0;
+        parseInt($('#infantCount1').val()) || 0;
 
     const totalPax =
         adults + children + infants;
@@ -1185,101 +754,11 @@ $('.guest-counter').each(function () {
     });
 
 });
-// =====================================================
-// Adult Count Change
-// =====================================================
-
-$('#adultCount').on('change', function () {
-
-    const adultCount =
-        parseInt($(this).val()) || 0;
-
-    const adultTotal =
-        adultCount * perAdultPrice;
-
-    $('#totalAdultCount').text(adultCount);
-
-    animatePrice(
-        $('#adultTotal'),
-        adultTotal,
-        '₹ '
-    );
-
-    // Update subtotal
-    updateSubTotal();
-
-    // Update room recommendation
-    updateRecommendedRooms();
-
-    // Update coupon passenger rows
-    generateCouponDropdowns();
-
-    //update final price
-    updateFinalPackagePrice();
-    // Update vehicle text
-    updateSelectedVehicleText();
-});
 
 
-// =====================================================
-// Children Count Change
-// =====================================================
 
-$('#childrenCount').on('change', function () {
 
-    const childrenCount =
-        parseInt($(this).val()) || 0;
 
-    const childrenTotal =
-        childrenCount * perChildPrice;
-
-    $('#totalChildrenCount').text(childrenCount);
-
-    animatePrice(
-        $('#childrenTotal'),
-        childrenTotal,
-        '₹ '
-    );
-
-    // Update subtotal
-    updateSubTotal();
-
-    // Update room recommendation
-    updateRecommendedRooms();
-
-    // Update coupon passenger rows
-    generateCouponDropdowns();
-
-    //update final price
-    updateFinalPackagePrice();
-    // Update vehicle text
-    updateSelectedVehicleText();
-
-});
-
-// =====================================================
-// Children Count Change
-// =====================================================
-
-$('#infantCount').on('change', function () {
-
-    const infantCount =
-        parseInt($(this).val()) || 0;
-
-    $('#totalInfantCount').text(infantCount);
-
-    // Update room recommendation
-    updateRecommendedRooms();
-
-    // Update coupon passenger rows
-    generateCouponDropdowns();
-
-    //update final price
-    updateFinalPackagePrice();
-    // Update vehicle text
-    updateSelectedVehicleText();
-
-});
 // Travel Date Update
 $('#travelStartDate').on('change', function () {
 
@@ -1382,37 +861,30 @@ $('.location-input').on('blur', function () {
         }
     }
 });
-//trigger room modification modal
+// =====================================================
+// OPEN MODIFY ROOM MODAL
+// =====================================================
+
+$(document).off('click', '.modifyBtn');
+
 $(document).on('click', '.modifyBtn', function (e) {
 
     e.preventDefault();
 
-    const roomNumber = parseInt($(this).data('room')) || 1;
+    const adults = parseInt($('#adultCount1').val(), 10) || 0;
+    const children = parseInt($('#childCount1').val(), 10) || 0;
+    const infants = parseInt($('#infantCount1').val(), 10) || 0;
 
-    const adults =
-        parseInt($('#adultCount').val()) || 0;
+    console.log('========== OPEN MODIFY ROOMS ==========');
+    console.log('Adults:', adults);
+    console.log('Children:', children);
+    console.log('Infants:', infants);
 
-    const children =
-        parseInt($('#childrenCount').val()) || 0;
+    loadModifyRooms(adults, children, infants);
 
-    const infants =
-        parseInt($('#infantCount').val()) || 0;
+    const modalElement = document.getElementById('modifyRoomsModal');
 
-    console.log('Total Adults:', adults);
-    console.log('Total Children:', children);
-    console.log('Total Infants:', infants);
-
-    loadModifyRooms(
-        adults,
-        children,
-        infants
-    );
-
-    const modalElement =
-        document.getElementById('modifyRoomsModal');
-
-    const modal =
-        bootstrap.Modal.getOrCreateInstance(modalElement);
+    const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
 
     modal.show();
 
@@ -1420,135 +892,164 @@ $(document).on('click', '.modifyBtn', function (e) {
 
 
 
+// =====================================================
+// ORIGINAL ROOM CONFIGURATION FROM PHP
+// =====================================================
+
 let originalRoomConfiguration = [];
 let originalRoomConfigurationSaved = false;
 
-// =====================================================
-// SAVE ORIGINAL ROOM CONFIGURATION
-// =====================================================
-
+// Save only once from the original PHP data
 function storeOriginalRoomConfiguration() {
 
-    const $cards = $('#modifyRoomsContainer .modify-room-card');
-
-    // console.log('Room cards found:', $cards.length);
-
-    if (!$cards.length) {
-        console.warn('No room cards available to save.');
-        return false;
-    }
-
-    if (originalRoomConfigurationSaved) {
-        return true;
-    }
-
-    originalRoomConfiguration = [];
-
-    $cards.each(function (index) {
-
-        const phpRoom = originalPhpRooms[index] || {};
-
-        originalRoomConfiguration.push({
-            room_number: phpRoom.room_number || `Room ${index + 1}`,
-            description: phpRoom.description || '',
-            recommendation: phpRoom.recommendation || '',
-            occupancy: $(this).find('.room-occupancy').val(),
-            extraMattress: $(this).find('.extra-mattress').is(':checked')
-        });
-
-    });
-
-    originalRoomConfigurationSaved =
-        originalRoomConfiguration.length > 0;
-
-    // console.log(
-    //     'Original room configuration saved:',
-    //     originalRoomConfiguration
-    // );
-
-    return originalRoomConfigurationSaved;
+if (originalRoomConfigurationSaved) {
+    return true;
 }
-$('#modifyRoomsModal').on('shown.bs.modal', function () {
 
-    if (!originalRoomConfigurationSaved) {
+if (!Array.isArray(originalPhpRooms) || !originalPhpRooms.length) {
+    console.error('Original PHP room configuration not found.');
+    return false;
+}
 
-        const $cards = $('#modifyRoomsContainer .modify-room-card');
+originalRoomConfiguration = originalPhpRooms.map(function (room, index) {
 
-        if ($cards.length > 0) {
-            storeOriginalRoomConfiguration();
-        } else {
-            console.warn(
-                'Room cards are not rendered yet. Save the configuration after rendering them.'
-            );
-        }
-    }
+    return {
+        room_number: room.room_number || 'Room ' + (index + 1),
+        description: room.description || '1 Double Bed',
+        recommendation: room.recommendation || '',
+        occupancy: parseInt(room.occupancy, 10) || 0,
+        extraMattress:
+            room.extraMattress === true ||
+            room.extraMattress == 1 ||
+            room.extra_mattress == 1
+    };
 
 });
+
+originalRoomConfigurationSaved = true;
+
+console.log(
+    'Original PHP room configuration saved:',
+    originalRoomConfiguration
+);
+
+return true;
+}
+
 
 // =====================================================
 // RESET ROOM CONFIGURATION
 // =====================================================
 
+$(document).off('click', '#resetRoomModification');
+
 $(document).on('click', '#resetRoomModification', function () {
 
-    if (!originalRoomConfigurationSaved) {
-        console.error(
-            'Original room configuration was not saved. ' +
-            'Save it after the initial room cards are rendered.'
-        );
+    console.log('========== RESET ROOM CONFIGURATION ==========');
+
+    if (!storeOriginalRoomConfiguration()) {
         return;
     }
-    const adults = parseInt($('#adultCount').val(), 10) || 0;
-    const children = parseInt($('#childrenCount').val(), 10) || 0;
-    const infants = parseInt($('#infantCount').val(), 10) || 0;
 
-    const $container = $('#modifyRoomsContainer');
+    const container = $('#modifyRoomsContainer');
 
-    // Remove any additional rooms added by the user.
-    $container.find('.modify-room-card').each(function (index) {
-        if (index >= originalRoomConfiguration.length) {
-            $(this).remove();
-        }
-    });
+    // Rebuild every room from the original PHP configuration
+    container.empty();
 
-    // Restore the original room values.
     originalRoomConfiguration.forEach(function (room, index) {
 
-        const $cards = $container.find('.modify-room-card');
-        const $card = $cards.eq(index);
+        const roomNumber = index + 1;
 
-        // A removed original card must be recreated using
-        // your existing room-card creation function.
-        if (!$card.length) {
-            console.error(
-                'Original Room ' + (index + 1) +
-                ' is missing. Your room-card builder must recreate it.'
-            );
-            return;
-        }
+        const roomHTML = `
+            <div class="modify-room-card mb-3"
+                data-room="${roomNumber}">
 
-        $card.find('.room-occupancy').val(room.occupancy);
+                <div class="room-content-row">
 
-        $card.find('.extra-mattress')
-            .prop('checked', room.extraMattress);
+                    <div class="room-title">
+                        <p class="fontSize10 fw-bold mb-0">
+                            Room ${roomNumber}
+                        </p>
+                    </div>
+
+                    <div class="occupancy-section">
+
+                        <label class="fontSize10 fw-bold mb-0">
+                            Room Occupancy
+                        </label>
+
+                        <div class="occupancy-control">
+
+                            <button type="button" class="occupancy-minus">
+                                -
+                            </button>
+
+                            <input
+                                type="text"
+                                class="form-control text-center room-occupancy"
+                                value="${room.occupancy}"
+                                readonly
+                            >
+
+                            <button type="button" class="occupancy-plus">
+                                +
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mattress-section">
+
+                        <div class="form-check mb-0">
+
+                            <input
+                                class="form-check-input extra-mattress"
+                                type="checkbox"
+                                id="extraMattress${roomNumber}"
+                                ${room.extraMattress ? 'checked' : ''}
+                            >
+
+                            <label
+                                class="form-check-label fontSize10"
+                                for="extraMattress${roomNumber}">
+                                With Extra Mattress
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    ${roomNumber > 1 ? `
+                        <div class="ms-auto">
+                            <button type="button" class="removeModifyRoom">
+                                Remove
+                            </button>
+                        </div>
+                    ` : ''}
+
+                </div>
+
+            </div>
+        `;
+
+        container.append(roomHTML);
 
     });
 
-    // Restore the working configuration.
+    // Restore working configuration
     modifiedRoomConfiguration = originalRoomConfiguration.map(function (room) {
+
         return {
-            occupancy: parseInt(room.occupancy, 10) || 0,
+            occupancy: room.occupancy,
             extraMattress: room.extraMattress
         };
+
     });
 
-    // Refresh the recommendations and summary.
-    updateRecommendedRoomsFromModification(
-        modifiedRoomConfiguration,
-        adults,
-        children,
-        infants
-    );
+    console.log('Reset configuration:', modifiedRoomConfiguration);
+
+    console.log('========== RESET COMPLETED ==========');
 
 });
 
@@ -1559,9 +1060,9 @@ $(document).on('click', '#resetRoomModification', function () {
 
 $(document).on('click', '#applyRoomModification', function () {
 
-    const adults = parseInt($('#adultCount').val(), 10) || 0;
-    const children = parseInt($('#childrenCount').val(), 10) || 0;
-    const infants = parseInt($('#infantCount').val(), 10) || 0;
+    const adults = parseInt($('#adultCount1').val(), 10) || 0;
+    const children = parseInt($('#childCount1').val(), 10) || 0;
+    const infants = parseInt($('#infantCount1').val(), 10) || 0;
 
     const totalTravellers = adults + children;
 
@@ -1576,6 +1077,11 @@ $(document).on('click', '#applyRoomModification', function () {
 
         const extraMattress =
             $(this).find('.extra-mattress').is(':checked');
+
+        // Ignore empty rooms
+        if (occupancy <= 0) {
+            return;
+        }
 
         roomOccupancies.push({
             occupancy: occupancy,
@@ -1603,7 +1109,7 @@ $(document).on('click', '#applyRoomModification', function () {
     modifiedRoomConfiguration = roomOccupancies.map(function (room) {
 
         return {
-            occupancy: parseInt(room.occupancy, 10) || 1,
+            occupancy: parseInt(room.occupancy, 10) || 0,
             extraMattress: room.extraMattress === true
         };
 
@@ -1630,82 +1136,116 @@ $(document).on('click', '#applyRoomModification', function () {
 // ROOM OCCUPANCY PLUS
 // =====================================================
 
-$(document).on('click', '.occupancy-plus', function () {
+// =====================================================
+// ROOM OCCUPANCY PLUS - ADMIN
+// =====================================================
+
+$(document).off('click.roomOccupancy', '#modifyRoomsContainer .occupancy-plus');
+
+$(document).on('click.roomOccupancy', '#modifyRoomsContainer .occupancy-plus', function (e) {
+
+    e.preventDefault();
+
+    console.log('========== ADMIN ROOM PLUS CLICKED ==========');
+
     const roomCard = $(this).closest('.modify-room-card');
     const occupancyInput = roomCard.find('.room-occupancy');
-    let occupancy = parseInt(occupancyInput.val()) || 0;
 
-    // =================================================
-    // MAX 3 PEOPLE PER ROOM
-    // =================================================
-
-    if (occupancy >= 3) {
+    if (!roomCard.length || !occupancyInput.length) {
+        console.error('Room card or occupancy input not found.');
         return;
     }
 
-    // =================================================
-    // TOTAL AVAILABLE OCCUPANCY
-    // ADULTS + CHILDREN
-    // =================================================
+    let occupancy = parseInt(occupancyInput.val(), 10) || 0;
 
-    const adults = parseInt($('#adultCount').val()) || 0;
-    const children = parseInt($('#childrenCount').val()) || 0;
+    const adults = parseInt($('#adultCount1').val(), 10) || 0;
+    const children = parseInt($('#childCount1').val(), 10) || 0;
+
     const totalTravellers = adults + children;
 
-    // =================================================
-    // CURRENT OCCUPANCY OF ALL ROOMS
-    // =================================================
-
     let currentTotal = 0;
-    $('#modifyRoomsContainer .room-occupancy').each(function () {
-        currentTotal += parseInt($(this).val()) || 0;
+
+    $('#modifyRoomsContainer .modify-room-card').each(function () {
+
+        const roomOccupancy =
+            parseInt($(this).find('.room-occupancy').val(), 10) || 0;
+
+        currentTotal += roomOccupancy;
+
     });
 
-    // =================================================
-    // DON'T EXCEED TOTAL TRAVELLERS
-    // =================================================
+    console.log('Current room occupancy:', occupancy);
+    console.log('Total allocated:', currentTotal);
+    console.log('Total travellers:', totalTravellers);
 
     if (currentTotal >= totalTravellers) {
+        console.warn('All travellers are already allocated.');
         return;
     }
 
-    // =================================================
-    // INCREASE
-    // =================================================
+    // No maximum of 3 on admin side
     occupancy++;
+
     occupancyInput.val(occupancy);
 
-    // =================================================
-    // UPDATE EXTRA MATTRESS
-    // =================================================
+    console.log('Updated room occupancy:', occupancy);
 
     updateRoomExtraMattress(roomCard);
+
+    console.log('========== ADMIN ROOM PLUS COMPLETED ==========');
+
 });
 // =====================================================
-// ROOM OCCUPANCY MINUS
+// ROOM OCCUPANCY MINUS - ADMIN
 // =====================================================
 
-$(document).on('click', '.occupancy-minus', function () {
+$(document).on('click.roomOccupancy', '#modifyRoomsContainer .occupancy-minus', function (e) {
+
+    e.preventDefault();
+
+    console.log('========== ADMIN ROOM MINUS CLICKED ==========');
+
     const roomCard = $(this).closest('.modify-room-card');
     const occupancyInput = roomCard.find('.room-occupancy');
-    let occupancy = parseInt(occupancyInput.val()) || 0;
 
-    // =================================================
-    // MINIMUM 1 PERSON PER ROOM
-    // =================================================
+    if (!roomCard.length || !occupancyInput.length) {
+        console.error('Room card or occupancy input not found.');
+        return;
+    }
 
-    if (occupancy <= 1) {
+    let occupancy = parseInt(occupancyInput.val(), 10) || 0;
+
+    console.log('Current occupancy:', occupancy);
+
+    if (occupancy <= 0) {
+        console.warn('Room occupancy is already zero.');
         return;
     }
 
     occupancy--;
+
     occupancyInput.val(occupancy);
 
-    // =================================================
-    // UPDATE EXTRA MATTRESS
-    // =================================================
+    console.log('Updated occupancy:', occupancy);
 
-    updateRoomExtraMattress(roomCard);
+    if (occupancy === 0) {
+
+        console.log('Removing empty room:', roomCard.attr('data-room'));
+
+        roomCard.remove();
+
+        renumberModifyRooms();
+
+    } else {
+
+        updateRoomExtraMattress(roomCard);
+
+    }
+
+    console.log('Remaining room count:', $('#modifyRoomsContainer .modify-room-card').length);
+
+    console.log('========== ADMIN ROOM MINUS COMPLETED ==========');
+
 });
 // =====================================================
 // ADD ROOM
@@ -1818,13 +1358,13 @@ $(document).on('click', '.removeModifyRoom', function () {
 $(document).on('click', '.addRoomBtn', function () {
 
     const adults =
-        parseInt($('#adultCount').val()) || 0;
+        parseInt($('#adultCount1').val()) || 0;
 
     const children =
-        parseInt($('#childrenCount').val()) || 0;
+        parseInt($('#childCount1').val()) || 0;
 
     const infants =
-        parseInt($('#infantCount').val()) || 0;
+        parseInt($('#infantCount1').val()) || 0;
 
 
     // =====================================================
@@ -1902,13 +1442,13 @@ $(document).on('click', '#applyVehicleSelection', function () {
 
     // Get total travellers
     const adults =
-        parseInt($('#adultCount').val()) || 0;
+        parseInt($('#adultCount1').val()) || 0;
 
     const children =
-        parseInt($('#childrenCount').val()) || 0;
+        parseInt($('#childCount1').val()) || 0;
 
     const infants =
-        parseInt($('#infantCount').val()) || 0;
+        parseInt($('#infantCount1').val()) || 0;
 
     // Pax for vehicle
     const totalPax = adults + children + infants;
@@ -2000,12 +1540,6 @@ $(document).on('change', '#packageCouponSelect', function () {
 
 $(document).ready(function () {
 
-    // =====================================================
-    // PASSENGER COUPONS
-    // =====================================================
-
-    generateCouponDropdowns();
-
 
     // =====================================================
     // PACKAGE COUPON
@@ -2014,23 +1548,6 @@ $(document).ready(function () {
     $('#packageCouponDiscount').text('₹ 0');
 
     $('#totalCouponDiscount').text('- ₹ 0');
-
-    const today = new Date();
-
-    // Add 2 days
-    today.setDate(today.getDate() + 2);
-
-    // Format YYYY-MM-DD
-    const minDate =
-        today.getFullYear() + "-" +
-        String(today.getMonth() + 1).padStart(2, "0") + "-" +
-        String(today.getDate()).padStart(2, "0");
-    const maxDate = new Date(packValidity);
-    const formattedMaxDate = maxDate.toISOString().split('T')[0];
-    // Prevent previous dates and next 2 days
-    $('#travelStartDate').attr('min', minDate);
-    $('#travelStartDate').attr('max', formattedMaxDate);
-    // packValidity
 
     setupWalletInput(
         'referralWalletBalance',
@@ -2232,521 +1749,3 @@ function setupWalletInput(balanceElementId, inputElementId) {
 
     updateWalletInput();
 }
-// =====================================================
-// SUBMIT REQUEST
-// =====================================================
-
-// $("#submitRequst").on("click", function (e) {
-//     e.preventDefault();
-//     const submitBtn = $(this);
-//     // =====================================================
-//     // TRAVEL & TRANSPORT DETAILS
-//     // =====================================================
-//     const travelStartDate = $("#travelStartDate").val().trim();
-//     const travelEndDate = $("#travelEndDate").val().trim();
-//     const transportPreference = $("#transportPreference").val() || "";
-//     // =====================================================
-//     // REQUIRED VALIDATION
-//     // =====================================================
-//     // Travel Start Date
-//     if (!travelStartDate) {
-//         Swal.fire({
-//             icon: "warning",
-//             title: "Travel Date Required",
-//             text: "Please select your travel start date.",
-//             confirmButtonText: "OK"
-//         });
-//         $("#travelStartDate").focus();
-//         return;
-//     }
-//     // Travel End Date
-//     if (!travelEndDate) {
-//         Swal.fire({
-//             icon: "warning",
-//             title: "Travel Date Required",
-//             text: "Please select your travel end date.",
-//             confirmButtonText: "OK"
-//         });
-//         $("#travelEndDate").focus();
-//         return;
-//     }
-//     // =====================================================
-//     // DATE ORDER VALIDATION
-//     // =====================================================
-//     const startDate = new Date(travelStartDate);
-//     const endDate = new Date(travelEndDate);
-//     if (endDate < startDate) {
-//         Swal.fire({
-//             icon: "warning",
-//             title: "Invalid Travel Dates",
-//             text: "Travel end date cannot be before the start date.",
-//             confirmButtonText: "OK"
-//         });
-//         $("#travelEndDate").focus();
-//         return;
-//     }
-//     // =====================================================
-//     // TRANSPORT VALIDATION
-//     // =====================================================
-//     if (!transportPreference) {
-//         Swal.fire({
-//             icon: "warning",
-//             title: "Transport Required",
-//             text: "Please select your transport preference.",
-//             confirmButtonText: "OK"
-//         });
-//         $("#transportPreference").focus();
-//         return;
-//     }
-//     // =====================================================
-//     // GUEST DETAILS
-//     // =====================================================
-//     let guestFullName = "";
-//     let guestPhone = "";
-//     let guestEmail = "";
-//     // Check whether guest fields exist in DOM
-//     const guestFieldsExist =
-//         $("#guestFullName").length > 0 ||
-//         $("#guestPhone").length > 0 ||
-//         $("#guestEmail").length > 0;
-//     if (guestFieldsExist) {
-//         // Get guest values
-//         guestFullName = $.trim($("#guestFullName").val() || "");
-//         guestPhone = $.trim($("#guestPhone").val() || "");
-//         guestEmail = $.trim($("#guestEmail").val() || "");
-//         // -------------------------------------------------
-//         // Guest Name
-//         // -------------------------------------------------
-//         if (!guestFullName) {
-//             Swal.fire({
-//                 icon: "warning",
-//                 title: "Guest Name Required",
-//                 text: "Please enter the guest full name.",
-//                 confirmButtonText: "OK"
-//             });
-
-//             $("#guestFullName").focus();
-//             return;
-//         }
-//         // -------------------------------------------------
-//         // Guest Phone
-//         // -------------------------------------------------
-//         if (!guestPhone) {
-
-//             Swal.fire({
-//                 icon: "warning",
-//                 title: "Guest Phone Required",
-//                 text: "Please enter the guest phone number.",
-//                 confirmButtonText: "OK"
-//             });
-
-//             $("#guestPhone").focus();
-//             return;
-//         }
-//         // -------------------------------------------------
-//         // Guest Email
-//         // -------------------------------------------------
-//         if (!guestEmail) {
-//             Swal.fire({
-//                 icon: "warning",
-//                 title: "Guest Email Required",
-//                 text: "Please enter the guest email address.",
-//                 confirmButtonText: "OK"
-//             });
-//             $("#guestEmail").focus();
-//             return;
-//         }
-//     }
-//     // =====================================================
-//     // PREVENT DOUBLE CLICK
-//     // =====================================================
-//     if (submitBtn.hasClass("loading")) {
-//         return;
-//     }
-//     submitBtn.addClass("loading");
-//     submitBtn.prop("disabled", true);
-//     // =====================================================
-//     // BASIC PACKAGE DETAILS
-//     // =====================================================
-//     const packageId = $("#packageId").val() || "";
-//     // =====================================================
-//     // TRAVELLER & TRIP DETAILS
-//     // =====================================================
-//     const pickupLocation = $("#pickupLocation").val();
-//     const dropLocation = $("#dropLocation").val();
-//     const adults = parseInt($("#adultCount").val()) || 0;
-//     const children = parseInt($("#childrenCount").val()) || 0;
-//     const infants = parseInt($("#infantCount").val()) || 0;
-//     // =====================================================
-//     // PREFERENCES
-//     // =====================================================
-//     const hotelCategory = $("#hotelCategory").val() || "";
-//     const mealPreference = $("#mealPreference").val() || "";
-//     const specialRequirement = $("#specialRequirement").val() || "";
-//     const transportType =  $('#selectedVehicleText').text();
-//     const oldHotelCategory = $("#hotelCategory").val() || "";
-//     const oldMealPreference = $("#mealPreference").val() || "";
-//     const oldTransportPreference = $("#transportPreference").val() || "";
-//     // =====================================================
-//     // PRICING
-//     // =====================================================
-//     const totalAdultCount = parseInt($("#totalAdultCount").text()) || 0;
-//     const totalChildrenCount = parseInt($("#totalChildrenCount").text()) || 0;
-//     const totalInfantCount = parseInt($("#totalInfantCount").text()) || 0;
-//     // =====================================================
-//     // GET AMOUNT
-//     // =====================================================
-//     function getAmount(selector) {
-//         let value = $(selector).text() || "0";
-//         value = value
-//             .replace(/₹/g, "")
-//             .replace(/,/g, "")
-//             .replace(/-/g, "")
-//             .trim();
-//         return parseFloat(value) || 0;
-//     }
-//     const adultTotal = getAmount("#adultTotal");
-//     const childrenTotal = getAmount("#childrenTotal");
-//     const subTotal = getAmount("#subTotal");
-//     const convenienceFee = getAmount("#convenienceFeee");
-//     const gstValue = getAmount("#gstValue");
-//     const couponDiscount = getAmount("#totalCouponDiscount");
-//     const referralWallet = $("#appliedReferralWallet").val();
-//     const discountWallet = $("#appliedDiscountWallet").val();
-//     const finalPackagePrice = getAmount("#finalPackagePrice");
-//     // =====================================================
-//     // COUPONS
-//     // =====================================================
-//     const coupons = [];
-//     // -----------------------------------------------------
-//     // PASSENGER COUPONS
-//     // -----------------------------------------------------
-//     $("#couponPassengerContainer .coupon-passenger-row").each(function () {
-//         const select = $(this).find(".coupon-select");
-//         if (select.length && select.val()) {
-//             const selectedOption = select.find("option:selected");
-//             // Get Adult 1 / Adult 2 / Child 1 etc.
-//             const passenger =
-//                 $(this)
-//                     .find("p.fontSize10")
-//                     .first()
-//                     .text()
-//                     .trim();
-//             coupons.push({
-//                 passenger: passenger || "",
-//                 code: select.val(),
-//                 type:
-//                     selectedOption.data("type") || "",
-//                 amount:
-//                     parseFloat(
-//                         selectedOption.data("amount")
-//                     ) || 0
-//             });
-//         }
-//     });
-//     // -----------------------------------------------------
-//     // NORMAL CUSTOMER - ONE COUPON PER PACKAGE
-//     // -----------------------------------------------------
-//     const packageCoupon = $("#packageCouponSelect").val();
-//     if (packageCoupon) {
-//         const selectedOption = $("#packageCouponSelect option:selected");
-//         coupons.push({
-//             passenger: "package",
-//             code: packageCoupon,
-//             type:
-//                 selectedOption.data("type") || "",
-//             amount:
-//                 parseFloat(
-//                     selectedOption.data("amount")
-//                 ) || 0
-//         });
-//     }
-//     // =====================================================
-//     // ROOM DETAILS
-//     // =====================================================
-//     let rooms = [];
-
-//     $("#roomRecommendation .roomRecommendationItem").each(function () {
-//         const $room = $(this);
-
-//         const roomNumber = $room
-//             .children("p.fontSize10.fw-bold")
-//             .first()
-//             .text()
-//             .trim();
-
-//         const description = $room
-//             .find(".ri-hotel-bed-fill")
-//             .closest("p")
-//             .text()
-//             .trim();
-
-//         const recommendation = $room
-//             .find(".recommendedBtn")
-//             .text()
-//             .trim();
-
-//         rooms.push({
-//             room_number: roomNumber,
-//             description: description,
-//             recommendation: recommendation
-//         });
-//     });
-
-//     console.log(referralWallet);
-    
-    
-//     // =====================================================
-//     // CREATE FORM DATA
-//     // =====================================================
-//     const formData = new FormData();
-//     // =====================================================
-//     // PACKAGE
-//     // =====================================================
-//     formData.append("package_id", packageId);
-//     // =====================================================
-//     // TRIP
-//     // =====================================================
-//     formData.append("travel_start_date", travelStartDate);
-//     formData.append("travel_end_date", travelEndDate);
-//     formData.append("pickup_location", pickupLocation);
-//     formData.append("drop_location", dropLocation);
-//     // =====================================================
-//     // TRAVELLERS
-//     // =====================================================
-//     formData.append("adults", adults);
-//     formData.append("children", children);
-//     formData.append("infants", infants);
-//     // =====================================================
-//     // GUEST DETAILS
-//     // =====================================================
-//     formData.append("guestFullName", guestFullName);
-//     formData.append("guestPhone", guestPhone);
-//     formData.append("guestEmail", guestEmail);
-//     formData.append("userId", userId);
-//     formData.append("userTypeIdValue", userTypeIdValue);
-//     // =====================================================
-//     // PREFERENCES
-//     // =====================================================
-//     formData.append("hotel_category", hotelCategory);
-//     formData.append("meal_preference", mealPreference);
-//     formData.append("transport_preference", transportPreference);
-//     formData.append("transport_type", transportType);
-//     formData.append("special_requirement", specialRequirement);
-//     formData.append("old_hotel_category", oldHotelCategory);
-//     formData.append("old_meal_preference", oldMealPreference);
-//     formData.append("old_transport_preference", oldTransportPreference);
-//     // =====================================================
-//     // PRICING
-//     // =====================================================
-//     formData.append("adult_price", perAdultPrice);
-//     formData.append("child_price", perChildPrice);
-//     formData.append("adult_count", totalAdultCount);
-//     formData.append("child_count", totalChildrenCount);
-//     formData.append("infant_count", totalInfantCount);
-//     formData.append("adult_total", adultTotal);
-//     formData.append("children_total", childrenTotal);
-//     formData.append("subtotal", subTotal);
-//     formData.append("convenience_fee", convenienceFee);
-//     formData.append("gst_percentage", gstPercentage);
-//     formData.append("gst_value", gstValue);
-//     formData.append("coupon_discount", couponDiscount);
-//     formData.append("referral_wallet", referralWallet);
-//     formData.append("discount_wallet", discountWallet);
-//     formData.append("final_package_price", finalPackagePrice);
-//     // =====================================================
-//     // JSON ARRAYS
-//     // =====================================================
-//     formData.append("coupons", JSON.stringify(coupons));
-//     formData.append("rooms", JSON.stringify(rooms));
-//     // =====================================================
-//     // AJAX
-//     // =====================================================
-//     $.ajax({
-//         url: "assets/submit/submit_request_quote.php",
-//         type: "POST",
-//         data: formData,
-//         processData: false,
-//         contentType: false,
-//         dataType: "json",
-//         // =================================================
-//         // BEFORE SEND
-//         // =================================================
-//         beforeSend: function () {
-//             Swal.fire({
-//                 title: "Submitting Request",
-//                 html: "Please wait while we submit your travel enquiry...",
-//                 allowOutsideClick: false,
-//                 allowEscapeKey: false,
-//                 showConfirmButton: false,
-//                 didOpen: () => {
-//                     Swal.showLoading();
-//                 }
-//             });
-//         },
-//         // =================================================
-//         // SUCCESS
-//         // =================================================
-//         success: function (response) {
-//             $("#loading-overlay").hide();
-//             submitBtn.removeClass("loading");
-//             submitBtn.prop("disabled", false);
-//             // =============================================
-//             // SUCCESS RESPONSE
-//             // =============================================
-//             if (response.status == 1) {
-//                 Swal.fire({
-//                     icon: "success",
-//                     title: "Request Submitted Successfully!",
-//                     html: `<div class="swal-enquiry-success">
-//                             <p class="swal-thankyou">
-//                                 Thank you for choosing
-//                                 <strong>Bizzmirth Holidays.</strong>
-//                             </p>
-//                             <p class="swal-message">
-//                                 Your travel enquiry has been
-//                                 submitted successfully.
-//                                 Our team will review your request
-//                                 and get back to you soon.
-//                             </p>
-//                             <div class="enquiry-number-box">
-//                                 <span class="enquiry-number-label">Enquiry Number</span>
-//                                 <strong>${response.enquiry_no || response.enquiry_number || "N/A"}</strong>
-//                             </div>
-//                             <div class="enquiry-details">
-//                                 <div class="enquiry-details-header">
-//                                     <span><i class="ri-file-list-3-line"></i>Enquiry Details</span>
-//                                 </div>
-//                                 <div class="enquiry-detail-row">
-//                                     <span>Travel Dates</span>
-//                                     <strong>
-//                                         ${travelStartDate || "-"}
-//                                         ${travelEndDate ? " - " + travelEndDate : ""}
-//                                     </strong>
-//                                 </div>
-//                                 <div class="enquiry-detail-row">
-//                                     <span>Travellers</span>
-//                                     <strong>
-//                                         ${adults}
-//                                         Adult${adults != 1 ? "s" : ""}
-//                                         ${children > 0 ? ", " + children + " Child" + (children != 1 ? "ren" : "") : ""}
-//                                         ${infants > 0 ? ", " + infants + " Infant" + (infants != 1 ? "s" : "") : ""}
-//                                     </strong>
-//                                 </div>
-//                                 <div class="enquiry-detail-row">
-//                                     <span>
-//                                         Pickup Location
-//                                     </span>
-//                                     <strong>
-//                                         ${pickupLocation || "-"}
-//                                     </strong>
-//                                 </div>
-//                                 <div class="enquiry-detail-row">
-//                                     <span>
-//                                         Drop Location
-//                                     </span>
-//                                     <strong>
-//                                         ${dropLocation || "-"}
-//                                     </strong>
-//                                 </div>
-//                                 <div class="enquiry-detail-row">
-//                                     <span>
-//                                         Package Price
-//                                     </span>
-//                                     <strong>
-//                                         ₹${Number(
-//                         finalPackagePrice
-//                     ).toLocaleString(
-//                         "en-IN",
-//                         {
-//                             minimumFractionDigits: 2,
-//                             maximumFractionDigits: 2
-//                         }
-//                     )}
-//                                     </strong>
-//                                 </div>
-//                             </div>
-//                             <div class="whats-next-box">
-//                                 <div class="whats-next-title">
-//                                     <i class="ri-checkbox-circle-fill"></i>
-//                                     What's Next?
-//                                 </div>
-//                                 <p>
-//                                     Our travel expert will review
-//                                     your enquiry, check availability
-//                                     and prepare the best possible
-//                                     quotation for you.
-//                                 </p>
-//                                 <p class="whats-next-small">
-//                                     We will contact you shortly
-//                                     with the next steps.
-//                                 </p>
-//                             </div>
-//                         </div>
-//                     `,
-//                     confirmButtonText: "Done",
-//                     customClass: {
-//                         popup: "enquiry-success-popup",
-//                         confirmButton: "enquiry-confirm-btn"
-//                     },
-//                     buttonsStyling: false,
-//                     allowOutsideClick: false,
-//                     allowEscapeKey: false
-//                 }).then(function () {
-//                     // =====================================
-//                     // REFRESH AFTER DONE
-//                     // =====================================
-//                     window.location.reload();
-//                 });
-//             }
-//             // =============================================
-//             // SERVER RETURNED STATUS 0
-//             // =============================================
-//             else {
-//                 Swal.fire({
-//                     icon: "error",
-//                     title: "Unable to Submit",
-//                     text: response.message || "Unable to submit your request. Please try again."
-//                 });
-//             }
-//         },
-//         // =================================================
-//         // AJAX ERROR
-//         // =================================================
-//         error: function (xhr, status, error) {
-//             $("#loading-overlay").hide();
-//             submitBtn.removeClass("loading");
-//             submitBtn.prop("disabled", false);
-//             Swal.fire({
-//                 icon: "error",
-//                 title: "Something went wrong",
-//                 text: "Unable to submit the request. Please try again."
-//             });
-//         }
-//     });
-// });
-// Pricing Section
-document.addEventListener("DOMContentLoaded", function () {
-    const pricingSidebar = document.getElementById("pricingSidebar");
-    // const openBtn = document.getElementById("openPricingBtn");
-    // const closeBtn = document.getElementById("closePricing");
-    // const overlay = document.getElementById("pricingOverlay");
-    // function openPricing() {
-    //     pricingSidebar.classList.add("show");
-    //     overlay.classList.add("show");
-    //     document.body.style.overflow = "hidden";
-    // }
-    // function closePricing() {
-    //     pricingSidebar.classList.remove("show");
-    //     overlay.classList.remove("show");
-    //     document.body.style.overflow = "";
-    // }
-    // openBtn.addEventListener("click", openPricing);
-    // closeBtn.addEventListener("click", closePricing);
-    // overlay.addEventListener("click", closePricing);
-    // window.addEventListener("resize", function () {
-    //     if (window.innerWidth > 991) {
-    //         closePricing();
-    //     }
-    // });
-});

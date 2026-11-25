@@ -849,8 +849,8 @@ function updateFinalPackagePrice() {
     // =====================================================
 
     const totalWalletDeduction =
-        referralWallet +
-        discountWallet;
+    Math.abs(referralWallet) +
+    Math.abs(discountWallet);
 
     
     
@@ -914,7 +914,10 @@ function updateFinalPackagePrice() {
         '₹ ' + amountAfterWallet
     );
     $('#afterWalletDeduction').text(
-        '₹ ' + totalAfterCoupon
+        '₹ ' + totalWalletDeduction.toLocaleString('en-IN', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })
     );
 
     $('#finalPackagePrice1').text(
@@ -949,6 +952,7 @@ function updateFinalPackagePrice() {
         })
     );
 }
+
 function getAmount(selector) {
 
     const element = $(selector);

@@ -699,8 +699,8 @@
                                 <p class="mb-2 fw-bold blueDiv">Price Based on Travelers</p>
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <p class="mb-1">Adult: <span class="" id=""><?= $replyData['adult_count'] ?></span> x &#8377; <?= number_format($adultDisplayPrice, 2) ?></p>
-                                        <p class="mb-1">Children: <span class="" id=""><?= $replyData['child_count'] ?></span> x &#8377; <?= number_format($childDisplayPrice, 2) ?></p>
+                                        <p class="mb-1">Adult: <span class="" id=""><?= $replyData['adult_count'] ?></span> x &#8377; <?= number_format($replyData['adult_price'], 2) ?></p>
+                                        <p class="mb-1">Children: <span class="" id=""><?= $replyData['child_count'] ?></span> x &#8377; <?= number_format($replyData['child_price'], 2) ?></p>
                                         <p class="mb-1">Infant: <span class="" id=""><?= $replyData['infant_count'] ?></span> x FREE</p>
                                         <p class="mb-1">Extra Mattress (1 x &#8377; <?= $pricing['extra_mattress'] ?>)</p>
                                     </div>
@@ -928,6 +928,7 @@
                                     <div>
                                         <?php
                                         $totalAfterWalletDeduction = (float)$replyData['subtotal']
+                                            - (float)$totalCouponDiscount
                                             - (float)$replyData['referral_wallet_amount']
                                             - (float)$replyData['discount_wallet_amount']
                                             - (float)$replyData['extended_wallet_amount'];
@@ -3433,8 +3434,8 @@
                                 </div>
                                 <div class="col-xl-3 paxCol">
                                     <div class="mb-3">
-                                        <label for="childcount" class="form-label">Children (2-11 yrs)</label>
-                                        <input type="text" class="form-control fw-bold textDarkBlue" id="childcount1" value="<?= $requestData['child_count'] ?>">
+                                        <label for="childCount" class="form-label">Children (2-11 yrs)</label>
+                                        <input type="text" class="form-control fw-bold textDarkBlue" id="childCount1" value="<?= $requestData['child_count'] ?>">
                                     </div>
                                 </div>
                                 <div class="col-xl-3 paxCol">

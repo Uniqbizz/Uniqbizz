@@ -133,7 +133,31 @@
         $adultCount = (int)($tripRequest['adult_count'] ?? 0);
         $childCount = (int)($tripRequest['child_count'] ?? 0);
         $infantCount = (int)($tripRequest['infant_count'] ?? 0);
+        $totalCommissionIncentive = 0;
 
+        foreach ($commissionIncentive as $item) {
+
+            if (
+                ($item['name'] ?? '') !== 'NA' &&
+                ($item['id'] ?? '') !== 'NA'
+            ) {
+                $totalCommissionIncentive +=
+                    abs((float)($item['commission'] ?? 0)) +
+                    abs((float)($item['incentive'] ?? 0));
+            }
+        }
+        $totalAdjustments =
+            abs(floatval($markupCalculation['company_amount'] ?? 0)) +
+            abs(floatval($markupCalculation['coupon_adjustment'] ?? 0)) +
+            abs(floatval($markupCalculation['customer_1_amount'] ?? 0)) +
+            abs(floatval($markupCalculation['customer_2_amount'] ?? 0)) +
+            abs(floatval($markupCalculation['customer_3_amount'] ?? 0)) +
+            abs(floatval($markupCalculation['suspense_amount'] ?? 0));
+        $adultPrice=$markupCalculation['net_price_adult'] + $totalAdjustments + $totalCommissionIncentive;
+        $childPrice=$markupCalculation['net_price_child'] + $totalAdjustments + $totalCommissionIncentive;
+        $adultTotalPrice=$adultPrice*$quickAction['total_adult_count'];
+        $childTotalPrice=$childPrice*$quickAction['total_children_count'];
+        $acTotal=$adultTotalPrice+$childTotalPrice;
         $roomCount = count($rooms);
 
         $mattressCount = 0;
@@ -293,12 +317,12 @@
             ':child_count' => $childCount,
             ':infant_count' => $infantCount,
 
-            ':adult_price' => $markupCalculation['net_price_adult'] ?? 0,
-            ':child_price' => $markupCalculation['net_price_child'] ?? 0,
+            ':adult_price' => $adultPrice ?? 0,
+            ':child_price' => $childPrice ?? 0,
 
-            ':adult_total' => ($quickAction['total_adult_count'] * $markupCalculation['net_price_adult']) ?? 0,
-            ':children_total' => ($quickAction['total_children_count'] * $markupCalculation['net_price_child']) ?? 0,
-            ':subtotal' => $finalQuotationDetails['final_quoted_price'] ?? 0,
+            ':adult_total' => $adultTotalPrice ?? 0,
+            ':children_total' => $childTotalPrice ?? 0,
+            ':subtotal' => $acTotal ?? 0,
 
             ':transport_type' => $quickAction['selected_vehicle'] ?? '',
             ':transport_amt' => 0,

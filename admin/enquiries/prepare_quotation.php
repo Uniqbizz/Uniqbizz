@@ -2305,7 +2305,14 @@
             });
         </script>
         <script>
-
+            // Original room data saved in PHP.
+            const originalPhpRooms = <?= json_encode(
+                $rooms,
+                JSON_HEX_TAG |
+                JSON_HEX_APOS |
+                JSON_HEX_QUOT |
+                JSON_HEX_AMP
+            ) ?>;
             // Price values from PHP
             const perAdultPrice = <?= json_encode((float)($requestData['adult_price'] ?? 0)) ?>;
             const perChildPrice = <?= json_encode((float)($requestData['child_price'] ?? 0)) ?>;
@@ -2325,14 +2332,7 @@
             const gstPercentage = <?= json_encode((float)($gst['gst'] ?? 0)) ?>;
             // validity
             const packValidity = <?= json_encode($validity) ?>;
-            // Original room data saved in PHP.
-            const originalPhpRooms = <?= json_encode(
-                $rooms,
-                JSON_HEX_TAG |
-                JSON_HEX_APOS |
-                JSON_HEX_QUOT |
-                JSON_HEX_AMP
-            ) ?>;
+            
             const savedDiscountDetails = <?= json_encode($savedDiscountDetails) ?>;
             const savedAdditionalDetails = <?= json_encode($savedAdditionalDetails) ?>;
             
@@ -2656,6 +2656,609 @@
                 row.remove();
                 updateEmptyPolicyMessage();
             });
+            // =====================================================
+            // ORIGINAL VALUES FROM PHP-RENDERED INPUTS
+            // =====================================================
+
+            function getOriginalValue(input) {
+
+                // defaultValue contains the original value rendered by PHP.
+                // It does not change when the user edits the field.
+
+                return parseFloat(input.defaultValue) || 0;
+            }
+
+
+            // =====================================================
+            // FORMAT CURRENCY
+            // =====================================================
+
+            function formatAmount(amount) {
+
+                return '₹ ' + Math.abs(amount).toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+            }
+
+
+            // =====================================================
+            // CHECK VALID USER ID FOR PRICING TABLE INPUTS
+            // =====================================================
+
+            function isValidPricingUser(input) {
+
+                const userId = $(input)
+                    .closest('tr')
+                    .find('td')
+                    .eq(2)
+                    .text()
+                    .trim();
+
+                return (
+                    userId !== '' &&
+                    userId.toUpperCase() !== 'NA' &&
+                    userId !== '-'
+                );
+
+            }
+
+
+            // =====================================================
+            // GET PRICING TABLE INPUT LABEL
+            // =====================================================
+
+            function getPricingTableLabel(input) {
+
+                const $input = $(input);
+                const $row = $input.closest('tr');
+
+                const designation = $row.find('td').eq(0).text().trim();
+
+                const columnIndex = $input.closest('td').index();
+
+                const fieldType = columnIndex === 4
+                    ? 'Incentive'
+                    : 'Commission';
+
+                return designation + ' - ' + fieldType;
+
+            }
+
+
+            // =====================================================
+            // GET ALL PRICING CHANGES
+            // =====================================================
+
+            function collectPricingChanges() {
+                const discounts = [];
+                const increases = [];
+
+                let totalDiscount = 0;
+                let totalIncrease = 0;
+
+                // -------------------------------------------------
+                // A. PRICING TABLE INPUTS
+                // -------------------------------------------------
+
+                $('.pricing-markup-input').each(function () {
+
+                    const input = this;
+
+                    // Ignore invalid IDs
+                    if (!isValidPricingUser(input)) {
+                        return;
+                    }
+
+                    const originalValue = getOriginalValue(input);
+                    const currentValue = parseFloat(input.value) || 0;
+
+                    const difference = currentValue - originalValue;
+
+                    const label = getPricingTableLabel(input);
+
+                    // Decrease = Discount
+                    if (difference < -0.005) {
+
+                        const amount = Math.abs(difference);
+
+                        discounts.push({
+                            label: label,
+                            amount: amount
+                        });
+
+                        totalDiscount += amount;
+
+                    }
+
+                    // Increase = Additional Price
+                    else if (difference > 0.005) {
+
+                        increases.push({
+                            label: label,
+                            amount: difference
+                        });
+
+                        totalIncrease += difference;
+
+                    }
+
+                    // Unchanged = Do nothing
+
+                });
+
+
+                // -------------------------------------------------
+                // B. REMAINING PRICING INPUTS
+                // -------------------------------------------------
+
+                const remainingSelectors = [
+                    '#couponAdjustment',
+                    '#companyAmount',
+                    '#suspenseAmount',
+                    '#customer1Amount',
+                    '#customer2Amount',
+                    '#customer3Amount',
+                    '#netPriceAdult',
+                    '#netPriceChild'
+                ];
+
+                $(remainingSelectors.join(', ')).each(function () {
+
+                    const input = this;
+
+                    const inputId = input.id;
+
+                    const originalValue = getOriginalValue(input);
+                    const currentValue = parseFloat(input.value) || 0;
+
+                    const difference = currentValue - originalValue;
+
+                    const label = inputLabels[inputId] || input.name;
+
+                    let adjustmentAmount = difference;
+
+                    // Adult and child prices are per person
+                    if (inputId === 'netPriceAdult') {
+
+                        adjustmentAmount = difference * adultCount;
+
+                    } else if (inputId === 'netPriceChild') {
+
+                        adjustmentAmount = difference * childCount;
+
+                    }
+
+                    // Decrease = Discount
+                    if (adjustmentAmount < -0.005) {
+
+                        const amount = Math.abs(adjustmentAmount);
+
+                        discounts.push({
+                            label: label,
+                            amount: amount
+                        });
+
+                        totalDiscount += amount;
+
+                    }
+
+                    // Increase = Additional Price
+                    else if (adjustmentAmount > 0.005) {
+
+                        increases.push({
+                            label: label,
+                            amount: adjustmentAmount
+                        });
+
+                        totalIncrease += adjustmentAmount;
+
+                    }
+
+                    // Unchanged = Do nothing
+
+                });
+
+
+                return {
+                    discounts: discounts,
+                    increases: increases,
+                    totalDiscount: totalDiscount,
+                    totalIncrease: totalIncrease
+                };
+
+            }
+
+
+            // =====================================================
+            // RENDER DISCOUNTS AND ADDITIONAL PRICES
+            // =====================================================
+
+            function renderPricingChanges() {
+
+                const changes = collectPricingChanges();
+                // Update Adult and Child reference price differences
+                updateReferencePriceDifference('netPriceAdult');
+                updateReferencePriceDifference('netPriceChild');
+                const $discountContainer = $('#discountedAdjustmentRows');
+                const $additionalContainer = $('#additionalAdjustmentRows');
+
+                $discountContainer.empty();
+                $additionalContainer.empty();
+
+
+                // -------------------------------------------------
+                // A. COMBINE SAVED AND NEW ADJUSTMENTS
+                // -------------------------------------------------
+
+                const adjustmentMap = {};
+
+                function addAdjustment(items, type) {
+
+                    // Saved database structure: { details: [], subtotal: 0 }
+                    // New calculated structure: []
+
+                    if (items && !Array.isArray(items) && Array.isArray(items.details)) {
+                        items = items.details;
+                    }
+
+                    if (!Array.isArray(items)) {
+                        return;
+                    }
+
+                    items.forEach(function (item) {
+
+                        // Saved items use title; newly calculated items use label.
+                        const rawLabel = item.label || item.title || '';
+
+                        // Remove existing category suffix before matching.
+                        const label = String(rawLabel)
+                            .replace(/\s*\((Discount|Additional)\)\s*$/i, '')
+                            .trim();
+
+                        if (!label) {
+                            return;
+                        }
+
+                        const key = label.toLowerCase();
+
+                        if (!adjustmentMap[key]) {
+                            adjustmentMap[key] = {
+                                label: label,
+                                amount: 0
+                            };
+                        }
+
+                        const amount = parseFloat(item.amount) || 0;
+
+                        adjustmentMap[key].amount +=
+                            type === 'discount' ? -amount : amount;
+                    });
+                }
+
+
+                // First add saved database adjustments.
+                if (hasReply) {
+                    addAdjustment(savedDiscountDetails, 'discount');
+                    addAdjustment(savedAdditionalDetails, 'additional');
+                }
+
+                // Then add newly calculated changes.
+                addAdjustment(changes.discounts, 'discount');
+                addAdjustment(changes.increases, 'additional');
+
+
+                // -------------------------------------------------
+                // B. DISPLAY UPDATED ADJUSTMENTS
+                // -------------------------------------------------
+
+                Object.values(adjustmentMap).forEach(function (item) {
+
+                    // Ignore zero-value adjustments.
+                    if (Math.abs(item.amount) < 0.005) {
+                        return;
+                    }
+
+                    const isDiscount = item.amount < 0;
+
+                    const $row = $('<div>', {
+                        class: 'd-flex justify-content-between align-items-center w-100 mb-1 js-calculated-adjustment'
+                    });
+
+                    const $label = $('<p>', {
+                        class: isDiscount
+                            ? 'mb-0 text-success'
+                            : 'mb-0 text-danger'
+                    }).text(
+                        item.label + (isDiscount ? ' (Discount)' : ' (Additional)')
+                    );
+
+                    const $amount = $('<p>', {
+                        class: isDiscount
+                            ? 'mb-0 text-end text-success'
+                            : 'mb-0 text-end text-danger'
+                    }).text(
+                        (isDiscount ? '- ' : '+ ') +
+                        formatAmount(Math.abs(item.amount))
+                    );
+
+                    $row.append($label, $amount);
+
+                    if (isDiscount) {
+                        $discountContainer.append($row);
+                    } else {
+                        $additionalContainer.append($row);
+                    }
+                });
+
+
+                
+                // -------------------------------------------------
+                // C. UPDATE SUBTOTALS
+                // -------------------------------------------------
+
+                // ==========================================
+                // CUSTOMER APPLIED DISCOUNTS
+                // ==========================================
+
+                const totalCustomerDiscount = updateCustomerDiscountedSubtotal();
+
+                // ==========================================
+                // MARKUP DISCOUNTS AND ADDITIONS
+                // Calculate from the combined saved + new adjustments
+                // ==========================================
+
+                let discountedSubtotal = 0;
+                let additionalSubtotal = 0;
+
+                Object.values(adjustmentMap).forEach(function (item) {
+
+                    if (item.amount < -0.005) {
+
+                        discountedSubtotal += Math.abs(item.amount);
+
+                    } else if (item.amount > 0.005) {
+
+                        additionalSubtotal += item.amount;
+
+                    }
+
+                });
+
+                // Update Discount Subtotal
+                $('#discountedPriceDetails #discountedSubTotal')
+                    .text(formatAmount(discountedSubtotal));
+
+                // Update Additional Subtotal
+                $('#additionalPriceDetails #additionalSubTotal')
+                    .text(formatAmount(additionalSubtotal));
+
+                // -------------------------------------------------
+                // D. LOG RESULTS
+                // -------------------------------------------------
+
+                // console.log('Discounts:', changes.discounts);
+                // console.log('Additional Prices:', changes.increases);
+
+                // console.log('Total Discount:', changes.totalDiscount);
+                // console.log('Total Increase:', changes.totalIncrease);
+
+                // console.log(
+                //     'Final Subtotal:',
+                //     originalSubtotal -
+                //     changes.totalDiscount +
+                //     changes.totalIncrease
+                // );
+                // -------------------------------------------------
+                // E. UPDATE FINAL QUOTED PRICE
+                // -------------------------------------------------
+
+                // ==========================================
+                // FINAL QUOTED PRICE
+                // ==========================================
+
+                // Start with the sum of the currently entered pricing values.
+                // Subtract all discounts and add all increases.
+                const finalPrice = hasReply
+                    ? originalSubtotal - changes.totalDiscount + changes.totalIncrease
+                    : originalSubtotal - totalCustomerDiscount
+                        - changes.totalDiscount + changes.totalIncrease;
+
+                // If you have a separate base package price calculated from
+                // the pricing input fields, add it here.
+
+                // Calculate total adjustment including saved reply adjustments
+                const netAdjustment = additionalSubtotal - discountedSubtotal;
+
+                let adjustmentLabel = '';
+                let adjustmentClass = '';
+
+                const isSameAdjustment =
+                    Math.abs(discountedSubtotal - additionalSubtotal) < 0.005;
+
+                if (isSameAdjustment) {
+
+                    if (
+                        discountedSubtotal < 0.005 &&
+                        additionalSubtotal < 0.005
+                    ) {
+                        adjustmentLabel = 'No Adjustments';
+                    } else {
+                        adjustmentLabel = 'No Net Price Change';
+                    }
+
+                    adjustmentClass = 'text-dark';
+
+                } else if (netAdjustment < 0) {
+
+                    adjustmentLabel = 'Discounted Amount';
+                    adjustmentClass = 'text-success';
+
+                } else {
+
+                    adjustmentLabel = 'Additional Amount';
+                    adjustmentClass = 'text-danger';
+                }
+
+                // Update label
+                $('#netPriceAdjustmentLabel')
+                    .text(adjustmentLabel)
+                    .removeClass('text-success text-danger text-dark')
+                    .addClass(adjustmentClass);
+
+                // Update adjustment amount
+                $('#netPriceAdjustment')
+                    .text(
+                        (netAdjustment > 0.005 ? '+ ' : netAdjustment < -0.005 ? '- ' : '') +
+                        formatAmount(Math.abs(netAdjustment))
+                    )
+                    .removeClass('text-success text-danger text-dark')
+                    .addClass(adjustmentClass);
+
+                // Update final quoted price
+                $('#finalQuotedPrice').text(formatAmount(finalPrice));
+                
+                // -------------------------------------------------
+                // F. UPDATE TOTAL ESTIMATED PRICE
+                // -------------------------------------------------
+
+                // Convenience Fee = 1% of Final Quoted Price
+                let convenienceFee = finalPrice * 0.01;
+
+                // GST percentage from PHP
+                const gstPercentage = <?= json_encode((float)($requestData['gst_percentage'] ?? 0)) ?>;
+
+                // GST calculation (1%? Use the actual GST percentage)
+                let gstAmount = finalPrice * (gstPercentage / 100);
+
+                // Total Estimated Price
+                let totalEstimatedPrice = finalPrice + convenienceFee + gstAmount;
+                // Debug logs
+                console.log("========== PRICE CALCULATION ==========");
+                console.log("Final Price:", finalPrice);
+                console.log("GST Percentage:", gstPercentage);
+                console.log("GST Amount:", gstAmount);
+                console.log("Convenience Fee:", convenienceFee);
+                console.log("Total Estimated Price:", totalEstimatedPrice);
+                console.log("=======================================");
+                // Update Convenience Fee
+                $('#quoteConvenienceFee').text(formatAmount(convenienceFee));
+
+                // Update GST
+                $('#quoteGstAmount').text(formatAmount(gstAmount));
+
+                // Update Total Estimated Price
+                $('#estimatedFinalPackagePrice').text(formatAmount(totalEstimatedPrice));
+
+            }
+            
+            function updateReferencePriceDifference(inputId) {
+
+                const $input = $('#' + inputId);
+
+                if (!$input.length) {
+                    console.warn('Input not found:', inputId);
+                    return;
+                }
+
+                // Get original price from PHP markup data when reply exists.
+                // Otherwise, retain the original input defaultValue behavior.
+                let originalPrice;
+
+                if (hasReply) {
+
+                    originalPrice = inputId === 'netPriceAdult'
+                        ? originalAdultPrice
+                        : originalChildPrice;
+
+                } else {
+
+                    originalPrice = getOriginalValue($input[0]);
+
+                }
+
+                const currentPrice = parseFloat($input.val()) || 0;
+
+                // Per-person price difference
+                const difference = currentPrice - originalPrice;
+
+                const $originalText = $('#' + inputId + '_original');
+                const $differenceText = $('#' + inputId + '_difference');
+
+                $originalText.text(
+                    'Original Price: ' + formatAmount(originalPrice)
+                );
+
+                if (!$differenceText.length) {
+                    console.warn('Difference display element not found:', inputId + '_difference');
+                    return;
+                }
+
+                if (Math.abs(difference) < 0.005) {
+
+                    $differenceText
+                        .removeClass('text-success text-danger')
+                        .addClass('text-muted')
+                        .text('No Price Change');
+
+                } else if (difference < 0) {
+
+                    $differenceText
+                        .removeClass('text-danger text-muted')
+                        .addClass('text-success')
+                        .text('Decreased by ' + formatAmount(Math.abs(difference)));
+
+                } else {
+
+                    $differenceText
+                        .removeClass('text-success text-muted')
+                        .addClass('text-danger')
+                        .text('Increased by ' + formatAmount(difference));
+                }
+            }
+            // =====================================================
+            // UPDATE CUSTOMER APPLIED DISCOUNT SUBTOTAL
+            // =====================================================
+
+            function updateCustomerDiscountedSubtotal() {
+                function getDiscountAmount(selector) {
+                    const $element = $(selector);
+
+                    if (!$element.length) {
+                        return 0;
+                    }
+
+                    return parseFloat($element.text().replace(/[^\d.]/g, '')) || 0;
+                }
+
+                const couponDiscount = getDiscountAmount('#CustCouponDiscount');
+                const referenceWallet = getDiscountAmount('#CustReferenceWallet');
+                const discountWallet = getDiscountAmount('#CustDiscountWallet');
+
+                const totalCustomerDiscount =
+                    couponDiscount + referenceWallet + discountWallet;
+
+                $('#CustDiscountedPriceSubTotal').text(
+                    formatAmount(totalCustomerDiscount)
+                );
+                $('#CustCouponDiscount').text(
+                    formatAmount(totalCustomerDiscount)
+                );
+
+                return totalCustomerDiscount;
+            }
+            function updateCancellationCharges() {
+                cancellationCharges = {
+                    percentage_1: parseFloat($('#cancellationPercentage1').val()) || 0,
+                    percentage_2: parseFloat($('#cancellationPercentage2').val()) || 0,
+                    percentage_3: parseFloat($('#cancellationPercentage3').val()) || 0,
+                    percentage_4: parseFloat($('#cancellationPercentage4').val()) || 0,
+                    percentage_5: parseFloat($('#cancellationPercentage5').val()) || 0
+                };
+
+                // console.log('Updated cancellation charges:', cancellationCharges);
+            }
             $(document).ready(function () {
                 // ==========================================
                 // LOAD SAVED AND AVAILABLE COUPONS
@@ -2843,595 +3446,6 @@
                 restrictTimeInput(document.getElementById('ubxMinute'), 0, 59);
                 restrictTimeInput(document.getElementById('ubxSecond'), 0, 59);
 
-                
-
-
-                // =====================================================
-                // ORIGINAL VALUES FROM PHP-RENDERED INPUTS
-                // =====================================================
-
-                function getOriginalValue(input) {
-
-                    // defaultValue contains the original value rendered by PHP.
-                    // It does not change when the user edits the field.
-
-                    return parseFloat(input.defaultValue) || 0;
-                }
-
-
-                // =====================================================
-                // FORMAT CURRENCY
-                // =====================================================
-
-                function formatAmount(amount) {
-
-                    return '₹ ' + Math.abs(amount).toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-
-                }
-
-
-                // =====================================================
-                // CHECK VALID USER ID FOR PRICING TABLE INPUTS
-                // =====================================================
-
-                function isValidPricingUser(input) {
-
-                    const userId = $(input)
-                        .closest('tr')
-                        .find('td')
-                        .eq(2)
-                        .text()
-                        .trim();
-
-                    return (
-                        userId !== '' &&
-                        userId.toUpperCase() !== 'NA' &&
-                        userId !== '-'
-                    );
-
-                }
-
-
-                // =====================================================
-                // GET PRICING TABLE INPUT LABEL
-                // =====================================================
-
-                function getPricingTableLabel(input) {
-
-                    const $input = $(input);
-                    const $row = $input.closest('tr');
-
-                    const designation = $row.find('td').eq(0).text().trim();
-
-                    const columnIndex = $input.closest('td').index();
-
-                    const fieldType = columnIndex === 4
-                        ? 'Incentive'
-                        : 'Commission';
-
-                    return designation + ' - ' + fieldType;
-
-                }
-
-
-                // =====================================================
-                // GET ALL PRICING CHANGES
-                // =====================================================
-
-                function collectPricingChanges() {
-                    const discounts = [];
-                    const increases = [];
-
-                    let totalDiscount = 0;
-                    let totalIncrease = 0;
-
-                    // -------------------------------------------------
-                    // A. PRICING TABLE INPUTS
-                    // -------------------------------------------------
-
-                    $('.pricing-markup-input').each(function () {
-
-                        const input = this;
-
-                        // Ignore invalid IDs
-                        if (!isValidPricingUser(input)) {
-                            return;
-                        }
-
-                        const originalValue = getOriginalValue(input);
-                        const currentValue = parseFloat(input.value) || 0;
-
-                        const difference = currentValue - originalValue;
-
-                        const label = getPricingTableLabel(input);
-
-                        // Decrease = Discount
-                        if (difference < -0.005) {
-
-                            const amount = Math.abs(difference);
-
-                            discounts.push({
-                                label: label,
-                                amount: amount
-                            });
-
-                            totalDiscount += amount;
-
-                        }
-
-                        // Increase = Additional Price
-                        else if (difference > 0.005) {
-
-                            increases.push({
-                                label: label,
-                                amount: difference
-                            });
-
-                            totalIncrease += difference;
-
-                        }
-
-                        // Unchanged = Do nothing
-
-                    });
-
-
-                    // -------------------------------------------------
-                    // B. REMAINING PRICING INPUTS
-                    // -------------------------------------------------
-
-                    const remainingSelectors = [
-                        '#couponAdjustment',
-                        '#companyAmount',
-                        '#suspenseAmount',
-                        '#customer1Amount',
-                        '#customer2Amount',
-                        '#customer3Amount',
-                        '#netPriceAdult',
-                        '#netPriceChild'
-                    ];
-
-                    $(remainingSelectors.join(', ')).each(function () {
-
-                        const input = this;
-
-                        const inputId = input.id;
-
-                        const originalValue = getOriginalValue(input);
-                        const currentValue = parseFloat(input.value) || 0;
-
-                        const difference = currentValue - originalValue;
-
-                        const label = inputLabels[inputId] || input.name;
-
-                        let adjustmentAmount = difference;
-
-                        // Adult and child prices are per person
-                        if (inputId === 'netPriceAdult') {
-
-                            adjustmentAmount = difference * adultCount;
-
-                        } else if (inputId === 'netPriceChild') {
-
-                            adjustmentAmount = difference * childCount;
-
-                        }
-
-                        // Decrease = Discount
-                        if (adjustmentAmount < -0.005) {
-
-                            const amount = Math.abs(adjustmentAmount);
-
-                            discounts.push({
-                                label: label,
-                                amount: amount
-                            });
-
-                            totalDiscount += amount;
-
-                        }
-
-                        // Increase = Additional Price
-                        else if (adjustmentAmount > 0.005) {
-
-                            increases.push({
-                                label: label,
-                                amount: adjustmentAmount
-                            });
-
-                            totalIncrease += adjustmentAmount;
-
-                        }
-
-                        // Unchanged = Do nothing
-
-                    });
-
-
-                    return {
-                        discounts: discounts,
-                        increases: increases,
-                        totalDiscount: totalDiscount,
-                        totalIncrease: totalIncrease
-                    };
-
-                }
-
-
-                // =====================================================
-                // RENDER DISCOUNTS AND ADDITIONAL PRICES
-                // =====================================================
-
-                function renderPricingChanges() {
-
-                    const changes = collectPricingChanges();
-                    // Update Adult and Child reference price differences
-                    updateReferencePriceDifference('netPriceAdult');
-                    updateReferencePriceDifference('netPriceChild');
-                    const $discountContainer = $('#discountedAdjustmentRows');
-                    const $additionalContainer = $('#additionalAdjustmentRows');
-
-                    $discountContainer.empty();
-                    $additionalContainer.empty();
-
-
-                    // -------------------------------------------------
-                    // A. COMBINE SAVED AND NEW ADJUSTMENTS
-                    // -------------------------------------------------
-
-                    const adjustmentMap = {};
-
-                    function addAdjustment(items, type) {
-
-                        // Saved database structure: { details: [], subtotal: 0 }
-                        // New calculated structure: []
-
-                        if (items && !Array.isArray(items) && Array.isArray(items.details)) {
-                            items = items.details;
-                        }
-
-                        if (!Array.isArray(items)) {
-                            return;
-                        }
-
-                        items.forEach(function (item) {
-
-                            // Saved items use title; newly calculated items use label.
-                            const rawLabel = item.label || item.title || '';
-
-                            // Remove existing category suffix before matching.
-                            const label = String(rawLabel)
-                                .replace(/\s*\((Discount|Additional)\)\s*$/i, '')
-                                .trim();
-
-                            if (!label) {
-                                return;
-                            }
-
-                            const key = label.toLowerCase();
-
-                            if (!adjustmentMap[key]) {
-                                adjustmentMap[key] = {
-                                    label: label,
-                                    amount: 0
-                                };
-                            }
-
-                            const amount = parseFloat(item.amount) || 0;
-
-                            adjustmentMap[key].amount +=
-                                type === 'discount' ? -amount : amount;
-                        });
-                    }
-
-
-                    // First add saved database adjustments.
-                    if (hasReply) {
-                        addAdjustment(savedDiscountDetails, 'discount');
-                        addAdjustment(savedAdditionalDetails, 'additional');
-                    }
-
-                    // Then add newly calculated changes.
-                    addAdjustment(changes.discounts, 'discount');
-                    addAdjustment(changes.increases, 'additional');
-
-
-                    // -------------------------------------------------
-                    // B. DISPLAY UPDATED ADJUSTMENTS
-                    // -------------------------------------------------
-
-                    Object.values(adjustmentMap).forEach(function (item) {
-
-                        // Ignore zero-value adjustments.
-                        if (Math.abs(item.amount) < 0.005) {
-                            return;
-                        }
-
-                        const isDiscount = item.amount < 0;
-
-                        const $row = $('<div>', {
-                            class: 'd-flex justify-content-between align-items-center w-100 mb-1 js-calculated-adjustment'
-                        });
-
-                        const $label = $('<p>', {
-                            class: isDiscount
-                                ? 'mb-0 text-success'
-                                : 'mb-0 text-danger'
-                        }).text(
-                            item.label + (isDiscount ? ' (Discount)' : ' (Additional)')
-                        );
-
-                        const $amount = $('<p>', {
-                            class: isDiscount
-                                ? 'mb-0 text-end text-success'
-                                : 'mb-0 text-end text-danger'
-                        }).text(
-                            (isDiscount ? '- ' : '+ ') +
-                            formatAmount(Math.abs(item.amount))
-                        );
-
-                        $row.append($label, $amount);
-
-                        if (isDiscount) {
-                            $discountContainer.append($row);
-                        } else {
-                            $additionalContainer.append($row);
-                        }
-                    });
-
-
-                   
-                    // -------------------------------------------------
-                    // C. UPDATE SUBTOTALS
-                    // -------------------------------------------------
-
-                    // ==========================================
-                    // CUSTOMER APPLIED DISCOUNTS
-                    // ==========================================
-
-                    const totalCustomerDiscount = updateCustomerDiscountedSubtotal();
-
-                    // ==========================================
-                    // MARKUP DISCOUNTS AND ADDITIONS
-                    // Calculate from the combined saved + new adjustments
-                    // ==========================================
-
-                    let discountedSubtotal = 0;
-                    let additionalSubtotal = 0;
-
-                    Object.values(adjustmentMap).forEach(function (item) {
-
-                        if (item.amount < -0.005) {
-
-                            discountedSubtotal += Math.abs(item.amount);
-
-                        } else if (item.amount > 0.005) {
-
-                            additionalSubtotal += item.amount;
-
-                        }
-
-                    });
-
-                    // Update Discount Subtotal
-                    $('#discountedPriceDetails #discountedSubTotal')
-                        .text(formatAmount(discountedSubtotal));
-
-                    // Update Additional Subtotal
-                    $('#additionalPriceDetails #additionalSubTotal')
-                        .text(formatAmount(additionalSubtotal));
-
-                    // -------------------------------------------------
-                    // D. LOG RESULTS
-                    // -------------------------------------------------
-
-                    // console.log('Discounts:', changes.discounts);
-                    // console.log('Additional Prices:', changes.increases);
-
-                    // console.log('Total Discount:', changes.totalDiscount);
-                    // console.log('Total Increase:', changes.totalIncrease);
-
-                    // console.log(
-                    //     'Final Subtotal:',
-                    //     originalSubtotal -
-                    //     changes.totalDiscount +
-                    //     changes.totalIncrease
-                    // );
-                    // -------------------------------------------------
-                    // E. UPDATE FINAL QUOTED PRICE
-                    // -------------------------------------------------
-
-                    // ==========================================
-                    // FINAL QUOTED PRICE
-                    // ==========================================
-
-                    // Start with the sum of the currently entered pricing values.
-                    // Subtract all discounts and add all increases.
-                    const finalPrice = hasReply
-                        ? originalSubtotal - changes.totalDiscount + changes.totalIncrease
-                        : originalSubtotal - totalCustomerDiscount
-                            - changes.totalDiscount + changes.totalIncrease;
-
-                    // If you have a separate base package price calculated from
-                    // the pricing input fields, add it here.
-
-                    // Calculate total adjustment including saved reply adjustments
-                    const netAdjustment = additionalSubtotal - discountedSubtotal;
-
-                    let adjustmentLabel = '';
-                    let adjustmentClass = '';
-
-                    const isSameAdjustment =
-                        Math.abs(discountedSubtotal - additionalSubtotal) < 0.005;
-
-                    if (isSameAdjustment) {
-
-                        if (
-                            discountedSubtotal < 0.005 &&
-                            additionalSubtotal < 0.005
-                        ) {
-                            adjustmentLabel = 'No Adjustments';
-                        } else {
-                            adjustmentLabel = 'No Net Price Change';
-                        }
-
-                        adjustmentClass = 'text-dark';
-
-                    } else if (netAdjustment < 0) {
-
-                        adjustmentLabel = 'Discounted Amount';
-                        adjustmentClass = 'text-success';
-
-                    } else {
-
-                        adjustmentLabel = 'Additional Amount';
-                        adjustmentClass = 'text-danger';
-                    }
-
-                    // Update label
-                    $('#netPriceAdjustmentLabel')
-                        .text(adjustmentLabel)
-                        .removeClass('text-success text-danger text-dark')
-                        .addClass(adjustmentClass);
-
-                    // Update adjustment amount
-                    $('#netPriceAdjustment')
-                        .text(
-                            (netAdjustment > 0.005 ? '+ ' : netAdjustment < -0.005 ? '- ' : '') +
-                            formatAmount(Math.abs(netAdjustment))
-                        )
-                        .removeClass('text-success text-danger text-dark')
-                        .addClass(adjustmentClass);
-
-                    // Update final quoted price
-                    $('#finalQuotedPrice').text(formatAmount(finalPrice));
-                    
-                    // -------------------------------------------------
-                    // F. UPDATE TOTAL ESTIMATED PRICE
-                    // -------------------------------------------------
-
-                    // Convenience Fee = 1% of Final Quoted Price
-                    const convenienceFee = finalPrice * 0.01;
-
-                    // GST percentage from PHP
-                    const gstPercentage = <?= json_encode((float)($requestData['gst_percentage'] ?? 0)) ?>;
-
-                    // GST calculation (1%? Use the actual GST percentage)
-                    const gstAmount = finalPrice * (gstPercentage / 100);
-
-                    // Total Estimated Price
-                    const totalEstimatedPrice = finalPrice + convenienceFee + gstAmount;
-
-                    // Update Convenience Fee
-                    $('#convenienceFee').text(formatAmount(convenienceFee));
-
-                    // Update GST
-                    $('#gstAmount').text(formatAmount(gstAmount));
-
-                    // Update Total Estimated Price
-                    $('#estimatedFinalPackagePrice').text(formatAmount(totalEstimatedPrice));
-
-                }
-                
-                function updateReferencePriceDifference(inputId) {
-
-                    const $input = $('#' + inputId);
-
-                    if (!$input.length) {
-                        console.warn('Input not found:', inputId);
-                        return;
-                    }
-
-                    // Get original price from PHP markup data when reply exists.
-                    // Otherwise, retain the original input defaultValue behavior.
-                    let originalPrice;
-
-                    if (hasReply) {
-
-                        originalPrice = inputId === 'netPriceAdult'
-                            ? originalAdultPrice
-                            : originalChildPrice;
-
-                    } else {
-
-                        originalPrice = getOriginalValue($input[0]);
-
-                    }
-
-                    const currentPrice = parseFloat($input.val()) || 0;
-
-                    // Per-person price difference
-                    const difference = currentPrice - originalPrice;
-
-                    const $originalText = $('#' + inputId + '_original');
-                    const $differenceText = $('#' + inputId + '_difference');
-
-                    $originalText.text(
-                        'Original Price: ' + formatAmount(originalPrice)
-                    );
-
-                    if (!$differenceText.length) {
-                        console.warn('Difference display element not found:', inputId + '_difference');
-                        return;
-                    }
-
-                    if (Math.abs(difference) < 0.005) {
-
-                        $differenceText
-                            .removeClass('text-success text-danger')
-                            .addClass('text-muted')
-                            .text('No Price Change');
-
-                    } else if (difference < 0) {
-
-                        $differenceText
-                            .removeClass('text-danger text-muted')
-                            .addClass('text-success')
-                            .text('Decreased by ' + formatAmount(Math.abs(difference)));
-
-                    } else {
-
-                        $differenceText
-                            .removeClass('text-success text-muted')
-                            .addClass('text-danger')
-                            .text('Increased by ' + formatAmount(difference));
-                    }
-                }
-                // =====================================================
-                // UPDATE CUSTOMER APPLIED DISCOUNT SUBTOTAL
-                // =====================================================
-
-                function updateCustomerDiscountedSubtotal() {
-                    function getDiscountAmount(selector) {
-                        const $element = $(selector);
-
-                        if (!$element.length) {
-                            return 0;
-                        }
-
-                        return parseFloat($element.text().replace(/[^\d.]/g, '')) || 0;
-                    }
-
-                    const couponDiscount = getDiscountAmount('#CustCouponDiscount');
-                    const referenceWallet = getDiscountAmount('#CustReferenceWallet');
-                    const discountWallet = getDiscountAmount('#CustDiscountWallet');
-
-                    const totalCustomerDiscount =
-                        couponDiscount + referenceWallet + discountWallet;
-
-                    $('#CustDiscountedPriceSubTotal').text(
-                        formatAmount(totalCustomerDiscount)
-                    );
-                    $('#CustCouponDiscount').text(
-                        formatAmount(totalCustomerDiscount)
-                    );
-
-                    return totalCustomerDiscount;
-                }
-
                 // =====================================================
                 // EVENT 1: PRICING TABLE INPUTS
                 // =====================================================
@@ -3501,17 +3515,7 @@
                 // ==========================================
 
 
-                function updateCancellationCharges() {
-                    cancellationCharges = {
-                        percentage_1: parseFloat($('#cancellationPercentage1').val()) || 0,
-                        percentage_2: parseFloat($('#cancellationPercentage2').val()) || 0,
-                        percentage_3: parseFloat($('#cancellationPercentage3').val()) || 0,
-                        percentage_4: parseFloat($('#cancellationPercentage4').val()) || 0,
-                        percentage_5: parseFloat($('#cancellationPercentage5').val()) || 0
-                    };
-
-                    // console.log('Updated cancellation charges:', cancellationCharges);
-                }
+                
 
                 // Listen for changes
                 $(document).on(
@@ -3580,7 +3584,7 @@
                             drop: $('#exampleFormControlInput51').val(),
                             old_drop: <?= $olddrop !== '' ? "$('#dropOldValue1').text()" : "''" ?>,
                             adult_count: $('#adultCount1').val(),
-                            child_count: $('#childcount1').val(),
+                            child_count: $('#childCount1').val(),
                             infant_count: $('#infantCount1').val(),
                             total_count: $('#exampleFormControlInput91').val(),
                             // Latest modified room configuration
@@ -4191,11 +4195,11 @@
                 const appliedReferralWallet = parseFloat($('#appliedReferralWallet').val()) || 0;
                 const appliedDiscountWallet = parseFloat($('#appliedDiscountWallet').val()) || 0;
                 const appliedExtendedWallet = parseFloat($('#appliedExtendedWallet').val()) || 0;
-
+                
                 const totalWalletDeduction =
-                    appliedReferralWallet +
-                    appliedDiscountWallet +
-                    appliedExtendedWallet;
+                    Math.abs(appliedReferralWallet) +
+                    Math.abs(appliedDiscountWallet) +
+                    Math.abs(appliedExtendedWallet);
 
                 const afterWalletDeduction = Math.trunc(
                     Math.max(0, totalAfterCouponDiscount - totalWalletDeduction) * 100
@@ -4207,20 +4211,27 @@
                         maximumFractionDigits: 2
                     })
                 );
-                $('#finalQuotedPrice').text(
-                    '₹ ' + afterWalletDeduction.toLocaleString('en-IN', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    })
-                );
+                // renderPricingChanges();
+                // $('#finalQuotedPrice').text(
+                //     '₹ ' + afterWalletDeduction.toLocaleString('en-IN', {
+                //         minimumFractionDigits: 2,
+                //         maximumFractionDigits: 2
+                //     })
+                // );
                 
             }
 
             // Listen for changes
-            $('#appliedReferralWallet, #appliedDiscountWallet, #appliedExtendedWallet, #totalAfterCouponDiscount')
-                .on('input change', updateAfterWalletDeduction);
-        </script>
-        <script>
+            $(document).on(
+                'input change',
+                '#appliedReferralWallet, #appliedDiscountWallet, #appliedExtendedWallet',
+                function () {
+
+                    updateCustomerDiscountedSubtotal();
+
+                    renderPricingChanges();
+                }
+            );
             const savedCoupons = [
                 ...(
                     <?= json_encode(
@@ -4983,7 +4994,7 @@
 
                 updateCustomerDiscountedSubtotal();
 
-                // renderPricingChanges();
+                renderPricingChanges();
 
             });
             // ==========================================
@@ -5035,7 +5046,7 @@
             function watchCustomerWalletChanges() {
 
                 const walletElements = document.querySelectorAll(
-                    '#CustReferenceWallet, #CustDiscountWallet','#CustExtendedtWallet'
+                    '#CustReferenceWallet, #CustDiscountWallet, #CustExtendedtWallet'
                 );
 
                 if (!walletElements.length) {

@@ -121,7 +121,7 @@
                             </div>
                             <div class="all-count-list">
                                 <div class="details">
-                                    <h4 class="count">150</h4>
+                                    <h4 class="count">5000+</h4>
                                     <p class="pera">Happy Traveler</p>
                                 </div>
                                 <div class="divider"></div>
@@ -131,7 +131,7 @@
                                 </div>
                                 <div class="divider"></div>
                                 <div class="details">
-                                    <h4 class="count">50+</h4>
+                                    <h4 class="count">1400</h4>
                                     <p class="pera">Tour Completed</p>
                                 </div>
                             </div>
