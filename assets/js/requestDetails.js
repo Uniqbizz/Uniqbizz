@@ -911,10 +911,10 @@ function updateFinalPackagePrice() {
         '₹ ' + formattedFinalAmount
     );
     $('#totalAfterCouponDiscount').text(
-        '₹ ' + amountAfterWallet
+        '₹ ' + totalAfterCoupon
     );
     $('#afterWalletDeduction').text(
-        '₹ ' + totalWalletDeduction.toLocaleString('en-IN', {
+        '₹ ' + amountAfterWallet.toLocaleString('en-IN', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         })
