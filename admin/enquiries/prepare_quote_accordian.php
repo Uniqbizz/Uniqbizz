@@ -2910,11 +2910,11 @@
                                                 </p>
 
                                                 <p class="fontSize10 discountGreen fw-bold text-end mb-0">
-                                                    - ₹ <?= number_format((float)$requestData['coupon_discount'], 2) ?>
+                                                    - ₹ <?= number_format((float)$replyData['coupon_discount'], 2) ?>
                                                 </p>
                                             </div>
 
-                                            <?php if ((float)$requestData['referral_wallet_amount'] != 0) { ?>
+                                            <?php if ((float)$replyData['referral_wallet_amount'] != 0) { ?>
                                                 <div class="d-flex justify-content-between align-items-center px-3 pb-2">
                                                     <p class="fontSize10 discountGreen fw-bold mb-0">
                                                         <i class="ri-wallet-3-line"></i>
@@ -2922,12 +2922,12 @@
                                                     </p>
 
                                                     <p class="fontSize10 discountGreen fw-bold text-end mb-0">
-                                                        - ₹ <?= number_format((float)$requestData['referral_wallet_amount'], 2) ?>
+                                                        - ₹ <?= number_format((float)$replyData['referral_wallet_amount'], 2) ?>
                                                     </p>
                                                 </div>
                                             <?php } ?>
 
-                                            <?php if ((float)$requestData['discount_wallet_amount'] != 0) { ?>
+                                            <?php if ((float)$replyData['discount_wallet_amount'] != 0) { ?>
                                                 <div class="d-flex justify-content-between align-items-center px-3 pb-2">
                                                     <p class="fontSize10 discountGreen fw-bold mb-0">
                                                         <i class="ri-wallet-3-line"></i>
@@ -2935,7 +2935,7 @@
                                                     </p>
 
                                                     <p class="fontSize10 discountGreen fw-bold text-end mb-0">
-                                                        - ₹ <?= number_format((float)$requestData['discount_wallet_amount'], 2) ?>
+                                                        - ₹ <?= number_format((float)$replyData['discount_wallet_amount'], 2) ?>
                                                     </p>
                                                 </div>
                                             <?php } ?>
@@ -4527,7 +4527,7 @@
 
                                                     $description = $day['day_details'] ?? '';
                                                     $mealPlan = $day['meal_plan'] ?? '';
-                                                    $dayTransport = $day['day_transport'] ?? '';
+                                                    $dayTransport = $day['day_transport'] ?? $day['day_tansport'] ??'';
                                                     $stay = $day['stay'] ?? '';
                                             ?>
                                                 <div class="timeline-number">
@@ -6103,11 +6103,14 @@
                                             $discountSubtotal = (float)($requestDetailsRevisedQuote['cust_dis_details_total'] ?? 0);
 
                                             $custReferralWallet = (float)(
-                                                    $requestData['referral_wallet_amount'] ?? 0
+                                                    $latestReply['referral_wallet_amount'] ?? 0
                                                 );
 
                                             $custDiscountWallet = (float)(
-                                                    $requestData['discount_wallet_amount'] ?? 0
+                                                    $latestReply['discount_wallet_amount'] ?? 0
+                                                );
+                                            $custExtenededWallet = (float)(
+                                                    $latestReply['extended_wallet_amount'] ?? 0
                                                 );
                                             
                                             ?>
@@ -6124,7 +6127,7 @@
                                             </p>
 
                                             <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustCouponDiscount">
-                                                - ₹ <?= number_format((float)($requestData['coupon_discount'] ?? 0), 2) ?>
+                                                - ₹ <?= number_format((float)($latestReply['coupon_discount'] ?? 0), 2) ?>
                                             </p>
                                         </div>
                                         
@@ -6139,7 +6142,7 @@
                                             </p>
 
                                             <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustReferenceWallet">
-                                                - ₹ <?= number_format((float)$requestData['referral_wallet_amount'], 2, '.', '') ?>
+                                                - ₹ <?= number_format((float)$latestReply['referral_wallet_amount'], 2, '.', '') ?>
                                             </p>
                                         </div>
 
@@ -6155,6 +6158,20 @@
 
                                             <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustDiscountWallet">
                                                 - ₹ <?= number_format($custDiscountWallet, 2) ?>
+                                            </p>
+                                        </div>
+                                        <div
+                                            class="d-flex justify-content-between align-items-center px-3 pb-2"
+                                            id="CustExtenededWalletRow"
+                                            style="<?= $custExtendedWallet == 0 ? 'display:none !important;' : '' ?>"
+                                        >
+                                            <p class="fontSize10 discountGreen fw-bold mb-0">
+                                                <i class="ri-wallet-3-line"></i>
+                                                Exteneded Wallet
+                                            </p>
+
+                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustExtendedWallet">
+                                                - ₹ <?= number_format($custExtendedWallet, 2) ?>
                                             </p>
                                         </div>
 

@@ -1873,12 +1873,97 @@
                                 'label' => 'Awaiting Your Response'
                             ]
                         ];
+                        // ==========================================
+                        // CHECK CUSTOMER RESPONSE FOR THIS QUOTATION
+                        // ==========================================
 
+                        $existingCustomerReply = null;
+                        $existingCustomerMembers = [];
+
+                        $hasCustomerReplied = false;
+
+                        try {
+
+                            $stmt = $conn->prepare("
+                                SELECT
+                                    id,
+                                    request_id,
+                                    package_id,
+                                    reply_id,
+                                    title,
+                                    message,
+                                    status,
+                                    uploaded_on
+                                FROM request_details_customer_reply
+                                WHERE request_id = :request_id
+                                AND package_id = :package_id
+                                AND reply_id = :reply_id
+                                ORDER BY id DESC
+                                LIMIT 1
+                            ");
+
+                            $stmt->execute([
+                                ':request_id' => $request_id,
+                                ':package_id' => $package_id,
+                                ':reply_id'   => $reply_id
+                            ]);
+
+                            $existingCustomerReply = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                            $hasCustomerReplied = !empty($existingCustomerReply);
+                            ;
+                            $statusMap = [
+                                1 => 'approved',
+                                0 => 'rejected',
+                                2 => 'change_request'
+                            ];
+
+                            $customerResponseStatus =
+                                $statusMap[(int)$existingCustomerReply['status']] ?? 'change_request';
+                            // ==========================================
+                            // FETCH SUBMITTED TRAVELLER DETAILS
+                            // ==========================================
+
+                            if (
+                                $hasCustomerReplied &&
+                                (int)$existingCustomerReply['status'] === 1
+                            ) {
+
+                                $memberStmt = $conn->prepare("
+                                    SELECT
+                                        id,
+                                        member_type,
+                                        name,
+                                        age,
+                                        gender
+                                    FROM request_details_member_details
+                                    WHERE request_id = :request_id
+                                    AND package_id = :package_id
+                                    AND reply_id = :customer_reply_id
+                                    ORDER BY id ASC
+                                ");
+
+                                $memberStmt->execute([
+                                    ':request_id'        => $request_id,
+                                    ':package_id'        => $package_id,
+                                    ':customer_reply_id' => $existingCustomerReply['id']
+                                ]);
+
+                                $existingCustomerMembers = $memberStmt->fetchAll(PDO::FETCH_ASSOC);
+                            }
+
+                        } catch (PDOException $e) {
+
+                            error_log('Customer response check error: ' . $e->getMessage());
+
+                            $hasCustomerReplied = false;
+                        }
                         $currentStatus = $statusConfig[$customerResponseStatus] ?? [
-                            'icon'  => 'fa-solid fa-circle-info',
-                            'class' => 'customer-status-unknown',
-                            'label' => 'Status Unavailable'
-                        ];
+                                            'icon'  => 'fa-solid fa-circle-info',
+                                            'class' => 'customer-status-unknown',
+                                            'label' => 'Status Unavailable'
+                                        ];
+                        
                     ?>
                                     <div class="accordion-item">
 
@@ -2699,7 +2784,7 @@
                                                                     <span class="fontSize10 discountGreen fw-bold me-1">
                                                                         - ₹
                                                                     </span>
-                                                                    <input type="number" class="form-control form-control-sm walletInput" id="" value="<?= $requestData['referral_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
+                                                                    <input type="number" class="form-control form-control-sm walletInput" id="" value="<?= $replyData['referral_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
                                                                 </div>
                                                             </div>
                                                             <?php if ($Requester_type == 'Neo Select'){
@@ -2733,7 +2818,7 @@
                                                                     <span class="fontSize10 discountGreen fw-bold me-1">
                                                                         - ₹
                                                                     </span>
-                                                                    <input type="number" class="form-control form-control-sm walletInput" id="" value="0" min="0" step="1" disabled style="width: 80px;">
+                                                                    <input type="number" class="form-control form-control-sm walletInput" id="" value="<?= $replyData['extended_wallet_amount'] ?>" min="0" step="1" disabled style="width: 80px;">
                                                                 </div>
                                                             </div>
                                                             <?php } ?>
@@ -3357,87 +3442,8 @@
                                                                 ];
 
                                                                 $totalMembers = $adultCount + $childCount + $infantCount;
-                                                            ?>
-                                                            <?php
 
-                                                                // ==========================================
-                                                                // CHECK CUSTOMER RESPONSE FOR THIS QUOTATION
-                                                                // ==========================================
-
-                                                                $existingCustomerReply = null;
-                                                                $existingCustomerMembers = [];
-
-                                                                $hasCustomerReplied = false;
-
-                                                                try {
-
-                                                                    $stmt = $conn->prepare("
-                                                                        SELECT
-                                                                            id,
-                                                                            request_id,
-                                                                            package_id,
-                                                                            reply_id,
-                                                                            title,
-                                                                            message,
-                                                                            status,
-                                                                            uploaded_on
-                                                                        FROM request_details_customer_reply
-                                                                        WHERE request_id = :request_id
-                                                                        AND package_id = :package_id
-                                                                        AND reply_id = :reply_id
-                                                                        ORDER BY id DESC
-                                                                        LIMIT 1
-                                                                    ");
-
-                                                                    $stmt->execute([
-                                                                        ':request_id' => $request_id,
-                                                                        ':package_id' => $package_id,
-                                                                        ':reply_id'   => $reply_id
-                                                                    ]);
-
-                                                                    $existingCustomerReply = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                                                                    $hasCustomerReplied = !empty($existingCustomerReply);
-
-
-                                                                    // ==========================================
-                                                                    // FETCH SUBMITTED TRAVELLER DETAILS
-                                                                    // ==========================================
-
-                                                                    if (
-                                                                        $hasCustomerReplied &&
-                                                                        (int)$existingCustomerReply['status'] === 1
-                                                                    ) {
-
-                                                                        $memberStmt = $conn->prepare("
-                                                                            SELECT
-                                                                                id,
-                                                                                member_type,
-                                                                                name,
-                                                                                age,
-                                                                                gender
-                                                                            FROM request_details_member_details
-                                                                            WHERE request_id = :request_id
-                                                                            AND package_id = :package_id
-                                                                            AND reply_id = :customer_reply_id
-                                                                            ORDER BY id ASC
-                                                                        ");
-
-                                                                        $memberStmt->execute([
-                                                                            ':request_id'        => $request_id,
-                                                                            ':package_id'        => $package_id,
-                                                                            ':customer_reply_id' => $existingCustomerReply['id']
-                                                                        ]);
-
-                                                                        $existingCustomerMembers = $memberStmt->fetchAll(PDO::FETCH_ASSOC);
-                                                                    }
-
-                                                                } catch (PDOException $e) {
-
-                                                                    error_log('Customer response check error: ' . $e->getMessage());
-
-                                                                    $hasCustomerReplied = false;
-                                                                }
+                                                                
 
                                                                 if ($hasCustomerReplied) {
 
