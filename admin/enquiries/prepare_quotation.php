@@ -3207,7 +3207,7 @@
                 const referralWallet = Math.abs(
                     getVisibleWalletValue('appliedReferralWallet')
                 );
-
+                
                 const discountWallet = Math.abs(
                     getVisibleWalletValue('appliedDiscountWallet')
                 );
@@ -3542,8 +3542,14 @@
 
             
             function getVisibleWalletValue(elementId) {
-                const $input = $('[id="' + elementId + '"]:visible').last();
-                return parseFloat($input.val()) || 0;
+                const input = document.getElementById(elementId);
+
+                if (!input) {
+                    console.warn('Wallet input not found:', elementId);
+                    return 0;
+                }
+
+                return Math.abs(parseFloat(input.value) || 0);
             }
 
             function updateAfterWalletDeduction() {
