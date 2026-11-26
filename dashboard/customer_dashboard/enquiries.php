@@ -1918,8 +1918,9 @@
                                 2 => 'change_request'
                             ];
 
-                            $customerResponseStatus =
-                                $statusMap[(int)$existingCustomerReply['status']] ?? 'change_request';
+                            $customerResponseStatus = $hasCustomerReplied
+                                ? ($statusMap[(int)$existingCustomerReply['status']] ?? 'pending')
+                                : 'pending';
                             // ==========================================
                             // FETCH SUBMITTED TRAVELLER DETAILS
                             // ==========================================

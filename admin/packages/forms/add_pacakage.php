@@ -371,7 +371,7 @@ try {
     |--------------------------------------------------------------------------
     */
 
-    if (!empty($mydata['pricing']['travelConsultant'])) {
+    if (isset($mydata['pricing']['travelConsultant']) && is_numeric($mydata['pricing']['travelConsultant']) && $mydata['pricing']['travelConsultant'] >= 0) {
         // bm/mf/sf->te/f
         $sql = "
             INSERT INTO package_pricing_markup
