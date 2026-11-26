@@ -4523,12 +4523,11 @@
 
                                                     $days = $data4->fetchAll(PDO::FETCH_ASSOC);
                                                 }
-
                                                 foreach ($days as $key_3 => $day):
 
                                                     $description = $day['day_details'] ?? '';
                                                     $mealPlan = $day['meal_plan'] ?? '';
-                                                    $dayTransport = $day['day_tansport'] ?? '';
+                                                    $dayTransport = $day['day_transport'] ?? '';
                                                     $stay = $day['stay'] ?? '';
                                             ?>
                                                 <div class="timeline-number">
