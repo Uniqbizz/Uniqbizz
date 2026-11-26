@@ -146,6 +146,7 @@
             'icon'  => 'ri-bus-line'
         ]
     ];
+    $quote_validity='';
 ?>
 
 <!DOCTYPE html>
@@ -2305,6 +2306,9 @@
             });
         </script>
         <script>
+            // validity date
+            var quotationValidity=<?= json_encode($quote_validity  ?? '') ?>;
+            
             // Original room data saved in PHP.
             const originalPhpRooms = <?= json_encode(
                 $rooms,
@@ -3627,14 +3631,34 @@
             const hourInput = document.getElementById('ubxHour');
             const minuteInput = document.getElementById('ubxMinute');
             const secondInput = document.getElementById('ubxSecond');
-            let selected = new Date();
+            let selected;
+
+            if (quotationValidity) {
+
+                const [datePart, timePart] = quotationValidity.split(' ');
+
+                const [year, month, day] = datePart.split('-').map(Number);
+                const [hours, minutes, seconds] = timePart.split(':').map(Number);
+
+                selected = new Date(
+                    year,
+                    month - 1,
+                    day,
+                    hours,
+                    minutes,
+                    seconds
+                );
+
+            } else {
+                selected = new Date();
+            }
+
             selected.setMilliseconds(0);
 
             let viewYear = selected.getFullYear();
             let viewMonth = selected.getMonth();
 
             let isPM = selected.getHours() >= 12;
-
             let previousSelection = new Date(selected);
             //coupon row
             function createCouponRow(type, number) {
@@ -3789,7 +3813,6 @@
             }
 
             function renderCalendar() {
-
                 calendar.innerHTML = '';
 
                 const firstDay = new Date(

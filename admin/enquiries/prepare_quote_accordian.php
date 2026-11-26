@@ -53,6 +53,7 @@
     <?php
 
         $accordionNumber = $index + 1;
+        $quote_validity= $replyData['quot_validity'];
 
         $collapseId = 'collapseReply' . $accordionNumber;
         $headingId  = 'headingReply' . $accordionNumber;
