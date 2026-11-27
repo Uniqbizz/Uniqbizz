@@ -6103,15 +6103,16 @@
                                             $discountSubtotal = (float)($requestDetailsRevisedQuote['cust_dis_details_total'] ?? 0);
 
                                             $custReferralWallet = (float)(
-                                                    $latestReply['referral_wallet_amount'] ?? 0
-                                                );
+                                                $latestReply['referral_wallet_amount'] ?? 0
+                                            );
 
                                             $custDiscountWallet = (float)(
-                                                    $latestReply['discount_wallet_amount'] ?? 0
-                                                );
-                                            $custExtenededWallet = (float)(
-                                                    $latestReply['extended_wallet_amount'] ?? 0
-                                                );
+                                                $latestReply['discount_wallet_amount'] ?? 0
+                                            );
+
+                                            $custExtendedWallet = (float)(
+                                                $latestReply['extended_wallet_amount'] ?? 0
+                                            );
                                             
                                             ?>
                                             
@@ -6163,15 +6164,15 @@
                                         <div
                                             class="d-flex justify-content-between align-items-center px-3 pb-2"
                                             id="CustExtenededWalletRow"
-                                            style="<?= $custExtendedWallet == 0 ? 'display:none !important;' : '' ?>"
+                                            style="<?= ($hasReply && (float)$custExtendedWallet > 0) ? '' : 'display:none !important;' ?>"
                                         >
                                             <p class="fontSize10 discountGreen fw-bold mb-0">
                                                 <i class="ri-wallet-3-line"></i>
-                                                Exteneded Wallet
+                                                Extended Wallet
                                             </p>
 
                                             <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustExtendedWallet">
-                                                - ₹ <?= number_format($custExtendedWallet, 2) ?>
+                                                - ₹ <?= number_format((float)$custExtendedWallet, 2) ?>
                                             </p>
                                         </div>
 
@@ -6474,7 +6475,7 @@
                                                 <i class="ri-wallet-3-line"></i>
                                                 Extended Wallet
                                             </p>
-                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustExtendedtWallet">- ₹ <?= $latestReply['extended_wallet_amount'] ?></p>
+                                            <p class="fontSize10 discountGreen fw-bold text-end mb-0" id="CustExtendedWallet">- ₹ <?= $latestReply['extended_wallet_amount'] ?></p>
                                         </div>
                                         <?php   endif;
                                             endif; ?>
