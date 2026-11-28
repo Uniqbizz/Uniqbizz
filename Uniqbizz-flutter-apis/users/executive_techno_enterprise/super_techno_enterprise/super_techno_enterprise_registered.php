@@ -46,28 +46,27 @@ try {
 
     $sql = "
         SELECT
-            ca.corporate_agency_id AS teuser_id,
-            ca.firstname,
-            ca.lastname,
-            ca.contact_no,
-            ca.country_code,
-            ca.email,
-            ca.register_date,
-            ca.status,
-            ca.amount,
-            ca.user_type,
-            DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
-            ste.firstname AS ref_firstname,
-            ste.lastname AS ref_lastname,
-            ste.super_techno_enterprise_id
+            ste.super_techno_enterprise_id AS teuser_id,
+            ste.firstname,
+            ste.lastname,
+            ste.contact_no,
+            ste.country_code,
+            ste.email,
+            ste.register_date,
+            ste.status,
+            ste.user_type,
+            DATE_FORMAT(ste.deleted_date, '%d %b %Y') AS deleted_date,
+            ete.firstname AS ref_firstname,
+            ete.lastname AS ref_lastname,
+            ete.executive_techno_enterprise_id
 
-        FROM corporate_agency ca
+        FROM super_techno_enterprise ste
 
-        INNER JOIN super_techno_enterprise ste
-            ON ca.reference_no = ste.super_techno_enterprise_id
+        INNER JOIN executive_techno_enterprise ete
+            ON ste.reference_no = ete.executive_techno_enterprise_id
 
-        WHERE ca.reference_no = :user_id
-        AND ca.status IN (1,3)
+        WHERE ste.reference_no = :user_id
+        AND ste.status IN (1,3)
 
         ORDER BY register_date DESC
     ";

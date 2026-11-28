@@ -68,7 +68,7 @@ try {
         INNER JOIN super_techno_enterprise ste
             ON ca.reference_no = ste.super_techno_enterprise_id
 
-        WHERE ca.reference_no = :user_id
+        WHERE ste.reference_no = :user_id
         AND ca.status IN (0,2,4)
 
         ORDER BY id DESC

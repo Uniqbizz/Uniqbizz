@@ -8,20 +8,46 @@ header('Content-Type: application/json');
 
 try {
 
-    // ==========================================
-    // GET PARAMETERS
-    // ==========================================
+    // ==================================================
+    // ACCEPT POST JSON ONLY
+    // ==================================================
 
-    $id       = $_GET['id'] ?? '';
-    $edittype = $_GET['edittype'] ?? '';
-
-    if (empty($id) || empty($edittype)) {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
 
         echo json_encode([
             'status' => false,
-            'message' => 'Missing parameters'
+            'message' => 'Only POST method is allowed.',
+            'data' => null
         ]);
+        exit;
+    }
 
+    $rawInput = file_get_contents('php://input');
+    $input = json_decode($rawInput, true);
+
+    if (json_last_error() !== JSON_ERROR_NONE || !is_array($input)) {
+        http_response_code(400);
+
+        echo json_encode([
+            'status' => false,
+            'message' => 'Invalid JSON request body.',
+            'data' => null
+        ]);
+        exit;
+    }
+
+    $id = trim((string)($input['id'] ?? ''));
+    $edittype = trim((string)($input['edittype'] ?? ''));
+
+    if ($id === '' || $edittype === '') {
+        http_response_code(400);
+
+        echo json_encode([
+            'status' => false,
+            'message' => 'Missing id or edittype parameter.',
+            'data' => null
+        ]);
         exit;
     }
 

@@ -61,10 +61,10 @@ try {
     // ==========================================
 
     // Logged-in user details from session
-    $reference_no = $userId;
-
+    $userId=$reference_no = trim($input['userId'] ?? '');
+    $userFname  = trim($input['userFname'] ?? '');
+    $userLname  = trim($input['userLname'] ?? '');
     $registrant = trim($userFname . ' ' . $userLname);
-
     // Personal Details
     $firstname          = trim($input['firstname'] ?? '');
     $lastname           = trim($input['lastname'] ?? '');
@@ -94,7 +94,30 @@ try {
     $current_income              = $input['annual_income'] ?? '';
     $managed_team                = $input['team_managed'] ?? '';
     $team_description            = $input['team_size'] ?? '';
-    $leadership_experience       = $input['leadership_json'] ?? '[]';
+    $leadershipInput = $input['leadership_json'] ?? [];
+
+    if (is_array($leadershipInput)) {
+
+        $leadership_experience = json_encode(
+            $leadershipInput,
+            JSON_UNESCAPED_UNICODE
+        );
+
+    } elseif (is_string($leadershipInput)) {
+
+        $decodedLeadership = json_decode($leadershipInput, true);
+
+        $leadership_experience = (
+            json_last_error() === JSON_ERROR_NONE &&
+            is_array($decodedLeadership)
+        )
+            ? json_encode($decodedLeadership, JSON_UNESCAPED_UNICODE)
+            : '[]';
+
+    } else {
+
+        $leadership_experience = '[]';
+    }
     $leadership_experience_other = $input['other_lead'] ?? '';
     $educational_qualification   = $input['qualification'] ?? '';
 

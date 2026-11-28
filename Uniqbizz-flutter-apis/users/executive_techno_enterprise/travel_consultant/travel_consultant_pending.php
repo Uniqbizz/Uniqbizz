@@ -68,7 +68,10 @@ try {
             INNER JOIN corporate_agency ca
                 ON ta.reference_no = ca.corporate_agency_id
 
-            WHERE ca.reference_no = :user_id
+            INNER JOIN super_techno_enterprise ste
+            ON ca.reference_no = ste.super_techno_enterprise_id
+
+            WHERE ste.reference_no = :user_id
             AND ta.status IN (0,2,4)
 
         ) AS combined

@@ -46,30 +46,30 @@ try {
 
     $sql = $conn->prepare("
         SELECT
-            ca.id,
-            ca.firstname,
-            ca.lastname,
-            ca.contact_no,
-            ca.country_code,
-            ca.email,
-            ca.added_on,
-            ca.status,
-            ca.user_type,
-            'TE' AS user_type_str,
-            DATE_FORMAT(ca.deleted_date, '%d %b %Y') AS deleted_date,
-            ste.firstname AS ref_firstname,
-            ste.lastname AS ref_lastname,
-            ste.super_techno_enterprise_id,
+            ste.id,
+            ste.firstname,
+            ste.lastname,
+            ste.contact_no,
+            ste.country_code,
+            ste.email,
+            ste.added_on,
+            ste.status,
+            ste.user_type,
+            'STE' AS user_type_str,
+            DATE_FORMAT(ste.deleted_date, '%d %b %Y') AS deleted_date,
+            ete.firstname AS ref_firstname,
+            ete.lastname AS ref_lastname,
+            ete.executive_techno_enterprise_id,
 
-            'corporate_agency' AS source_table
+            'super_techno_enterprise' AS source_table
 
-        FROM corporate_agency ca
+        FROM super_techno_enterprise ste
 
-        INNER JOIN super_techno_enterprise ste
-            ON ca.reference_no = ste.super_techno_enterprise_id
+        INNER JOIN executive_techno_enterprise ete
+            ON ste.reference_no = ete.executive_techno_enterprise_id
 
-        WHERE ca.reference_no = :user_id
-        AND ca.status IN (0,2,4)
+        WHERE ste.reference_no = :user_id
+        AND ste.status IN (0,2,4)
 
         ORDER BY id DESC
     ");

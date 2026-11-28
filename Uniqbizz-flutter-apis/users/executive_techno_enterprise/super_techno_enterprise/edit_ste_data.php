@@ -1,171 +1,330 @@
+
 <?php
 
 require '../../../../connect.php';
 
 date_default_timezone_set('Asia/Kolkata');
 
-$current_year = date('Y');
-
 // ==========================================
-// ADDITIONAL INFORMATION
+// HEADERS
 // ==========================================
 
-$ref_id     = $userId;
-$registrant = $userFname . ' ' . $userLname;
-
-
-// ==========================================
-// PERSONAL DETAILS
-// ==========================================
-
-$designation        = $_POST['designation'] ?? '';
-$user_id_name       = $_POST['user_id_name'] ?? '';
-$reference_name     = $_POST['reference_name'] ?? '';
-$firstname          = $_POST['firstname'] ?? '';
-$lastname           = $_POST['lastname'] ?? '';
-$father_spouse_name = $_POST['father_spouse_name'] ?? '';
-$email              = $_POST['email'] ?? '';
-$bdate              = $_POST['dob'] ?? '';
-$gender             = $_POST['gender'] ?? '';
-$country_code       = $_POST['country_code'] ?? '';
-$phone              = $_POST['phone'] ?? '';
-$country_code_alt   = $_POST['country_code_alt'] ?? '';
-$alt_phone          = $_POST['alt_phone'] ?? '';
-$aadhar_no          = $_POST['aadhar_no'] ?? '';
-$pan_no             = $_POST['pan_no'] ?? '';
-$country            = $_POST['country'] ?? '';
-$state              = $_POST['state'] ?? '';
-$city               = $_POST['city'] ?? '';
-$pincode            = $_POST['pincode'] ?? '';
-$address            = $_POST['address'] ?? '';
-
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
 // ==========================================
-// PROFESSIONAL DETAILS
+// RESPONSE
 // ==========================================
 
-$current_occupation          = $_POST['occupation'] ?? '';
-$current_experience          = $_POST['experience'] ?? '';
-$current_income              = $_POST['annual_income'] ?? '';
-$managed_team                = $_POST['team_managed'] ?? '';
-$team_description            = $_POST['team_size'] ?? '';
-$leadership_experience       = $_POST['leadership_json'] ?? '[]';
-$leadership_experience_other = $_POST['other_lead'] ?? '';
-$educational_qualification   = $_POST['qualification'] ?? '';
-
+$response = [
+    'success' => false,
+    'message' => '',
+    'data' => null
+];
 
 // ==========================================
-// LEADERSHIP DETAILS
+// REQUEST METHOD
 // ==========================================
 
-$career_objective = $_POST['career_objective'] ?? '';
-$team_expected    = $_POST['team_expected'] ?? '';
-$operating_region = $_POST['operating_state'] ?? '';
-
-
-// ==========================================
-// NOMINEE DETAILS
-// ==========================================
-
-$nominee_name          = $_POST['nominee_name'] ?? '';
-$nominee_relation      = $_POST['nominee_relation'] ?? '';
-$nominee_contact_cd    = $_POST['country_cd_nominee'] ?? '';
-$nominee_contact_no    = $_POST['nominee_phone'] ?? '';
-$nominee_date_of_birth = $_POST['nominee_dob'] ?? '';
-$nominee_address       = $_POST['nominee_address'] ?? '';
-
-
-// ==========================================
-// BANK DETAILS
-// ==========================================
-
-$account_holder_name = $_POST['acc_holder_name'] ?? '';
-$bank_name           = $_POST['bank_name'] ?? '';
-$account_number      = $_POST['account_number'] ?? '';
-$ifsc_code           = $_POST['ifsc_code'] ?? '';
-$branch_name         = $_POST['branch_name'] ?? '';
-
-
-// ==========================================
-// DOCUMENT DETAILS
-// ==========================================
-
-$profile_pic                    = $_POST['profile_pic'] ?? '';
-$aadhar_card                    = $_POST['aadhar_card'] ?? '';
-$pan_card                       = $_POST['pan_card'] ?? '';
-$cancelled_cheque_bank_passbook = $_POST['passbook'] ?? '';
-$resume_cv                      = $_POST['resume_cv'] ?? '';
-$address_proof                  = $_POST['address_proof'] ?? '';
-$professional_profile           = $_POST['professional_profile'] ?? '';
-$business_profile               = $_POST['business_profile'] ?? '';
-$income_proof                   = $_POST['income_proof'] ?? '';
-$other_document                 = $_POST['other_document'] ?? '';
-$nominee_profile                = $_POST['nominee_profile'] ?? '';
-
-
-// ==========================================
-// COMMON DETAILS
-// ==========================================
-
-$title        = "Super Techno Enterprise";
-$register_by  = $userId;
-$fromWhom     = $userId;
-$operation    = "Update";
-$user_type_id = "35";
-
-$editfor = $action_type = $_POST['actionType'] ?? '';
-
-
-// ==========================================
-// APPLICATION STATUS
-// ==========================================
-
-if ($action_type == 'draft') {
-
-    $status = '4';
-
-} elseif ($action_type == 'submit') {
-
-    $status = '2';
-
-} else {
-
-    $status = '0';
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'Only POST method is allowed.',
+        'data' => null
+    ]);
+
+    exit;
+}
 
 // ==========================================
-// AGE CALCULATION
+// ACCEPT JSON / FORM DATA
 // ==========================================
 
-$birthYear = $current_year;
+$rawInput = file_get_contents('php://input');
 
-if (!empty($bdate)) {
+$input = json_decode($rawInput, true);
 
-    $birthTimestamp = strtotime($bdate);
+if (!is_array($input)) {
+    $input = $_POST;
+}
 
-    if ($birthTimestamp !== false) {
-        $birthYear = date('Y', $birthTimestamp);
+if (!is_array($input) || empty($input)) {
+    http_response_code(400);
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid or empty request data.',
+        'data' => null
+    ]);
+
+    exit;
+}
+
+// ==========================================
+// INPUT HELPER
+// ==========================================
+
+function getInputValue($input, $key, $default = '')
+{
+    if (!isset($input[$key])) {
+        return $default;
     }
+
+    $value = $input[$key];
+
+    if (is_array($value) || is_object($value)) {
+        return $default;
+    }
+
+    return trim((string) $value);
 }
 
-$age = $current_year - $birthYear;
-
-
-// ==========================================
-// UPDATE APPLICATION
-// ==========================================
+$current_year = (int) date('Y');
 
 try {
 
-    $application_id = $_POST['application_id'] ?? '';
+    // ==========================================
+    // ADDITIONAL INFORMATION
+    // ==========================================
 
-    if (empty($application_id)) {
-        throw new Exception("Application ID is required.");
+    $userId = getInputValue($input, 'userId');
+
+    $reference_no = $userId;
+
+    $userFname = getInputValue($input, 'userFname');
+    $userLname = getInputValue($input, 'userLname');
+
+    $registrant = trim($userFname . ' ' . $userLname);
+
+    // ref_id is used for logs and login updates.
+    // If not supplied separately, use userId.
+    $ref_id = getInputValue($input, 'ref_id', $userId);
+
+    // ==========================================
+    // PERSONAL DETAILS
+    // ==========================================
+
+    $designation        = getInputValue($input, 'designation');
+    $user_id_name       = getInputValue($input, 'user_id_name');
+    $reference_name     = getInputValue($input, 'reference_name');
+
+    $firstname          = getInputValue($input, 'firstname');
+    $lastname           = getInputValue($input, 'lastname');
+
+    $father_spouse_name = getInputValue($input, 'father_spouse_name');
+    $email              = getInputValue($input, 'email');
+    $bdate              = getInputValue($input, 'dob');
+    $gender             = getInputValue($input, 'gender');
+
+    $country_code       = getInputValue($input, 'country_code');
+    $phone              = getInputValue($input, 'phone');
+
+    $country_code_alt   = getInputValue($input, 'country_code_alt');
+    $alt_phone          = getInputValue($input, 'alt_phone');
+
+    $aadhar_no          = getInputValue($input, 'aadhar_no');
+    $pan_no             = getInputValue($input, 'pan_no');
+
+    $country            = getInputValue($input, 'country');
+    $state              = getInputValue($input, 'state');
+    $city               = getInputValue($input, 'city');
+    $pincode            = getInputValue($input, 'pincode');
+    $address            = getInputValue($input, 'address');
+
+    // ==========================================
+    // PROFESSIONAL DETAILS
+    // ==========================================
+
+    $current_occupation = getInputValue($input, 'occupation');
+    $current_experience = getInputValue($input, 'experience');
+    $current_income     = getInputValue($input, 'annual_income');
+
+    $managed_team       = getInputValue($input, 'team_managed');
+    $team_description   = getInputValue($input, 'team_size');
+
+    // Leadership JSON may arrive as an array or JSON string.
+    $leadershipInput = $input['leadership_json'] ?? [];
+
+    if (is_array($leadershipInput)) {
+
+        $leadership_experience = json_encode(
+            $leadershipInput,
+            JSON_UNESCAPED_UNICODE
+        );
+
+    } elseif (is_string($leadershipInput)) {
+
+        $decodedLeadership = json_decode($leadershipInput, true);
+
+        if (
+            json_last_error() === JSON_ERROR_NONE &&
+            is_array($decodedLeadership)
+        ) {
+            $leadership_experience = json_encode(
+                $decodedLeadership,
+                JSON_UNESCAPED_UNICODE
+            );
+        } else {
+            $leadership_experience = '[]';
+        }
+
+    } else {
+
+        $leadership_experience = '[]';
     }
 
-    $conn->beginTransaction();
+    if ($leadership_experience === false) {
+        throw new Exception('Unable to encode leadership details.');
+    }
 
+    $leadership_experience_other = getInputValue($input, 'other_lead');
+    $educational_qualification   = getInputValue($input, 'qualification');
+
+    // ==========================================
+    // LEADERSHIP DETAILS
+    // ==========================================
+
+    $career_objective = getInputValue($input, 'career_objective');
+    $team_expected    = getInputValue($input, 'team_expected');
+    $operating_region = getInputValue($input, 'operating_state');
+
+    // ==========================================
+    // NOMINEE DETAILS
+    // ==========================================
+
+    $nominee_name          = getInputValue($input, 'nominee_name');
+    $nominee_relation      = getInputValue($input, 'nominee_relation');
+    $nominee_contact_cd    = getInputValue($input, 'country_cd_nominee');
+    $nominee_contact_no    = getInputValue($input, 'nominee_phone');
+    $nominee_date_of_birth = getInputValue($input, 'nominee_dob');
+    $nominee_address       = getInputValue($input, 'nominee_address');
+
+    // ==========================================
+    // BANK DETAILS
+    // ==========================================
+
+    $account_holder_name = getInputValue($input, 'acc_holder_name');
+    $bank_name           = getInputValue($input, 'bank_name');
+    $account_number      = getInputValue($input, 'account_number');
+    $ifsc_code           = getInputValue($input, 'ifsc_code');
+    $branch_name         = getInputValue($input, 'branch_name');
+
+    // ==========================================
+    // DOCUMENT DETAILS
+    // ==========================================
+
+    $profile_pic                    = getInputValue($input, 'profile_pic');
+    $aadhar_card                    = getInputValue($input, 'aadhar_card');
+    $pan_card                       = getInputValue($input, 'pan_card');
+    $cancelled_cheque_bank_passbook = getInputValue($input, 'passbook');
+    $resume_cv                      = getInputValue($input, 'resume_cv');
+    $address_proof                  = getInputValue($input, 'address_proof');
+    $professional_profile           = getInputValue($input, 'professional_profile');
+    $business_profile               = getInputValue($input, 'business_profile');
+    $income_proof                   = getInputValue($input, 'income_proof');
+    $other_document                 = getInputValue($input, 'other_document');
+    $nominee_profile                = getInputValue($input, 'nominee_profile');
+
+    // ==========================================
+    // COMMON DETAILS
+    // ==========================================
+
+    $title        = 'Super Techno Enterprise';
+    $register_by  = $userId;
+    $fromWhom     = $userId;
+    $operation    = 'Update';
+    $user_type_id = '35';
+
+    // actionType is for registered login update.
+    $editfor = getInputValue($input, 'actionType');
+
+    // action_type is for draft / submit.
+    $action_type = getInputValue($input, 'action_type');
+
+    // Backward compatibility:
+    // If action_type is absent, accept actionType only
+    // when its value is draft or submit.
+    if (
+        $action_type === '' &&
+        in_array($editfor, ['draft', 'submit'], true)
+    ) {
+        $action_type = $editfor;
+    }
+
+    // ==========================================
+    // APPLICATION ID
+    // ==========================================
+
+    $application_id = getInputValue($input, 'application_id');
+
+    if ($application_id === '') {
+        throw new Exception('Application ID is required.');
+    }
+
+    if ($userId === '') {
+        throw new Exception('User ID is required.');
+    }
+
+    if ($ref_id === '') {
+        throw new Exception('Reference ID is required.');
+    }
+
+    // ==========================================
+    // ACTION VALIDATION
+    // ==========================================
+
+    if (!in_array($action_type, ['draft', 'submit'], true)) {
+        throw new Exception('Invalid action_type. Use draft or submit.');
+    }
+
+    // ==========================================
+    // APPLICATION STATUS
+    // ==========================================
+
+    if ($action_type === 'draft') {
+
+        $status = '4';
+
+    } elseif ($action_type === 'submit') {
+
+        $status = '2';
+    }
+
+    // ==========================================
+    // AGE CALCULATION
+    // ==========================================
+
+    $birthYear = $current_year;
+
+    if (!empty($bdate)) {
+
+        $birthTimestamp = strtotime($bdate);
+
+        if ($birthTimestamp === false) {
+            throw new Exception('Invalid date of birth.');
+        }
+
+        $bdate = date('Y-m-d', $birthTimestamp);
+
+        $birthYear = (int) date('Y', $birthTimestamp);
+    }
+
+    $age = $current_year - $birthYear;
+
+    // ==========================================
+    // START TRANSACTION
+    // ==========================================
+
+    $conn->beginTransaction();
 
     // ==========================================
     // 1. SUPER TECHNO ENTERPRISE
@@ -215,9 +374,8 @@ try {
         ':pincode'                  => $pincode,
         ':address'                  => $address,
         ':status'                   => $status,
-        ':application_id'            => $application_id
+        ':application_id'           => $application_id
     ]);
-
 
     // ==========================================
     // 2. PROFESSIONAL AND EDUCATIONAL
@@ -248,7 +406,6 @@ try {
         ':application_id'              => $application_id
     ]);
 
-
     // ==========================================
     // 3. LEADERSHIP ASSESSMENT
     // ==========================================
@@ -263,11 +420,10 @@ try {
 
     $stmt3->execute([
         ':career_objective' => $career_objective,
-        ':team_expected'     => $team_expected,
-        ':operating_region'  => $operating_region,
-        ':application_id'    => $application_id
+        ':team_expected'    => $team_expected,
+        ':operating_region' => $operating_region,
+        ':application_id'   => $application_id
     ]);
-
 
     // ==========================================
     // 4. NOMINEE DETAILS
@@ -294,7 +450,6 @@ try {
         ':application_id'        => $application_id
     ]);
 
-
     // ==========================================
     // 5. BANK DETAILS
     // ==========================================
@@ -317,7 +472,6 @@ try {
         ':branch_name'          => $branch_name,
         ':application_id'       => $application_id
     ]);
-
 
     // ==========================================
     // 6. DOCUMENTS
@@ -354,7 +508,6 @@ try {
         ':application_id'                  => $application_id
     ]);
 
-
     // ==========================================
     // 7. LOGS
     // ==========================================
@@ -363,25 +516,25 @@ try {
 
     $stmt7 = $conn->prepare("
         INSERT INTO logs
-            (
-                title,
-                message,
-                message2,
-                reference_no,
-                register_by,
-                from_whom,
-                operation
-            )
+        (
+            title,
+            message,
+            message2,
+            reference_no,
+            register_by,
+            from_whom,
+            operation
+        )
         VALUES
-            (
-                :title,
-                :message,
-                :message2,
-                :reference_no,
-                :register_by,
-                :from_whom,
-                :operation
-            )
+        (
+            :title,
+            :message,
+            :message2,
+            :reference_no,
+            :register_by,
+            :from_whom,
+            :operation
+        )
     ");
 
     $stmt7->execute([
@@ -394,12 +547,11 @@ try {
         ':operation'    => $operation
     ]);
 
-
     // ==========================================
     // 8. UPDATE LOGIN IF REGISTERED
     // ==========================================
 
-    if ($editfor == 'registered') {
+    if ($editfor === 'registered') {
 
         $stmt8 = $conn->prepare("
             UPDATE login
@@ -415,17 +567,38 @@ try {
         ]);
     }
 
-
     // ==========================================
     // COMMIT TRANSACTION
     // ==========================================
 
     $conn->commit();
 
-    echo $status;
+    // ==========================================
+    // SUCCESS RESPONSE
+    // ==========================================
 
+    $response['success'] = true;
 
-} catch (Exception $e) {
+    $response['message'] = ($action_type === 'draft')
+        ? 'Super Techno Enterprise draft updated successfully.'
+        : 'Super Techno Enterprise application updated successfully.';
+
+    $response['data'] = [
+        'application_id' => $application_id,
+        'userId'         => $userId,
+        'userFname'      => $userFname,
+        'userLname'      => $userLname,
+        'registrant'     => $registrant,
+        'firstname'      => $firstname,
+        'lastname'       => $lastname,
+        'reference_no'   => $reference_no,
+        'status'         => $status,
+        'action_type'    => $action_type
+    ];
+
+    http_response_code(200);
+
+} catch (Throwable $e) {
 
     // ==========================================
     // ROLLBACK TRANSACTION
@@ -437,7 +610,22 @@ try {
 
     error_log("STE Update Error: " . $e->getMessage());
 
-    echo 0;
+    $response['success'] = false;
+    $response['message'] = 'Failed to update Super Techno Enterprise application.';
+    $response['data'] = null;
+
+    http_response_code(500);
 }
+
+// ==========================================
+// RETURN JSON RESPONSE
+// ==========================================
+
+echo json_encode(
+    $response,
+    JSON_UNESCAPED_UNICODE
+);
+
+exit;
 
 ?>

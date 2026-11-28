@@ -61,8 +61,10 @@ try {
 
         INNER JOIN corporate_agency ca
             ON ta.reference_no = ca.corporate_agency_id
+        INNER JOIN super_techno_enterprise ste
+            ON ca.reference_no = ste.super_techno_enterprise_id
 
-        WHERE ca.reference_no = :user_id
+        WHERE ste.reference_no = :user_id
     ";
 
     $stmt = $conn->prepare($sql);

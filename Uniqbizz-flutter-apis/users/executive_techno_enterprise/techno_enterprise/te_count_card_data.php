@@ -109,7 +109,10 @@ try {
 
         FROM corporate_agency ca
 
-        WHERE ca.reference_no = :user_id
+        INNER JOIN super_techno_enterprise ste
+            ON ca.reference_no = ste.super_techno_enterprise_id
+
+        WHERE ste.reference_no = :user_id
     ";
 
     $countStmt = $conn->prepare($countSql);
